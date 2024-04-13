@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="hexo-blog/js/color.global.min.js" ></script>
-<script src="hexo-blog/js/load-settings.js" ></script>
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>【翻译】css中的“gap” | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="你可能已经了解过CSS gap property。 准确来说它并不是一个全新的css属性，但是去年它获得了一个重要的特性：除在了CSS Grid中，在Flexbox中也能使用。我相信这个属性比它表面呈现的更复杂，这也让我想回去解释一下它到底是如何运行的。 让我们仔细看看gap和它的相关属性，并了解它们是怎样生效的以及哪些地方能生效。 关于间隙（gap）的所有属性首先，让我们回顾一下所有gap相关的">
 <meta property="og:type" content="article">
@@ -58,17 +58,17 @@
 <meta name="twitter:image" content="http://example.com/2021/10/08/imgs/e0e722be9ff347c79397261498aa2a3d.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="hexo-blog/css/style.css">
+<link rel="stylesheet" href="/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -79,7 +79,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="hexo-blog/">
+    <a href="/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -91,11 +91,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="hexo-blog/">主页</a>
+      <a class="main-nav-link" href="/">主页</a>
     
-      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
+      <a class="main-nav-link" href="/archives">归档</a>
     
-      <a class="main-nav-link" href="hexo-blog/about">关于</a>
+      <a class="main-nav-link" href="/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -112,11 +112,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
+      <a class="nav-dropdown-link" href="/">主页</a>
     
-      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
+      <a class="nav-dropdown-link" href="/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
+      <a class="nav-dropdown-link" href="/about">关于</a>
     
      
     </div>
@@ -161,12 +161,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -180,7 +180,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -219,7 +219,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -229,7 +229,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -383,7 +383,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="hexo-blog/2021/10/09/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91%E5%AF%B9%E6%9F%90%E4%BA%9B%E5%85%83%E7%B4%A0%E6%8A%B5%E6%B6%88%E6%A0%B7%E5%BC%8F%E4%B8%8D%E5%A6%82%E6%B4%BB%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8/"
+      href="/2021/10/09/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91%E5%AF%B9%E6%9F%90%E4%BA%9B%E5%85%83%E7%B4%A0%E6%8A%B5%E6%B6%88%E6%A0%B7%E5%BC%8F%E4%B8%8D%E5%A6%82%E6%B4%BB%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8/"
       title="【翻译】对某些元素抵消样式不如活用选择器"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -395,7 +395,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="hexo-blog/2021/09/18/%E5%AE%9E%E6%93%8D%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%AD%90%E7%BA%A7%E6%A0%B7%E5%BC%8F%E5%BF%AB%E9%80%9F%E7%B2%BE%E5%87%86%E8%BF%98%E5%8E%9F%E8%AE%BE%E8%AE%A1%E7%A8%BF/"
+      href="/2021/09/18/%E5%AE%9E%E6%93%8D%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%AD%90%E7%BA%A7%E6%A0%B7%E5%BC%8F%E5%BF%AB%E9%80%9F%E7%B2%BE%E5%87%86%E8%BF%98%E5%8E%9F%E8%AE%BE%E8%AE%A1%E7%A8%BF/"
       title="实操使用原子级样式快速精准还原设计稿"
      >
 
@@ -453,6 +453,6 @@
 </script>
 
   </div>
-  <script src="hexo-blog/js/light-dark-switch.js"></script>
+  <script src="/js/light-dark-switch.js"></script>
 </body>
 </html>
