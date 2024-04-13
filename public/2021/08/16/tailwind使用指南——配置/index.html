@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>tailwind使用指南——配置 | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="配置篇通过tailwind.config.js可以进行自定义主题配置  purge仅在production环境下生效，用于删除没有使用的样式 darkMode为颜色类样式生成dark变体（dark前缀的原子样式） theme自定义主题  spacing  1234567891011const spacings &#x3D; [0, 8, 10, 12, 16, 20, 32, 40, 56, 64, 96,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tailwind使用指南——配置">
+<meta property="og:url" content="http://example.com/2021/08/16/tailwind%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="配置篇通过tailwind.config.js可以进行自定义主题配置  purge仅在production环境下生效，用于删除没有使用的样式 darkMode为颜色类样式生成dark变体（dark前缀的原子样式） theme自定义主题  spacing  1234567891011const spacings &#x3D; [0, 8, 10, 12, 16, 20, 32, 40, 56, 64, 96,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/fc8e8a6100d64734be18b899a8d23dc2.png">
+<meta property="og:image" content="http://example.com/imgs/40637a4f03594f4fb273c6a39ca04b62.png">
+<meta property="og:image" content="http://example.com/imgs/c83d1f4b443f480f8c579f6ad5651e88.png">
+<meta property="og:image" content="http://example.com/imgs/584137cb90ef45a98d2887a4fe5579e8.png">
+<meta property="og:image" content="http://example.com/imgs/d5a73937beb048adb64124aa285ec196.png">
+<meta property="og:image" content="http://example.com/imgs/0903e080715f42c49aa2e3dc4be85594.png">
+<meta property="og:image" content="http://example.com/imgs/18409a0a70274ab69df4664311f0aa93.png">
+<meta property="article:published_time" content="2021-08-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.752Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="CSS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/fc8e8a6100d64734be18b899a8d23dc2.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-tailwind使用指南——配置" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        tailwind使用指南——配置
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-08-15T16:00:00.000Z" itemprop="datePublished">2021-08-16</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            2k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h2 id="配置篇"><a href="#配置篇" class="headerlink" title="配置篇"></a>配置篇</h2><p>通过tailwind.config.js可以进行自定义主题配置</p>
+<p><img src="/../imgs/fc8e8a6100d64734be18b899a8d23dc2.png" alt="image.png"></p>
+<h3 id="purge"><a href="#purge" class="headerlink" title="purge"></a>purge</h3><p>仅在production环境下生效，用于删除没有使用的样式</p>
+<h3 id="darkMode"><a href="#darkMode" class="headerlink" title="darkMode"></a>darkMode</h3><p>为颜色类样式生成dark变体（dark前缀的原子样式）</p>
+<h3 id="theme"><a href="#theme" class="headerlink" title="theme"></a>theme</h3><p>自定义主题</p>
+<ul>
+<li>spacing</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const spacings = <span class="selector-attr">[0, 8, 10, 12, 16, 20, 32, 40, 56, 64, 96, 128, 240, 480]</span>;</span><br><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">    theme:&#123;</span><br><span class="line">        spacing: &#123;</span><br><span class="line">          px: <span class="string">&#x27;1px&#x27;</span>,</span><br><span class="line">          ...spacings.<span class="built_in">reduce</span>((pre, cur) =&gt; &#123; pre<span class="selector-attr">[cur]</span> = cur + &#x27;px&#x27;; return pre &#125;, &#123;&#125;)</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，间距比例会被 <code>padding</code>、 <code>margin</code>、 <code>width</code>、 <code>height</code>、 <code>maxHeight</code>、 <code>gap</code>、 <code>inset</code>、 <code>space</code> 和 <code>translate</code> 。</p>
+<p><img src="/../imgs/40637a4f03594f4fb273c6a39ca04b62.png" alt="image.png"></p>
+<ul>
+<li>width、heights 很多情况下，w和h的设置与spacing的分级是不一样的，因此有必要为他们单独设置</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const <span class="attr">widths</span> = [<span class="number">44</span>, <span class="number">240</span>, <span class="number">400</span>, <span class="number">480</span>]<span class="comment">;</span></span><br><span class="line">const <span class="attr">heights</span> = [<span class="number">200</span>, <span class="number">300</span>]<span class="comment">;</span></span><br><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">...</span><br><span class="line">    theme: &#123;</span><br><span class="line">        width: &#123;</span><br><span class="line">          ...widths.reduce((pre, cur) =&gt; &#123; pre<span class="section">[cur]</span> = cur + &#x27;px&#x27;<span class="comment">; return pre &#125;, &#123;&#125;)</span></span><br><span class="line">        &#125;,</span><br><span class="line">        heights: &#123;</span><br><span class="line">          ...heights.reduce((pre, cur) =&gt; &#123; pre<span class="section">[cur]</span> = cur + &#x27;px&#x27;<span class="comment">; return pre &#125;, &#123;&#125;)</span></span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>colors 一般情况下，颜色也是需要修改的</li>
+</ul>
+<p><img src="/../imgs/c83d1f4b443f480f8c579f6ad5651e88.png" alt="image.png"></p>
+<p>默认情况下，这些颜色会被所有颜色驱动的功能类自动共享，如 <code>textColor</code>、<code>backgroundColor</code>、<code>borderColor</code> 等。  </p>
+<p>这个配置生成类似下面的样式</p>
+<p><img src="/../imgs/584137cb90ef45a98d2887a4fe5579e8.png" alt="image.png"></p>
+<ul>
+<li>fontSize 推荐配置一个数组，第一位是字号，第二位是行高</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const fontSizes = <span class="selector-attr">[0, 36, 40, 48, 56, 64]</span>; </span><br><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">    theme: &#123;</span><br><span class="line">        fontSize: &#123;</span><br><span class="line">          //字号和行高，<span class="number">12</span>号字体<span class="number">1</span>行高</span><br><span class="line">          sm: [<span class="string">&quot;24px&quot;</span>, <span class="string">&quot;24px&quot;</span>], //最小<span class="number">12</span>，<span class="number">12</span>一下不能保证</span><br><span class="line">          base: [<span class="string">&quot;28px&quot;</span>, <span class="string">&quot;40px&quot;</span>],</span><br><span class="line">          lg: [<span class="string">&quot;32px&quot;</span>, <span class="string">&quot;48px&quot;</span>], // 以上三种为项目中主要字号，不以数字命名，其他特殊字号以数字命名</span><br><span class="line">          ...fontSizes.<span class="built_in">reduce</span>((pre, cur) =&gt; &#123;</span><br><span class="line">            pre<span class="selector-attr">[cur]</span> = <span class="selector-attr">[cur + <span class="string">&quot;px&quot;</span>, 1]</span>;</span><br><span class="line">            return pre;</span><br><span class="line">          &#125;, &#123;&#125;),</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>extend:不覆盖原有样式 上面配置的colors等都会覆盖掉原来的配置，通常文字的颜色与其他填充颜色有很多重叠，因此可以在继承colors的基础上，单独为某些用途的文字单独配置颜色</li>
+</ul>
+<p><img src="/../imgs/d5a73937beb048adb64124aa285ec196.png" alt="image.png"></p>
+<h3 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h3><p>当需要新增一些自定义样式时就可以使用这个api，比如设置基础样式（Preflight）、组件样式等</p>
+<p><img src="/../imgs/0903e080715f42c49aa2e3dc4be85594.png" alt="image.png"></p>
+<h3 id="变体"><a href="#变体" class="headerlink" title="变体"></a>变体</h3><p>变体可以理解为某些场景下的前缀，比如hover、focus,当然也可以根据文档配置自定义变体</p>
+<p><img src="/../imgs/18409a0a70274ab69df4664311f0aa93.png" alt="image.png"> （需要注意当变体使用transform时，必须设置transform）</p>
+<h2 id="在css中自定义样式"><a href="#在css中自定义样式" class="headerlink" title="在css中自定义样式"></a>在css中自定义样式</h2><p>除了在tailwind.config.js中进行样式的扩展，还支持在css中使用函数与指令进行扩展，写法更简单</p>
+<h3 id="layer"><a href="#layer" class="headerlink" title="@layer"></a>@layer</h3><p>添加基础样式，与plugins的addBase,addComponents等价</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@layer</span> base &#123;</span><br><span class="line">  <span class="selector-tag">h1</span> &#123;</span><br><span class="line">    <span class="variable">@apply</span> text-<span class="number">2</span>xl;</span><br><span class="line">  &#125;</span><br><span class="line">  h2 &#123;</span><br><span class="line">    <span class="variable">@apply</span> text-xl;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@layer</span> components &#123;</span><br><span class="line">  <span class="selector-class">.btn-blue</span> &#123;</span><br><span class="line">    <span class="variable">@apply</span> bg-blue-<span class="number">500</span> <span class="attribute">hover</span>:bg-blue-<span class="number">700</span> text-white font-bold py-<span class="number">2</span> px-<span class="number">4</span> rounded;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="variants、-screen、-responsive"><a href="#variants、-screen、-responsive" class="headerlink" title="@variants、@screen、@responsive"></a>@variants、@screen、@responsive</h3><p>这三个都是为你的自定义样式增加一些额外功能，比如focus等某些变体、媒体查询的某个断电、生成对应的一系列列响应式样式</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/08/16/tailwind%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E2%80%94%E2%80%94%E8%B5%B7%E6%AD%A5/"
+      title="tailwind使用指南——起步"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        tailwind使用指南——起步
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/07/29/%E5%9F%BA%E4%BA%8Eswagger%E5%92%8CAST%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7mock%E6%96%B9%E6%A1%88/"
+      title="基于swagger和AST的轻量级mock方案"
+     >
+
+    <p class="title-text">
+      
+        基于swagger和AST的轻量级mock方案
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

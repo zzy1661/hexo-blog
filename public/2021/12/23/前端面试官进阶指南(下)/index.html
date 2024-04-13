@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>前端面试官进阶指南(下) | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="从简历建立初印象拿到简历后，首先我们应该对这个候选人建立一个初步的印象：  用过，以及最近用过哪些技术栈 这里关注的是候选人技术栈的广度，以及对哪些技术更熟练，面试应该侧重他更熟悉的方面考察。如果对方熟悉的却是自己并不知道的技术栈，应该在面试前大致了解一下。  做过哪些项目 有些人项目经验可能很多，但都是类似的技术栈和场景，因此我需要合并同类项，对这个人的项目做个分类，比如toB还是toC，pc还">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端面试官进阶指南(下)">
+<meta property="og:url" content="http://example.com/2021/12/23/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E5%AE%98%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97(%E4%B8%8B)/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="从简历建立初印象拿到简历后，首先我们应该对这个候选人建立一个初步的印象：  用过，以及最近用过哪些技术栈 这里关注的是候选人技术栈的广度，以及对哪些技术更熟练，面试应该侧重他更熟悉的方面考察。如果对方熟悉的却是自己并不知道的技术栈，应该在面试前大致了解一下。  做过哪些项目 有些人项目经验可能很多，但都是类似的技术栈和场景，因此我需要合并同类项，对这个人的项目做个分类，比如toB还是toC，pc还">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.344Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-前端面试官进阶指南(下)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        前端面试官进阶指南(下)
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-12-22T16:00:00.000Z" itemprop="datePublished">2021-12-23</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            2k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h2 id="从简历建立初印象"><a href="#从简历建立初印象" class="headerlink" title="从简历建立初印象"></a>从简历建立初印象</h2><p>拿到简历后，首先我们应该对这个候选人建立一个初步的印象：</p>
+<ul>
+<li><p>用过，以及最近用过哪些<strong>技术栈</strong> 这里关注的是候选人技术栈的广度，以及对哪些技术更熟练，面试应该侧重他更熟悉的方面考察。如果对方熟悉的却是自己并不知道的技术栈，应该在面试前大致了解一下。</p>
+</li>
+<li><p>做过哪些<strong>项目</strong> 有些人项目经验可能很多，但都是类似的技术栈和场景，因此我需要合并同类项，对这个人的项目做个分类，比如toB还是toC，pc还是mobile，工具类还是社交类。并且还需要思考这些项目，如果是自己来做，会有哪些技术选型偏好，或者可能会遇到哪些技术难题。</p>
+</li>
+<li><p><strong>深度思考</strong>过哪些问题 深度思考的问题，可能是技术攻坚、源码解析，或者业务、产品、管理上的思考心得。从他思考的问题可以看出，这个人的兴趣是偏技术还是偏向产品，亦或是管理。</p>
+</li>
+</ul>
+<h2 id="题库的准备与调整"><a href="#题库的准备与调整" class="headerlink" title="题库的准备与调整"></a>题库的准备与调整</h2><p>我们对不同级别的技术岗位总有一套<strong>核心题库</strong>。比如用vue的岗位，如果答不上来双向绑定，那么可以确定他不适合p5级别的岗位，但若常见api都答不上来，可以确定连外包岗都无法胜任了。</p>
+<p>但是匹配公司业务的题库，未必匹配候选人的经历。<strong>面试的目的之一，是明确候选人的能力。而能力，往往承载于他所做过的事情中。因此我们往往需要结合候选人的经历调整面试题。</strong></p>
+<p>比如，一般对高级别的技术岗，只掌握一个框架是不够的，但如果候选人过去三年只用了一个框架是否一定不合适这个岗位？如果公司的技术栈是react，但是候选人只有过vue的经验，我们并不能按部就班的根据标准题库设问，从而得出一个react经验不足，无法胜任的结论。</p>
+<p>_如果学习能力优秀，对已有的知识深入掌握，便能举一反三_，只要两三天就可以上手一个新框架。我们不如设计一些vue相关的题目，看候选人的理解是否已经触及了框架的设计核心，或者看候选人能否在引导下理解框架间不同的设计理念：比如基于依赖收集和基于diff的更新策略优缺点，更新合并的异步与同步实现。如果候选人能够答上来，说明他只需极少的时间就可以胜任不同框架的项目，我们可以考虑往下进一步考察。</p>
+<p>另外，<strong>基于候选人的经历设计问题，也能够让他更好地表现自己的能力</strong>。比如性能优化，如果是pc端开发者，可以从长列表优化开始切入，对移动端开发者，可以从首字节时间切入。这些问题并不是要候选人回答出所有场景的优化手段，而是看候选人对性能有没有意识以及思路是否正确。如果意识和思路都有问题，即便是有经验，再次面临类似的问题，仍难免会陷入困境。</p>
+<p>总之，面试题应该结合候选人的经历进行设计或调整，找到对方擅长的点，不断深挖他的边界。</p>
+<h2 id="从自我介绍开始面试"><a href="#从自我介绍开始面试" class="headerlink" title="从自我介绍开始面试"></a>从自我介绍开始面试</h2><p>题目有了，候选人也到了，你是否会以”请做个自我介绍吧“开始面试？等候选人介绍完了就无缝进入技术面试了？同样一个问题，你面向cto、hr还是面向一线技术官，解释的角度乃至比喻的方式总会不一样吧。如果让你与一个陌生人认识，你大概会和对方相互介绍一下自己，面试也是同理。</p>
+<p>接到候选人后，我会先做个自我介绍，xx公司，xx部门，在做xx业务，是本次的技术面试官。面试的岗位是xx，时长大概多久，是否有机试，是否有旁听，录音等。这样候选人对这场面试和面试官有个更清楚的认识，后续可以用双方都能够理解的方式来沟通。我还遇到很多次，候选人投的是中级岗位，但是却安排了高级岗位的面试，有了这样的简短介绍，也能帮双方减少误会，节省不少时间。</p>
+<h2 id="及时给出反馈"><a href="#及时给出反馈" class="headerlink" title="及时给出反馈"></a>及时给出反馈</h2><p>一般情况下面试当场就可以得出这个候选人能不能通过本轮的结论，当然有些情况可能会需要和用人部门沟通后才能确定。<strong>但无论是否通过，都应该由hr来通知候选人。</strong></p>
+<p>不过我通常会在最后给出本次面试表现的反馈：你这次面试，哪些部分理解不足，哪个方面的能力需要加强。我觉得反馈是对这场面试双方所花费的时间的尊重。有心的候选人会从反馈中更好的认识自己，即使没有通过，也能以更好的状态面对其他面试。</p>
+<h2 id="常见的问题"><a href="#常见的问题" class="headerlink" title="常见的问题"></a>常见的问题</h2><ul>
+<li>候选人能力比自己强不少</li>
+</ul>
+<p>不管面试什么样的候选人，面试官一定不要心虚，多根据对方的经历设计问题，即便是遇到了一些大神，也能对等的交流。</p>
+<p>如果对方确实比你厉害，那么可以抛出一些你曾经深度思考过的问题与之讨论，注意这里是讨论，不是提问也不是请教。如果你真的思考过这些问题并有自己的答案，那么与对方思辨的过程中可以更加确定对方是只高出你一点点还是高出你很多。</p>
+<p>_面对一个比你强的人，没必要试图测试出他的能力边界_，面试后在评价里备注上这个人的能力评价以及可能适合的职级，交给后续的面试流程即可。</p>
+<ul>
+<li>如何识别有潜力的候选人 首先有潜力的候选人，能力必定是超出同年限的平均能力的。除了这个我们还需要去寻找技术外的亮点，比如坚持博客、反思复盘的习惯、跳出自己的角色多角度看待问题、良好的沟通能力、时间管理。同时还要帮他考虑，他所面的岗位，是否能够让他将这些亮点更多的发挥出来。面试的过程中总会遇到一些自己欣赏的人，但始终不要忘记因岗择人。</li>
+</ul>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2022/01/18/Redux5%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%20%20compose/"
+      title="Redux5源码解析: compose"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        Redux5源码解析: compose
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/12/19/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E5%AE%98%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97(%E4%B8%8A)/"
+      title="前端面试官进阶指南(上)"
+     >
+
+    <p class="title-text">
+      
+        前端面试官进阶指南(上)
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

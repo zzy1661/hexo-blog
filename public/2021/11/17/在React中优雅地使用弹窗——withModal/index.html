@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>在React中优雅地使用弹窗——withModal | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="这是我参与11月更文挑战的第17天，活动详情查看：2021最后一次更文挑战 如何快速地写弹窗如果有这么一个需求：点击新建按钮，弹出表单并提交，你会怎么写？  很简单，六七十行代码就实现了。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在React中优雅地使用弹窗——withModal">
+<meta property="og:url" content="http://example.com/2021/11/17/%E5%9C%A8React%E4%B8%AD%E4%BC%98%E9%9B%85%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%BC%B9%E7%AA%97%E2%80%94%E2%80%94withModal/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="这是我参与11月更文挑战的第17天，活动详情查看：2021最后一次更文挑战 如何快速地写弹窗如果有这么一个需求：点击新建按钮，弹出表单并提交，你会怎么写？  很简单，六七十行代码就实现了。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/32f696318ea74823ae25ef6f8c51453b.png">
+<meta property="article:published_time" content="2021-11-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.491Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/32f696318ea74823ae25ef6f8c51453b.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-在React中优雅地使用弹窗——withModal" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        在React中优雅地使用弹窗——withModal
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-11-16T16:00:00.000Z" itemprop="datePublished">2021-11-17</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            6.9k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>这是我参与11月更文挑战的第17天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023643374569816095" title="https://juejin.cn/post/7023643374569816095">2021最后一次更文挑战</a></p>
+<h2 id="如何快速地写弹窗"><a href="#如何快速地写弹窗" class="headerlink" title="如何快速地写弹窗"></a>如何快速地写弹窗</h2><p>如果有这么一个需求：点击新建按钮，弹出表单并提交，你会怎么写？</p>
+<p><img src="/../imgs/32f696318ea74823ae25ef6f8c51453b.png" alt="image.png"> 很简单，六七十行代码就实现了。</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Button</span>, <span class="title class_">Form</span>, <span class="title class_">Input</span>, <span class="title class_">Modal</span>, <span class="title class_">Select</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;antd&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./style.less&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">TestPage</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [visiable, setVisiable] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> [form] = <span class="title class_">Form</span>.<span class="title function_">useForm</span>();</span><br><span class="line">  <span class="comment">// 打开弹窗</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">open</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setVisiable</span>(<span class="literal">true</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">//关闭弹窗</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">close</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setVisiable</span>(<span class="literal">false</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">//点击确定提交表单</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">submit</span> = (<span class="params"></span>)=&gt;&#123;</span><br><span class="line">    form.<span class="title function_">submit</span>()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 提交后获取表单数据，请求接口，重置表单并关闭</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">onSubmit</span> = (<span class="params">values</span>) =&gt;&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(values)</span><br><span class="line">    <span class="comment">//await  fetch ...</span></span><br><span class="line">    form.<span class="title function_">resetFields</span>();</span><br><span class="line">    <span class="title function_">close</span>()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;text-center&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Button</span> <span class="attr">type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;open&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          新建</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Modal</span> </span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">wrapClassName</span>=<span class="string">&quot;modal-wrap&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">okText</span>=<span class="string">&quot;提交&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">cancelButtonProps</span>=<span class="string">&#123;&#123;</span> <span class="attr">shape:</span> &#x27;<span class="attr">round</span>&#x27; &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">okButtonProps</span>=<span class="string">&#123;&#123;</span> <span class="attr">shape:</span> &#x27;<span class="attr">round</span>&#x27; &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">width</span>=<span class="string">&#123;600&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">visible</span>=<span class="string">&#123;visiable&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">title</span>=<span class="string">&quot;新建用户&quot;</span> </span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">onCancel</span>=<span class="string">&#123;close&#125;</span> </span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">onOk</span>=<span class="string">&#123;submit&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">      &gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;form&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Form</span> <span class="attr">form</span>=<span class="string">&#123;form&#125;</span> <span class="attr">labelCol</span>=<span class="string">&#123;&#123;</span> <span class="attr">span:</span> <span class="attr">4</span> &#125;&#125; <span class="attr">wrapperCol</span>=<span class="string">&#123;&#123;</span> <span class="attr">span:</span> <span class="attr">16</span> &#125;&#125; <span class="attr">onFinish</span>=<span class="string">&#123;onSubmit&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">label</span>=<span class="string">&quot;用户名&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">name</span>=<span class="string">&quot;username&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span>  <span class="attr">username</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &gt;</span></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">Input</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">label</span>=<span class="string">&quot;用户邮箱&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">name</span>=<span class="string">&quot;mail&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span> <span class="attr">mail</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &gt;</span></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">Input</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">label</span>=<span class="string">&quot;部门&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">name</span>=<span class="string">&quot;depart&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">              <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span> <span class="attr">depart</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &gt;</span></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;<span class="name">Select</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;1&#125;</span>&gt;</span>市场部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;2&#125;</span>&gt;</span>财务部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;3&#125;</span>&gt;</span>研发部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">              <span class="tag">&lt;/<span class="name">Select</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;/<span class="name">Form</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">Modal</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有问题吗？没有问题。</p>
+<p>但是现在又来了一个需求，<strong>有10个地方都需要打开这个新建用户的弹窗</strong>。怎么办？copy呗！</p>
+<p>这么做有问题吗？没有问题。</p>
+<p>这时候又来了个需求：<strong>还需要一个新建部门的表单弹窗</strong>。怎么办？继续copy呗！</p>
+<p>弹窗的标题改一下，表单的字段和提交改一下。</p>
+<p>copy这么多有关系吗？没有关系。因为快啊。</p>
+<p>可是现在又来了个需求：新建用户的表单要加一个字段</p>
+<p>那么问题来了！我怎么知道我copy的代码分散在哪些文件？会不会改漏？</p>
+<p>这时候就想起来了，我们还有一个杀手锏，叫<strong>复用</strong></p>
+<p>那么问题来了，怎么复用？</p>
+<h2 id="组件复用复用三部曲"><a href="#组件复用复用三部曲" class="headerlink" title="组件复用复用三部曲"></a>组件复用复用三部曲</h2><p><strong>组件复用</strong>，看起来简单，但很多人要么起来简单，用起来痛苦；要么做起来痛苦，用起来复杂。</p>
+<p>就拿复用这个新建用户的弹窗来说吧，首先一个问题是<strong>你要复用什么</strong>？</p>
+<h3 id="理清对象，确定复用内容"><a href="#理清对象，确定复用内容" class="headerlink" title="理清对象，确定复用内容"></a>理清对象，确定复用内容</h3><p>我们这里有三个对象:新建用户页面<code>Page</code>，打开弹窗的<code>Button</code>，弹窗<code>Modal</code>，表单<code>From</code>， 这三个对象分别有一些功能：</p>
+<ul>
+<li>Page:提供弹窗打开关闭的功能（open&#x2F;close），提供触发表单提交的方法（submit），提供form对象（Form.useForm()）、接收表单输出并提交server</li>
+<li>Button: 打开弹窗（调用open）</li>
+<li>Modal: 提供点击取消和确定的事件（onCancel&#x2F;onOk）</li>
+<li>Form: 表单校验，提供onFinish事件输出表单值</li>
+</ul>
+<p>这里最复杂、可变的就是弹窗和弹窗的内容，因此最需要复用的就是弹窗和它的内容（表单）。</p>
+<p>那么阻碍我们的是什么呢？</p>
+<p>Page需要form对象来提交Form，Form提交后需要关闭Modal。这些行为到底归属谁？</p>
+<h3 id="确定边界"><a href="#确定边界" class="headerlink" title="确定边界"></a>确定边界</h3><p>这里最简单的对象就是<code>Button</code>了，它是个傻子，只有一个onClick动作，至于干啥，全看页面。</p>
+<p><code>Modal</code>也不复杂，它提供取消和确定的回调，至于内容也是外部提供的。我们复用一个Modal，就是用它的样式配置</p>
+<p><code>Form</code>:我们复用一个表单，自然也是希望能复用这个表单的提交逻辑。因此，除了表单校验外，它还应该承担请求server的职责。</p>
+<h3 id="拆离组件"><a href="#拆离组件" class="headerlink" title="拆离组件"></a>拆离组件</h3><h3 id="封装useModal，拆离Modal"><a href="#封装useModal，拆离Modal" class="headerlink" title="封装useModal，拆离Modal:"></a>封装useModal，拆离Modal:</h3><p>useModal.tsx:</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Modal</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;antd&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">type</span> &#123; <span class="title class_">ModalProps</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;antd&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">type</span> &#123; <span class="title class_">MutableRefObject</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">PropsType</span>&lt;T&gt; <span class="keyword">extends</span> <span class="title class_">Omit</span>&lt;<span class="title class_">ModalProps</span>, &#x27;onOk&#x27;&gt; &#123;</span><br><span class="line">  <span class="attr">onOk</span>: <span class="function">(<span class="params">ref: MutableRefObject&lt;T | <span class="literal">undefined</span>&gt;</span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> withModal&lt;T = <span class="built_in">any</span>&gt;(modalProps?: <span class="title class_">ModalProps</span>, slotProps?: <span class="built_in">any</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">Slot: React.FC&lt;<span class="built_in">any</span>&gt;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">props?: PropsType&lt;T&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> ref = <span class="title class_">React</span>.<span class="property">useRef</span>&lt;T&gt;();</span><br><span class="line">      <span class="keyword">return</span> (</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Modal</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            <span class="attr">wrapClassName</span>=<span class="string">&quot;modal-wrap&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            <span class="attr">okText</span>=<span class="string">&quot;提交&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            <span class="attr">cancelButtonProps</span>=<span class="string">&#123;&#123;</span> <span class="attr">shape:</span> &#x27;<span class="attr">round</span>&#x27; &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            <span class="attr">okButtonProps</span>=<span class="string">&#123;&#123;</span> <span class="attr">shape:</span> &#x27;<span class="attr">round</span>&#x27; &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            <span class="attr">width</span>=<span class="string">&#123;600&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &#123;<span class="attr">...modalProps</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            &#123;<span class="attr">...props</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">            <span class="attr">onOk</span>=<span class="string">&#123;()</span> =&gt;</span> props?.onOk?.(ref)&#125;</span></span><br><span class="line"><span class="language-xml">          &gt;</span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Slot</span> &#123;<span class="attr">...slotProps</span>&#125; <span class="attr">ref</span>=<span class="string">&#123;ref&#125;</span> <span class="attr">close</span>=<span class="string">&#123;props?.onCancel&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;/<span class="name">Modal</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">      );</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> withModal;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="拆离表单，暴露ref"><a href="#拆离表单，暴露ref" class="headerlink" title="拆离表单，暴露ref"></a>拆离表单，暴露ref</h3><p>UserForm.tsx:</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Form</span>, <span class="title class_">Input</span>, <span class="title class_">Select</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;antd&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">type</span> &#123; <span class="title class_">FormInstance</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;antd/es/form&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">PropsType</span> = <span class="title class_">React</span>.<span class="property">PropsWithChildren</span>&lt;&#123;</span><br><span class="line">  afterSubmit?: <span class="function">(<span class="params">values: <span class="built_in">any</span>, form: FormInstance&lt;<span class="built_in">any</span>&gt;</span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">&#125;&gt;;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">UserForm</span> = (<span class="params">props: PropsType, ref?: React.ForwardedRef&lt;FormInstance&gt;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [form] = <span class="title class_">Form</span>.<span class="title function_">useForm</span>();</span><br><span class="line">  <span class="comment">// 提交后获取表单数据，请求接口，重置表单并关闭</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">onSubmit</span> = (<span class="params">values: <span class="built_in">any</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(values);</span><br><span class="line">    <span class="comment">//await  fetch ...</span></span><br><span class="line">    form.<span class="title function_">resetFields</span>();</span><br><span class="line">    props.<span class="property">afterSubmit</span>?.(values, form);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;form&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Form</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">onFinish</span>=<span class="string">&#123;onSubmit&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">ref</span>=<span class="string">&#123;ref&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">form</span>=<span class="string">&#123;form&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">labelCol</span>=<span class="string">&#123;&#123;</span> <span class="attr">span:</span> <span class="attr">4</span> &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">wrapperCol</span>=<span class="string">&#123;&#123;</span> <span class="attr">span:</span> <span class="attr">16</span> &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">      &gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">label</span>=<span class="string">&quot;用户名&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">name</span>=<span class="string">&quot;username&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span>  <span class="attr">username</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Input</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">label</span>=<span class="string">&quot;用户邮箱&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">name</span>=<span class="string">&quot;mail&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span> <span class="attr">mail</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Input</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">label</span>=<span class="string">&quot;部门&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">name</span>=<span class="string">&quot;depart&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span> <span class="attr">depart</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Select</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;1&#125;</span>&gt;</span>市场部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;2&#125;</span>&gt;</span>财务部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;3&#125;</span>&gt;</span>研发部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;/<span class="name">Select</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">Form</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">UserForm</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="forwardRef"><a href="#forwardRef" class="headerlink" title="forwardRef"></a>forwardRef</h3><p>针对这里的特殊场景，form的提交由useModal控制，因此需要暴露form或ref；当然也可以由form自身提供submit按钮，并隐藏modal的footer，但这么做当表单较多时并不划算。</p>
+<p>使用useModal：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const <span class="attr">UserFormModal</span> = withModal(&#123; 弹窗的props &#125;, &#123; 弹窗内容组件（表单）的props &#125;)(React.forwardRef(UserForm))<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后再来看效果，这个页面少了一半的代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">TestPage</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [visiable, setVisiable] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">  <span class="comment">// 打开弹窗</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">open</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setVisiable</span>(<span class="literal">true</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">//关闭弹窗</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">close</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setVisiable</span>(<span class="literal">false</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">//点击确定提交表单</span></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">submit</span> = (<span class="params">ref: MutableRefObject&lt;FormInstance&gt;</span>) =&gt; &#123;</span><br><span class="line">    ref.<span class="property">current</span>.<span class="title function_">submit</span>();</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">afterSubmit</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">close</span>();</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> <span class="title class_">UserFormModal</span> = <span class="title function_">withModal</span>(&#123; <span class="attr">title</span>: <span class="string">&#x27;新建用户&#x27;</span> &#125;, &#123; afterSubmit &#125;)(<span class="title class_">React</span>.<span class="title function_">forwardRef</span>(<span class="title class_">UserForm</span>));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;text-center&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Button</span> <span class="attr">type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;open&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          新建</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">UserFormModal</span> <span class="attr">visible</span>=<span class="string">&#123;visiable&#125;</span> <span class="attr">onCancel</span>=<span class="string">&#123;close&#125;</span> <span class="attr">onOk</span>=<span class="string">&#123;submit&#125;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拥抱hooks"><a href="#拥抱hooks" class="headerlink" title="拥抱hooks"></a>拥抱hooks</h2><p>上述的做法是典型的HOC思想，如果我们用hooks，上面的代码还能再减掉50%，下一篇将介绍如何封装useModal</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/11/18/%E5%9C%A8React%E4%B8%AD%E4%BC%98%E9%9B%85%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%BC%B9%E7%AA%97%E2%80%94%E2%80%94useModal/"
+      title="在React中优雅地使用弹窗——useModal"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        在React中优雅地使用弹窗——useModal
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/11/16/%E6%8A%9B%E5%BC%80State%E5%92%8CContext%E8%B0%88%E5%89%8D%E7%AB%AF%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1(%E4%B8%80)%E2%80%94%E2%80%94%E5%AE%9E%E4%BE%8B%E5%8A%AB%E6%8C%81+%E4%B8%AD%E4%BB%8B%E8%80%85%E9%80%9A%E4%BF%A1/"
+      title="抛开State和Context谈前端组件通信(一)——实例劫持+中介者通信"
+     >
+
+    <p class="title-text">
+      
+        抛开State和Context谈前端组件通信(一)——实例劫持+中介者通信
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
