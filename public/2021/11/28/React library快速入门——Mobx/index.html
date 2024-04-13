@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>React library快速入门——Mobx | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="这是我参与11月更文挑战的第28天，活动详情查看：2021最后一次更文挑战 Mobx介绍Mobx，和Redux一样，也是React状态管理比较流行的解决方案之一。 Mobx的作者非常厌恶Redux的繁琐（可能很多人也是），于是设计了Mobx作为状态管理，并宣称它的性能远远超过Redux（在react-redux使用hooks改造前也确实是这样的）。 Mobx早期参考了Vue，也使用了响应式编程。这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React library快速入门——Mobx">
+<meta property="og:url" content="http://example.com/2021/11/28/React%20library%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94Mobx/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="这是我参与11月更文挑战的第28天，活动详情查看：2021最后一次更文挑战 Mobx介绍Mobx，和Redux一样，也是React状态管理比较流行的解决方案之一。 Mobx的作者非常厌恶Redux的繁琐（可能很多人也是），于是设计了Mobx作为状态管理，并宣称它的性能远远超过Redux（在react-redux使用hooks改造前也确实是这样的）。 Mobx早期参考了Vue，也使用了响应式编程。这">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/ee559a33603348b7ab100b67c07cc172.png">
+<meta property="article:published_time" content="2021-11-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.635Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="React.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/ee559a33603348b7ab100b67c07cc172.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-React library快速入门——Mobx" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        React library快速入门——Mobx
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-11-27T16:00:00.000Z" itemprop="datePublished">2021-11-28</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            4.8k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>这是我参与11月更文挑战的第28天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023643374569816095" title="https://juejin.cn/post/7023643374569816095">2021最后一次更文挑战</a></p>
+<h2 id="Mobx介绍"><a href="#Mobx介绍" class="headerlink" title="Mobx介绍"></a>Mobx介绍</h2><p>Mobx，和Redux一样，也是React状态管理比较流行的解决方案之一。</p>
+<p>Mobx的作者非常厌恶Redux的繁琐（可能很多人也是），于是设计了Mobx作为状态管理，并宣称它的性能远远超过Redux（在react-redux使用hooks改造前也确实是这样的）。</p>
+<p>Mobx早期参考了Vue，也使用了响应式编程。这意味着这个库并不是基于<code>Context</code>的中心化状态管理，这是和Redux最大的不同点，也使它成为了当年诸多状态方案中的一股清流。当然响应式的状态管理也给它带来了诸多争议，其中一个观点便是：</p>
+<blockquote>
+<p>React+Mobx的选型就是一个复杂版的Vue</p>
+</blockquote>
+<p>Mobx6之前大量使用了装饰器语法，非常简洁。但是6.x之后抛弃了装饰器。</p>
+<blockquote>
+<p>然而，装饰器语法尚未定案以及未被纳入ES标准，标准化的过程还需要很长时间，且未来制定的标准可能与当前的装饰器实现方案有所不同。出于兼容性的考虑，我们在MobX 6中放弃了它们…</p>
+</blockquote>
+<p>hooks本身的特性和它带来的各种新的状态管理库使得Mobx不再那么耀眼，但hooks并不能完全代替class 组件，在大型项目中，Mobx依然是一个不错的技术选型。</p>
+<p>对于一些老项目，需要注意mobx-react的版本，如果需要在这些老项目中搭配react hooks使用，可以用<a href="https://www.npmjs.com%2Fpackage%2Fmobx-react-lite" title="https://www.npmjs.com/package/mobx-react-lite">mobx-react-lite</a></p>
+<p><img src="/../imgs/ee559a33603348b7ab100b67c07cc172.png" alt="image.png"></p>
+<p>由于装饰器依然有着相当的拥趸，因此本文将分别介绍两种方式。</p>
+<p>假设我们有一个全局的状态是主题颜色，我们将它维护在store目录中：</p>
+<h2 id="不用装饰器"><a href="#不用装饰器" class="headerlink" title="不用装饰器"></a>不用装饰器</h2><p>全局状态：src&#x2F;store&#x2F;CommonStore.ts</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;makeAutoObservable&#125; <span class="keyword">from</span> <span class="string">&#x27;mobx&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">CommonStore</span> &#123;</span><br><span class="line">	color = <span class="string">&#x27;red&#x27;</span>;</span><br><span class="line">	<span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="title function_">makeAutoObservable</span>(<span class="variable language_">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="title function_">changeTheme</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="variable language_">this</span>.<span class="property">color</span> = <span class="string">`#<span class="subst">$&#123;<span class="built_in">Math</span>.random()</span></span></span><br><span class="line"><span class="subst"><span class="string">			.toString(<span class="number">16</span>)</span></span></span><br><span class="line"><span class="subst"><span class="string">			.slice(-<span class="number">6</span>)&#125;</span>`</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> commonStore = <span class="keyword">new</span> <span class="title class_">CommonStore</span>();</span><br></pre></td></tr></table></figure>
+
+<p>组件中引用及修改store：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;observer&#125; <span class="keyword">from</span> <span class="string">&#x27;mobx-react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;commonStore&#125; <span class="keyword">from</span> <span class="string">&#x27;../../../store/CommonStore&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">HomePage</span> = <span class="title function_">observer</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">const</span> [text, setText] = <span class="title function_">useState</span>(<span class="string">&#x27;xxx&#x27;</span>);</span><br><span class="line">	<span class="keyword">const</span> <span class="title function_">change</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">		commonStore.<span class="title function_">changeTheme</span>();</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">return</span> (</span><br><span class="line">		<span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;HomePage&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">		</span></span><br><span class="line"><span class="language-xml">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;px-16 d-flex align-items-center justify-content-end&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">				<span class="tag">&lt;<span class="name">Paragraph</span> <span class="attr">color</span>=<span class="string">&#123;commonStore.color&#125;</span> &gt;</span></span></span><br><span class="line"><span class="language-xml">				<span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;font-20&quot;</span>&gt;</span>&#123;text&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">					<span class="tag">&lt;<span class="name">Button</span> <span class="attr">type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">size</span>=<span class="string">&quot;small&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;change&#125;</span> &gt;</span></span></span><br><span class="line"><span class="language-xml">						切换主题色</span></span><br><span class="line"><span class="language-xml">					<span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">				<span class="tag">&lt;/<span class="name">Paragraph</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">	);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">HomePage</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用装饰器"><a href="#使用装饰器" class="headerlink" title="使用装饰器"></a>使用装饰器</h2><p>全局状态：src&#x2F;store&#x2F;CommonStore.ts</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">CommonStore</span> &#123;</span><br><span class="line">	<span class="meta">@observable</span> color = <span class="string">&#x27;red&#x27;</span>;</span><br><span class="line">	<span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="title function_">makeAutoObservable</span>(<span class="variable language_">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="title function_">changeTheme</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="variable language_">this</span>.<span class="property">color</span> = <span class="string">`#<span class="subst">$&#123;<span class="built_in">Math</span>.random()</span></span></span><br><span class="line"><span class="subst"><span class="string">			.toString(<span class="number">16</span>)</span></span></span><br><span class="line"><span class="subst"><span class="string">			.slice(-<span class="number">6</span>)&#125;</span>`</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> commonStore = <span class="keyword">new</span> <span class="title class_">CommonStore</span>();</span><br></pre></td></tr></table></figure>
+
+<p>组件中引用及修改store：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@observer</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HomePage</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">	<span class="meta">@observable</span> text = <span class="number">0</span>;</span><br><span class="line">	<span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="variable language_">super</span>(&#123;&#125;)</span><br><span class="line">        <span class="title function_">makeObservable</span>(<span class="variable language_">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">	change = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">text</span>)</span><br><span class="line">		<span class="variable language_">this</span>.<span class="property">text</span>= <span class="title class_">Date</span>.<span class="title function_">now</span>();</span><br><span class="line">		commonStore.<span class="title function_">changeTheme</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> (</span><br><span class="line">			<span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;HomePage&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">				<span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;px-16 d-flex align-items-center justify-content-end&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">					<span class="tag">&lt;<span class="name">Paragraph</span> <span class="attr">color</span>=<span class="string">&#123;commonStore.color&#125;</span> &gt;</span></span></span><br><span class="line"><span class="language-xml">						<span class="tag">&lt;<span class="name">p</span> <span class="attr">className</span>=<span class="string">&quot;font-20&quot;</span>&gt;</span>&#123;this.text&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">						<span class="tag">&lt;<span class="name">Button</span> <span class="attr">type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">size</span>=<span class="string">&quot;small&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;this.change.bind(this)&#125;</span> &gt;</span></span></span><br><span class="line"><span class="language-xml">							切换主题色和内容</span></span><br><span class="line"><span class="language-xml">						<span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">					<span class="tag">&lt;/<span class="name">Paragraph</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">				<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">		)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Mobx6中是一定要加上<code>makeObservable</code>或者<code>makeObservable</code>的，否则不会更新视图。对于store来说，如果加上了这段代码，即使不用<code>@observable</code>，视图也能响应变换。</p>
+<p>因此在Mobx6中虽然仍然支持装饰器，但纯属鸡肋。</p>
+<h2 id="核心概念和API"><a href="#核心概念和API" class="headerlink" title="核心概念和API"></a>核心概念和API</h2><p>mobx和mobx-react搭配使用，前者提供创建可观察对象的方法，后者能让组件订阅这个状态并进行更新。</p>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
+<li>observable: 可观察的状态，意味着mobx能够监测到这个数据的改动，并可以对它做出反应</li>
+<li>computed：计算数据，类似Vue中的computed</li>
+<li>action： 动作，修改状态。</li>
+<li>Reaction: 状态与动作的关联，相关的api有<code>autorun</code>,<code>when</code>,<code>reaction</code>,但一般用不到。</li>
+<li>flow: flow并不属于mobx的核心概念，也是一个重要特性。flow是async&#x2F;await的替代方案，<code>makeAutoObservable</code>能自动将generator函数推断为flow,这个函数返回的promise带有cancel，能够中断该promise。另外一个特性是省去了<code>action</code>或<code>runInAction</code>的包装。（这些后续单独开Mobx的源码解析。）</li>
+</ul>
+<h3 id="Mobx-apis"><a href="#Mobx-apis" class="headerlink" title="Mobx apis"></a>Mobx apis</h3><h4 id="创建可观察数据：observable-makeObservable-makeAutoObservable"><a href="#创建可观察数据：observable-makeObservable-makeAutoObservable" class="headerlink" title="创建可观察数据：observable&#x2F;makeObservable&#x2F;makeAutoObservable"></a>创建可观察数据：<code>observable</code>&#x2F;<code>makeObservable</code>&#x2F;<code>makeAutoObservable</code></h4><h5 id="observable"><a href="#observable" class="headerlink" title="observable"></a>observable</h5><p>可以创建一个简单的可观察对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = <span class="title function_">observable</span>(&#123;<span class="attr">count</span>:<span class="number">1</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<h5 id="makeObservable"><a href="#makeObservable" class="headerlink" title="makeObservable"></a>makeObservable</h5><p>用在class state中，能够识别哪些属性是<code>observable</code>或者<code>computed</code>，哪些方法需要支持<code>action</code>或者是<code>flow</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">constructor</span>() &#123;</span><br><span class="line">    <span class="title function_ invoke__">makeObservable</span>(this, &#123;</span><br><span class="line">    <span class="attr">value</span>: observable,</span><br><span class="line">    <span class="attr">double</span>: computed,</span><br><span class="line">    <span class="attr">increment</span>: action,</span><br><span class="line">    <span class="attr">fetch</span>: flow</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="makeAutoObservable"><a href="#makeAutoObservable" class="headerlink" title="makeAutoObservable"></a>makeAutoObservable</h5><p><code>makeObservable</code>的智能版，能够自动推断所有属性，规则如下：</p>
+<ul>
+<li>所有 <em>自有</em> 属性都成为 <code>observable</code>。</li>
+<li>所有 <code>getters</code> 都成为 <code>computed</code>。</li>
+<li>所有 <code>setters</code> 都成为 <code>action</code>。</li>
+<li>所有 <em>prototype 中的 functions</em> 都成为 <code>autoAction</code>。</li>
+<li>所有 <em>prototype 中的 generator functions</em> 都成为 <code>flow</code>。</li>
+</ul>
+<h4 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h4><h5 id="action-runInAction"><a href="#action-runInAction" class="headerlink" title="action&#x2F;runInAction"></a>action&#x2F;runInAction</h5><p>Mobx要求数据的修改都放在action中，并提供了<code>action</code>和<code>runInAction</code>两个api来标记action。 <code>action</code>是创建一个函数，<code>runInAction</code>是创建一个函数并立即执行</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;button </span><br><span class="line">    onClick=&#123;<span class="title function_">action</span>(<span class="function"><span class="params">e</span> =&gt;</span>  &#123; </span><br><span class="line">            formState.<span class="title function_">resetPendingUploads</span>()</span><br><span class="line">            formState.<span class="title function_">resetValues</span>()</span><br><span class="line">            e.<span class="title function_">stopPropagation</span>() </span><br><span class="line">        &#125;)</span><br><span class="line">    &#125; </span><br><span class="line">&gt; </span><br><span class="line">    <span class="title class_">Reset</span> form </span><br><span class="line">&lt;/button&gt;</span><br></pre></td></tr></table></figure>
+
+<p>虽然不放在action中并不影响它观察，但会失去Mobx的事务管理。</p>
+<p>Mobx中的事务，是指对数据的多次修改合并为一次事务，只触发一次reaction。</p>
+<h3 id="mobx-react-apis"><a href="#mobx-react-apis" class="headerlink" title="mobx-react apis"></a>mobx-react apis</h3><h4 id="observer"><a href="#observer" class="headerlink" title="observer"></a>observer</h4><p>使组件能够在观察到observable变更后重新渲染 const TimerView &#x3D; observer(({ timer }) &#x3D;&gt; Seconds passed: {timer.secondsPassed})\</p>
+<h4 id="Observer"><a href="#Observer" class="headerlink" title="Observer"></a>Observer</h4><p>将observer的特性应有在局部（能够在更小的粒度上更新）</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &#123;<span class="keyword">this</span>.props.person.name&#125;</span><br><span class="line">                &lt;<span class="type">Observer</span>&gt;&#123;() =&gt; &lt;div&gt;&#123;<span class="keyword">this</span>.props.person.name&#125;&lt;/div&gt;&#125;&lt;/<span class="type">Observer</span>&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const person = observable(&#123; name: <span class="string">&quot;John&quot;</span> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这里persion的变化会在Observer组件内更新，而不会导致App组件的更新。</p>
+<p>mobx-react核心的api就这两个，其他的比如 <code>useLocalObservable</code>在当下已经并不常用了。</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/11/30/Mobx6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%20%20%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%9A%84observable%E5%92%8Cautorun/"
+      title="Mobx6核心源码解析（一）: 实现一个简易的observable和autorun"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        Mobx6核心源码解析（一）: 实现一个简易的observable和autorun
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/11/27/CSS%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E6%9D%82%E9%A1%B9%E5%92%8C%E6%9C%AA%E6%9D%A5/"
+      title="CSS函数大全（四）：杂项和未来"
+     >
+
+    <p class="title-text">
+      
+        CSS函数大全（四）：杂项和未来
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

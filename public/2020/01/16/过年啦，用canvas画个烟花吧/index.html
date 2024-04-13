@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>过年啦，用canvas画个烟花吧 | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="前言：马上过年了，我打算在后台里面偷偷地埋个新春祝福+放烟花的彩蛋。项目是基于react+typescript的，因此最后封装成了一个组件，设置好开启时间就可以显示了。 目录结构目录结构大致如下我们将烟花分为两个阶段，一个是未炸开持续上升时期，另一个是炸开后分散的时期。其中Vector表示一个坐标，Particle表示一个烟花的亮点，Firewor表示烟花未炸开时持续上升的亮点。index.tsx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="过年啦，用canvas画个烟花吧">
+<meta property="og:url" content="http://example.com/2020/01/16/%E8%BF%87%E5%B9%B4%E5%95%A6%EF%BC%8C%E7%94%A8canvas%E7%94%BB%E4%B8%AA%E7%83%9F%E8%8A%B1%E5%90%A7/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="前言：马上过年了，我打算在后台里面偷偷地埋个新春祝福+放烟花的彩蛋。项目是基于react+typescript的，因此最后封装成了一个组件，设置好开启时间就可以显示了。 目录结构目录结构大致如下我们将烟花分为两个阶段，一个是未炸开持续上升时期，另一个是炸开后分散的时期。其中Vector表示一个坐标，Particle表示一个烟花的亮点，Firewor表示烟花未炸开时持续上升的亮点。index.tsx">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb245b35b83e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png">
+<meta property="og:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb244c40c533~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png">
+<meta property="article:published_time" content="2020-01-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.218Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="Canvas">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb245b35b83e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-过年啦，用canvas画个烟花吧" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        过年啦，用canvas画个烟花吧
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2020-01-15T16:00:00.000Z" itemprop="datePublished">2020-01-16</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            6.5k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>前言：马上过年了，我打算在后台里面偷偷地埋个新春祝福+放烟花的彩蛋。项目是基于react+typescript的，因此最后封装成了一个组件，设置好开启时间就可以显示了。</p>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p>目录结构大致如下<br><img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb245b35b83e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png" alt="image.png" title="image.png"><br>我们将烟花分为两个阶段，一个是未炸开持续上升时期，另一个是炸开后分散的时期。<br>其中Vector表示一个坐标，Particle表示一个烟花的亮点，Firewor表示烟花未炸开时持续上升的亮点。index.tsx就是组件了，绘制了canvas，并执行了动画。</p>
+<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p>这个坐标就很简单，后面涉及到位置的变更都可以使用它的add方法进行偏移操作</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">Vector</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="keyword">public</span> x: <span class="built_in">number</span>, <span class="keyword">public</span> y: <span class="built_in">number</span></span>) &#123;&#125;</span><br><span class="line">    <span class="title function_">add</span>(<span class="params">vec2: &#123;x: <span class="built_in">number</span>; y: <span class="built_in">number</span>&#125;</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">x</span> = <span class="variable language_">this</span>.<span class="property">x</span> + vec2.<span class="property">x</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">y</span> = <span class="variable language_">this</span>.<span class="property">y</span> + vec2.<span class="property">y</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Particle"><a href="#Particle" class="headerlink" title="Particle"></a>Particle</h2><p>初始创建的时候给个坐标，后续每次更新的时候控制y坐标下落，gravity变量就是下落的值。timeSpan用于控制烟花展示的时长</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vector from <span class="string">&#x27;./Vector&#x27;</span>;</span><br><span class="line">export default <span class="keyword">class</span> <span class="title class_">Particle</span> &#123;</span><br><span class="line">    pos: Vector = <span class="literal">null</span>;</span><br><span class="line">    vel: &#123;x: number; y: number&#125; = <span class="literal">null</span>;</span><br><span class="line">    dead: boolean = <span class="literal">false</span>;</span><br><span class="line">    start: number = <span class="number">0</span>;</span><br><span class="line">    ctx: CanvasRenderingContext2D = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">constructor</span>(pos: &#123;x: number; y: number&#125;, vel: &#123;x: number; y: number&#125;, ctx: CanvasRenderingContext2D) &#123;</span><br><span class="line">        <span class="keyword">this</span>.pos = new Vector(pos.x, pos.y);</span><br><span class="line">        <span class="keyword">this</span>.vel = vel;</span><br><span class="line">        <span class="keyword">this</span>.dead = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">this</span>.start = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>.ctx = ctx;</span><br><span class="line">    &#125;</span><br><span class="line">    update(time: number, gravity: number) &#123;</span><br><span class="line">        let timeSpan = time - <span class="keyword">this</span>.start;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeSpan &gt; <span class="number">500</span>) &#123;</span><br><span class="line">            <span class="keyword">this</span>.dead = <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.dead) &#123;</span><br><span class="line">            <span class="keyword">this</span>.pos.add(<span class="keyword">this</span>.vel);</span><br><span class="line">            <span class="keyword">this</span>.vel.y = <span class="keyword">this</span>.vel.y + gravity;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    draw() &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">this</span>.dead) &#123;</span><br><span class="line">            <span class="keyword">this</span>.drawDot(<span class="keyword">this</span>.pos.x, <span class="keyword">this</span>.pos.y, Math.random() &gt; <span class="number">0.5</span> ? <span class="number">1</span> : <span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    drawDot(x: number, y: number, size: number) &#123;</span><br><span class="line">        <span class="keyword">this</span>.ctx.beginPath();</span><br><span class="line">        <span class="keyword">this</span>.ctx.arc(x, y, size, <span class="number">0</span>, Math.PI * <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">this</span>.ctx.fill();</span><br><span class="line">        <span class="keyword">this</span>.ctx.closePath();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Firework"><a href="#Firework" class="headerlink" title="Firework"></a>Firework</h2><p>生成随机的hsl颜色，<code>hsl(&#39; + rndNum(360) + &#39;, 100%, 60%)</code>;Firework每次上升的距离是一个递减的过程，我们初始设置一个上升的距离，之后每次绘制的时候，这个距离减gravity，当距离小于零的时候，说明该出现烟花绽放的动画了。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vector from <span class="string">&#x27;./Vector&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> Particle from <span class="string">&#x27;./Particle&#x27;</span>;</span><br><span class="line">let rnd = Math.random;</span><br><span class="line">function rndNum(num: number) &#123;</span><br><span class="line">    <span class="keyword">return</span> rnd() * num + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">export default <span class="keyword">class</span> <span class="title class_">Firework</span> &#123;</span><br><span class="line">    pos: Vector = <span class="literal">null</span>;</span><br><span class="line">    vel: Vector = <span class="literal">null</span>;</span><br><span class="line">    color: string = <span class="literal">null</span>;</span><br><span class="line">    size: number = <span class="number">0</span>;</span><br><span class="line">    dead: boolean = <span class="literal">false</span>;</span><br><span class="line">    start: number = <span class="number">0</span>;</span><br><span class="line">    ctx: CanvasRenderingContext2D = <span class="literal">null</span>;</span><br><span class="line">    gravity: number = <span class="literal">null</span>;</span><br><span class="line">    exParticles: Particle[] = [];</span><br><span class="line">    exPLen: number = <span class="number">100</span>;</span><br><span class="line">    rootShow: boolean = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">constructor</span>(x: number, y: number, gravity: number, ctx: CanvasRenderingContext2D) &#123;</span><br><span class="line">        <span class="keyword">this</span>.pos = new Vector(x, y);</span><br><span class="line">        <span class="keyword">this</span>.vel = new Vector(<span class="number">0</span>, -rndNum(<span class="number">10</span>) - <span class="number">3</span>);</span><br><span class="line">        <span class="keyword">this</span>.color = <span class="string">&#x27;hsl(&#x27;</span> + rndNum(<span class="number">360</span>) + <span class="string">&#x27;, 100%, 60%)&#x27;</span>;</span><br><span class="line">        <span class="keyword">this</span>.size = <span class="number">4</span>;</span><br><span class="line">        <span class="keyword">this</span>.dead = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">this</span>.start = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>.ctx = ctx;</span><br><span class="line">        <span class="keyword">this</span>.gravity = gravity;</span><br><span class="line">    &#125;</span><br><span class="line">    update(time: number, gravity: number) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.dead) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.rootShow = <span class="keyword">this</span>.vel.y &lt; <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.rootShow) &#123;</span><br><span class="line">            <span class="keyword">this</span>.pos.add(<span class="keyword">this</span>.vel);</span><br><span class="line">            <span class="keyword">this</span>.vel.y = <span class="keyword">this</span>.vel.y + gravity;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.exParticles.length === <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (let i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.exPLen; i++) &#123;</span><br><span class="line">                    let randomR = rndNum(<span class="number">5</span>);</span><br><span class="line">                    let randomX = -rndNum(Math.abs(randomR) * <span class="number">2</span>) + Math.abs(randomR);</span><br><span class="line">                    let randomY =</span><br><span class="line">                        Math.sqrt(Math.abs(Math.pow(randomR, <span class="number">2</span>) - Math.pow(randomX, <span class="number">2</span>))) *</span><br><span class="line">                        (Math.random() &gt; <span class="number">0.5</span> ? <span class="number">1</span> : -<span class="number">1</span>);</span><br><span class="line">                    <span class="keyword">this</span>.exParticles.push(new Particle(<span class="keyword">this</span>.pos, new Vector(randomX, randomY), <span class="keyword">this</span>.ctx));</span><br><span class="line">                    <span class="keyword">this</span>.exParticles[<span class="keyword">this</span>.exParticles.length - <span class="number">1</span>].start = time;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            let numOfDead = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (let i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.exPLen; i++) &#123;</span><br><span class="line">                let p = <span class="keyword">this</span>.exParticles[i];</span><br><span class="line">                p.update(time, <span class="keyword">this</span>.gravity);</span><br><span class="line">                <span class="keyword">if</span> (p.dead) &#123;</span><br><span class="line">                    numOfDead++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (numOfDead === <span class="keyword">this</span>.exPLen) &#123;</span><br><span class="line">                <span class="keyword">this</span>.dead = <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    draw() &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.dead) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.ctx.fillStyle = <span class="keyword">this</span>.color;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.rootShow) &#123;</span><br><span class="line">            <span class="keyword">this</span>.drawDot(<span class="keyword">this</span>.pos.x, <span class="keyword">this</span>.pos.y, <span class="keyword">this</span>.size);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (let i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.exPLen; i++) &#123;</span><br><span class="line">                let p = <span class="keyword">this</span>.exParticles[i];</span><br><span class="line">                p.draw();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    drawDot(x: number, y: number, size: number) &#123;</span><br><span class="line">        <span class="keyword">this</span>.ctx.beginPath();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.ctx.arc(x, y, size, <span class="number">0</span>, Math.PI * <span class="number">2</span>);</span><br><span class="line">        <span class="keyword">this</span>.ctx.fill();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.ctx.closePath();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="FireworkComponent"><a href="#FireworkComponent" class="headerlink" title="FireworkComponent"></a>FireworkComponent</h2><p>组件本身就很简单了，生成和绘制Firework。我们在这里面可以额外加一些文字</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React from <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> Firework from <span class="string">&#x27;./Firework&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;autobind&#125; from <span class="string">&#x27;core-decorators&#x27;</span>;</span><br><span class="line">let rnd = Math.random;</span><br><span class="line">function rndNum(num: number) &#123;</span><br><span class="line">    <span class="keyword">return</span> rnd() * num + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">PropTypes</span> &#123;</span><br><span class="line">    onClick?: () =&gt; void;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@autobind</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">FireworkComponent</span> <span class="title">extends</span> <span class="title">React</span>.<span class="title">Component</span>&lt;<span class="type">PropTypes</span>&gt; &#123;</span><br><span class="line">    canvas: HTMLCanvasElement = <span class="literal">null</span>;</span><br><span class="line">    ctx: CanvasRenderingContext2D = <span class="literal">null</span>;</span><br><span class="line">    snapTime: number = <span class="number">0</span>;</span><br><span class="line">    fireworks: Firework[] = [];</span><br><span class="line">    gravity: number = <span class="number">0.1</span>;</span><br><span class="line">    componentDidMount() &#123;</span><br><span class="line">        <span class="keyword">this</span>.canvas = document.querySelector(<span class="string">&#x27;#fireworks&#x27;</span>);</span><br><span class="line">        <span class="keyword">this</span>.canvas.width = window.innerWidth;</span><br><span class="line">        <span class="keyword">this</span>.canvas.height = window.innerHeight;</span><br><span class="line">        <span class="keyword">this</span>.ctx = <span class="keyword">this</span>.canvas.getContext(<span class="string">&#x27;2d&#x27;</span>);</span><br><span class="line">        <span class="keyword">this</span>.<span class="keyword">init</span>();</span><br><span class="line">        <span class="keyword">this</span>.draw();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">        let numOfFireworks = <span class="number">20</span>;</span><br><span class="line">        <span class="keyword">for</span> (let i = <span class="number">0</span>; i &lt; numOfFireworks; i++) &#123;</span><br><span class="line">            <span class="keyword">this</span>.fireworks.push(new Firework(rndNum(<span class="keyword">this</span>.canvas.width), <span class="keyword">this</span>.canvas.height, <span class="keyword">this</span>.gravity, <span class="keyword">this</span>.ctx));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    update(time: number) &#123;</span><br><span class="line">        <span class="keyword">for</span> (let i = <span class="number">0</span>, len = <span class="keyword">this</span>.fireworks.length; i &lt; len; i++) &#123;</span><br><span class="line">            let p = <span class="keyword">this</span>.fireworks[i];</span><br><span class="line">            p.update(time, <span class="keyword">this</span>.gravity);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    draw(time?: number) &#123;</span><br><span class="line">        <span class="keyword">this</span>.update(time);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.ctx.fillStyle = <span class="string">&#x27;rgba(0,0,0,0.3)&#x27;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.ctx.fillStyle = <span class="string">&#x27;rgba(0,0,0,0)&#x27;</span>;</span><br><span class="line">        <span class="keyword">this</span>.ctx.clearRect(<span class="number">0</span>, <span class="number">0</span>, <span class="keyword">this</span>.canvas.width, <span class="keyword">this</span>.canvas.height);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.ctx.font = <span class="string">&#x27;bold 30px cursive&#x27;</span>;</span><br><span class="line">        <span class="keyword">this</span>.ctx.fillStyle = <span class="string">&#x27;#e91818&#x27;</span>;</span><br><span class="line">        let text = <span class="string">&#x27;XX项目组给您拜个早年！&#x27;</span>;</span><br><span class="line">        let textWidth = <span class="keyword">this</span>.ctx.measureText(text);</span><br><span class="line">        <span class="keyword">this</span>.ctx.fillText(text, <span class="keyword">this</span>.canvas.width / <span class="number">2</span> - textWidth.width / <span class="number">2</span>, <span class="number">200</span>);</span><br><span class="line">        text = <span class="string">&#x27;在新年来临之际，祝您：&#x27;</span>;</span><br><span class="line">        textWidth = <span class="keyword">this</span>.ctx.measureText(text);</span><br><span class="line">        <span class="keyword">this</span>.ctx.fillText(text, <span class="keyword">this</span>.canvas.width / <span class="number">2</span> - textWidth.width / <span class="number">2</span>, <span class="number">260</span>);</span><br><span class="line">        text = <span class="string">&#x27;工作顺利，新春快乐!&#x27;</span>;</span><br><span class="line">        <span class="keyword">this</span>.ctx.font = <span class="string">&#x27;bold 48px STCaiyun&#x27;</span>;</span><br><span class="line">        <span class="keyword">this</span>.ctx.fillStyle = <span class="string">&#x27;orangered&#x27;</span>;</span><br><span class="line">        textWidth = <span class="keyword">this</span>.ctx.measureText(text);</span><br><span class="line">        <span class="keyword">this</span>.ctx.fillText(text, <span class="keyword">this</span>.canvas.width / <span class="number">2</span> - textWidth.width / <span class="number">2</span>, <span class="number">340</span>);</span><br><span class="line">        <span class="keyword">this</span>.ctx.fillStyle = <span class="string">&#x27;gray&#x27;</span>;</span><br><span class="line">        <span class="keyword">this</span>.ctx.font = <span class="string">&#x27;18px Arial&#x27;</span>;</span><br><span class="line">        text = <span class="string">&#x27;点击任意处关闭&#x27;</span>;</span><br><span class="line">        textWidth = <span class="keyword">this</span>.ctx.measureText(text);</span><br><span class="line">        <span class="keyword">this</span>.ctx.fillText(text, <span class="keyword">this</span>.canvas.width - <span class="number">20</span> - textWidth.width, <span class="number">60</span>);</span><br><span class="line">        <span class="keyword">this</span>.snapTime = time;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.ctx.fillStyle = <span class="string">&#x27;blue&#x27;</span>;</span><br><span class="line">        <span class="keyword">for</span> (let i = <span class="number">0</span>, len = <span class="keyword">this</span>.fireworks.length; i &lt; len; i++) &#123;</span><br><span class="line">            let p = <span class="keyword">this</span>.fireworks[i];</span><br><span class="line">            <span class="keyword">if</span> (p.dead) &#123;</span><br><span class="line">                p = <span class="keyword">this</span>.fireworks[i] = new Firework(</span><br><span class="line">                    rndNum(<span class="keyword">this</span>.canvas.width),</span><br><span class="line">                    <span class="keyword">this</span>.canvas.height,</span><br><span class="line">                    <span class="keyword">this</span>.gravity,</span><br><span class="line">                    <span class="keyword">this</span>.ctx</span><br><span class="line">                );</span><br><span class="line">                p.start = time;</span><br><span class="line">            &#125;</span><br><span class="line">            p.draw();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        window.requestAnimationFrame(<span class="keyword">this</span>.draw);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;canvas</span><br><span class="line">                id=<span class="string">&quot;fireworks&quot;</span></span><br><span class="line">                onClick=&#123;<span class="keyword">this</span>.props.onClick&#125;</span><br><span class="line">                style=&#123;&#123;position: <span class="string">&#x27;fixed&#x27;</span>, zIndex: <span class="number">99</span>, background: <span class="string">&#x27;rgba(0,0,0, 0.8)&#x27;</span>&#125;&#125;</span><br><span class="line">                width=<span class="string">&quot;400&quot;</span></span><br><span class="line">                height=<span class="string">&quot;400&quot;</span>&gt;&lt;/canvas&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">export default FireworkComponent;</span><br></pre></td></tr></table></figure>
+
+<p>大致效果<img src="https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb244c40c533~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png" alt="image.png" title="image.png"></p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/01/10/TypeScript4%E4%B8%AD%E7%9A%84%E7%9F%AD%E8%B7%AF%E8%BF%90%E7%AE%97%E7%AC%A6/"
+      title="TypeScript4中的短路运算符"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        TypeScript4中的短路运算符
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2019/12/31/React%E4%B8%AD%E4%BD%BF%E7%94%A8UMEditor/"
+      title="React中使用UMEditor"
+     >
+
+    <p class="title-text">
+      
+        React中使用UMEditor
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

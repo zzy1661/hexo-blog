@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>封装一个Request库需要考虑哪些 | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="前言最近在重新编写公司的脚手架全家桶，虽然以前也搞过一些小的脚手架，但大多基于download-git-repo一顿commander+inquirer的操作就完事儿了。但是搞全家桶的的任务不仅包含了一套cli，更重要的是核心的基础组件，比如说request库，事实上这个库的开发时间远远超过了我的排期，下面记录一下封装的过程重考虑到的一些问题。 一、确定设计原则这里的设计原则其实就是组件特性，一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="封装一个Request库需要考虑哪些">
+<meta property="og:url" content="http://example.com/2021/05/26/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AARequest%E5%BA%93%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E5%93%AA%E4%BA%9B/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="前言最近在重新编写公司的脚手架全家桶，虽然以前也搞过一些小的脚手架，但大多基于download-git-repo一顿commander+inquirer的操作就完事儿了。但是搞全家桶的的任务不仅包含了一套cli，更重要的是核心的基础组件，比如说request库，事实上这个库的开发时间远远超过了我的排期，下面记录一下封装的过程重考虑到的一些问题。 一、确定设计原则这里的设计原则其实就是组件特性，一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/207986b2db8a442c8f8fdb2435a0ad2a.png">
+<meta property="og:image" content="http://example.com/imgs/987a8555af9c415083f9507ef7553f0b.png">
+<meta property="og:image" content="http://example.com/imgs/f877c9447b8447c2a70b2de3d7e87316.png">
+<meta property="og:image" content="http://example.com/imgs/3c5cb59c512245b8bf051524553a8083.png">
+<meta property="article:published_time" content="2021-05-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.215Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/207986b2db8a442c8f8fdb2435a0ad2a.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-封装一个Request库需要考虑哪些" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        封装一个Request库需要考虑哪些
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-05-25T16:00:00.000Z" itemprop="datePublished">2021-05-26</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            1.9k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在重新编写公司的脚手架全家桶，虽然以前也搞过一些小的脚手架，但大多基于download-git-repo一顿commander+inquirer的操作就完事儿了。但是搞全家桶的的任务不仅包含了一套cli，更重要的是核心的基础组件，比如说request库，事实上这个库的开发时间远远超过了我的排期，下面记录一下封装的过程重考虑到的一些问题。</p>
+<h2 id="一、确定设计原则"><a href="#一、确定设计原则" class="headerlink" title="一、确定设计原则"></a>一、确定设计原则</h2><p>这里的设计原则其实就是组件特性，一个好的request库往往有如下特征：</p>
+<ul>
+<li>cross platform：比如说同时支持浏览器、node、微信小程序</li>
+<li>simple：简洁，即api简洁和配置友好，最好能够零配置，开箱即用</li>
+<li>promise： 基于promise，方便异步编程</li>
+<li>cancelable: 可以取消已发出的请求</li>
+<li>interceptor： 可以方便地进行请求和响应拦截设置</li>
+<li>instantial： 提供实例化，多个实例可以独立配置和共享全局配置，方便一个项目向多个服务发送请求的场景处理</li>
+<li>alternative： 可以支持request client的更换，比如底层更换xhr和fetch时是无感的 以上这么多可以参考项目的实际情况进行选择，或者制定开发路线，逐步实现</li>
+</ul>
+<h2 id="二、选型"><a href="#二、选型" class="headerlink" title="二、选型"></a>二、选型</h2><h3 id="请求库选型"><a href="#请求库选型" class="headerlink" title="请求库选型"></a>请求库选型</h3><p>$.ajax，axios，还是自己封装xhr或fetch？</p>
+<p><strong>axios</strong>的好处十分明显：promise和各种配置、拦截器、cancel token等等，但是缺点也有不少，比如取消是基于cancelable promises proposal 而不是xhr的abort；无法配置全局拦截器让多实例共享；无法将底层更换为fetch等等。</p>
+<p><strong>fetch</strong>的好处也很明显，基于promise和stream能带来非常多的操作便利性，而且还能在worker中使用，但是和xhr相比缺了不少配置，比如timeout等，需要自行实现</p>
+<p>个人觉得在时间有限的情况下，基于axios进行二次封装过渡是一个更好的方案，毕竟主要的需求它都提供了。</p>
+<h3 id="lib开发的技术选型"><a href="#lib开发的技术选型" class="headerlink" title="lib开发的技术选型"></a>lib开发的技术选型</h3><p><strong>语言</strong>，<strong>es</strong>还是<strong>ts</strong>？为了更好的开发和使用体验，往往会选择ts；</p>
+<p><strong>打包</strong>：webpack？rollup？tsdx还是其他种种甚至单纯用tsc？虽然都可以达到目的，但是这个技术决策会影响后续的打包、发布时间，配置复杂度，其他人的接手成本等等，也是需要提前想好的。</p>
+<p>如果使用ts开发，个人感觉tsdx还是非常方便的。</p>
+<h2 id="三、api设计"><a href="#三、api设计" class="headerlink" title="三、api设计"></a>三、api设计</h2><h3 id="确定最终的使用方式即核心api"><a href="#确定最终的使用方式即核心api" class="headerlink" title="确定最终的使用方式即核心api"></a>确定最终的使用方式即核心api</h3><p>现在基本都用了<strong>swagger</strong>或者其他mock平台，那么基于swagger.json或者其他的api.json，是可以非常方便的生成接口代码已经定义参数和返回值类型的。但是编写这些生成脚本并不是这个库的目标，但是这个库需要提供非常简洁的api以支持这些脚本，比如这种</p>
+<p><img src="/../imgs/207986b2db8a442c8f8fdb2435a0ad2a.png" alt="image.png"></p>
+<p>装饰器<code>@HTTP.post</code>负责发送post请求，而<code>OpsHttpRequest</code>负责定义参数类型，使用者无需关心请求如何发送。 同时装饰器可以接受多个参数以满足配置需求，如</p>
+<p><img src="/../imgs/987a8555af9c415083f9507ef7553f0b.png" alt="image.png"></p>
+<p>为了满足更多的配置需求，可以<strong>设计构造器、实例方法，以及static api</strong></p>
+<p><img src="/../imgs/f877c9447b8447c2a70b2de3d7e87316.png" alt="image.png"></p>
+<h3 id="确定整体架构"><a href="#确定整体架构" class="headerlink" title="确定整体架构"></a>确定整体架构</h3><p>如果基于上图这套方案，可以分为三个模块：</p>
+<p><strong>httpDecorator</strong>： 负责装饰器的逻辑</p>
+<p><strong>adapter</strong>： 负责兼容不同的client，比如xhr和fetch，甚至其他第三方的request client</p>
+<p><strong>request</strong>： 真正发送请求的client，将xhr、fetch或者axios的使用封装成一个Request对象</p>
+<p>三者的关系是：httpDecorator改写属性描述符，接受参数，并传递给adapter；adapter找到相应的request client；request进行请求发送和响应处理</p>
+<p>除了这些，<strong>还可以设计middleware模块</strong>，负责log、time监控记录和加密等，如果这个需求并不复杂和多变，直接放入request中实现也无不可</p>
+<p>而说起请求的监控，往往又会引出一堆的工作~</p>
+<h2 id="四、确定内置处理"><a href="#四、确定内置处理" class="headerlink" title="四、确定内置处理"></a>四、确定内置处理</h2><p>比如默认的log输出、对所有请求加上id，对带content-disposition头的进行下载处理等等。 只做什么相比能做什么，是一件更难决定的事情。</p>
+<p><img src="/../imgs/3c5cb59c512245b8bf051524553a8083.png" alt="image.png"></p>
+<h2 id="五、确定依赖"><a href="#五、确定依赖" class="headerlink" title="五、确定依赖"></a>五、确定依赖</h2><p>这个库依赖了哪些第三方的库，要用什么版本，是否固定这些依赖的PATCH版本？回答这些问题，往往需要仔细查阅这些依赖的各版本的changelog~</p>
+<h2 id="六、确定测试方案"><a href="#六、确定测试方案" class="headerlink" title="六、确定测试方案"></a>六、确定测试方案</h2><p>作为一个核心库，自动化测试一定要有，测试场景一定要全面，往往需要自己写个简单的server测试各种场景：404，500，200，错误处理等等</p>
+<h2 id="七、文档"><a href="#七、文档" class="headerlink" title="七、文档"></a>七、文档</h2><p>阻止我们脚步的，不是开发难题，而是还要编写文档~</p>
+<p>readme和changelog肯定是少不了的，设计架构、实现原理、未来迭代计划往往也少不了。更多的时候，还需要提供一个小demo供使用者参考</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/07/29/%E5%9F%BA%E4%BA%8Eswagger%E5%92%8CAST%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7mock%E6%96%B9%E6%A1%88/"
+      title="基于swagger和AST的轻量级mock方案"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        基于swagger和AST的轻量级mock方案
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/05/12/React%20hooks%E7%9A%84%E9%97%AD%E5%8C%85%E9%99%B7%E9%98%B1%EF%BC%9Afunction%20props/"
+      title="React hooks的闭包陷阱：function props"
+     >
+
+    <p class="title-text">
+      
+        React hooks的闭包陷阱：function props
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

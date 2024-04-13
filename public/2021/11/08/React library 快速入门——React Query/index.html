@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>React library 快速入门——React Query | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="这是我参与11月更文挑战的第 8 天，活动详情查看：2021最后一次更文挑战 前言React的生态非常庞大，各种lib层出不穷，本系列将介绍其中最受欢迎的一些lib，并给出快速入门的实践案例。 本期介绍的是React Query。 概览React Query是一个管理请求数据的库。  React Query is often described as the missing data-fetchi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React library 快速入门——React Query">
+<meta property="og:url" content="http://example.com/2021/11/08/React%20library%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94React%20Query/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="这是我参与11月更文挑战的第 8 天，活动详情查看：2021最后一次更文挑战 前言React的生态非常庞大，各种lib层出不穷，本系列将介绍其中最受欢迎的一些lib，并给出快速入门的实践案例。 本期介绍的是React Query。 概览React Query是一个管理请求数据的库。  React Query is often described as the missing data-fetchi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/af4554dd19ce4a6aa911769fc36a839f.png">
+<meta property="article:published_time" content="2021-11-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.618Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/af4554dd19ce4a6aa911769fc36a839f.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-React library 快速入门——React Query" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        React library 快速入门——React Query
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-11-07T16:00:00.000Z" itemprop="datePublished">2021-11-08</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            5.2k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>这是我参与11月更文挑战的第 8 天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023643374569816095/" title="https://juejin.cn/post/7023643374569816095/">2021最后一次更文挑战</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>React的生态非常庞大，各种lib层出不穷，本系列将介绍其中最受欢迎的一些lib，并给出快速入门的实践案例。</p>
+<p>本期介绍的是React Query。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>React Query是一个管理请求数据的库。</p>
+<blockquote>
+<p>React Query is often described as the missing data-fetching library for React, but in more technical terms, it makes <strong>fetching, caching, synchronizing and updating server state</strong> in your React applications a breeze.</p>
+</blockquote>
+<p>看官网解释可能有些费解，上代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ReactDOM</span> <span class="keyword">from</span> <span class="string">&quot;react-dom&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">QueryClient</span>, <span class="title class_">QueryClientProvider</span>, useQuery &#125; <span class="keyword">from</span> <span class="string">&quot;react-query&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ReactQueryDevtools</span> &#125; <span class="keyword">from</span> <span class="string">&quot;react-query/devtools&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> queryClient = <span class="keyword">new</span> <span class="title class_">QueryClient</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">QueryClientProvider</span> <span class="attr">client</span>=<span class="string">&#123;queryClient&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Example</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">QueryClientProvider</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Example</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; isLoading, error, data, isFetching &#125; = <span class="title function_">useQuery</span>(<span class="string">&quot;repoData&quot;</span>, <span class="function">() =&gt;</span></span><br><span class="line">    <span class="title function_">fetch</span>(</span><br><span class="line">      <span class="string">&quot;https://api.github.com/repos/tannerlinsley/react-query&quot;</span></span><br><span class="line">    ).<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> res.<span class="title function_">json</span>())</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (isLoading) <span class="keyword">return</span> <span class="string">&quot;Loading...&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (error) <span class="keyword">return</span> <span class="string">&quot;An error has occurred: &quot;</span> + error.<span class="property">message</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;data.name&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;data.description&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">strong</span>&gt;</span>👀 &#123;data.subscribers_count&#125;<span class="tag">&lt;/<span class="name">strong</span>&gt;</span>&#123;&quot; &quot;&#125;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">strong</span>&gt;</span>✨ &#123;data.stargazers_count&#125;<span class="tag">&lt;/<span class="name">strong</span>&gt;</span>&#123;&quot; &quot;&#125;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">strong</span>&gt;</span>🍴 &#123;data.forks_count&#125;<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;isFetching ? &quot;Updating...&quot; : &quot;&quot;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ReactQueryDevtools</span> <span class="attr">initialIsOpen</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootElement = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>, rootElement);</span><br></pre></td></tr></table></figure>
+
+<p>这个例子很好地体现出了我们对一个请求最关心的三个部分：返回值、错误和请求loading。react query并不替你发送请求，它做的是对请求的管理。</p>
+<h2 id="核心api"><a href="#核心api" class="headerlink" title="核心api"></a>核心api</h2><h3 id="useQuery"><a href="#useQuery" class="headerlink" title="useQuery"></a>useQuery</h3><p>当需要查询数据的时候使用<code>useQuery</code></p>
+<h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const <span class="attr">result</span> = useQuery(&#123;</span><br><span class="line">  queryKey,</span><br><span class="line">  queryFn,</span><br><span class="line">  enabled,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">const</span> [page, setPage] = useState&lt;&#123;</span><br><span class="line">   <span class="attr">current</span>: <span class="built_in">number</span>;</span><br><span class="line">   <span class="attr">pageSize</span>: <span class="built_in">number</span>;</span><br><span class="line"> &#125;&gt;(&#123; <span class="attr">current</span>: <span class="number">1</span>, <span class="attr">pageSize</span>: <span class="number">10</span> &#125;);</span><br><span class="line"> <span class="keyword">const</span> [params, setParams] = useState&lt;&#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">status</span>: <span class="built_in">number</span> &#125;&gt;();</span><br><span class="line"> </span><br><span class="line"><span class="keyword">const</span> &#123; data, isLoading, refetch &#125; = <span class="title function_">useQuery</span>(</span><br><span class="line">   [<span class="string">&#x27;files&#x27;</span>, page, params],</span><br><span class="line">   <span class="function">() =&gt;</span> &#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="title function_">fetch</span>(&#123;</span><br><span class="line">       <span class="attr">url</span>: <span class="string">&#x27;/api/files&#x27;</span>,</span><br><span class="line">       <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">       <span class="attr">body</span>: &#123; page, params &#125;,</span><br><span class="line">     &#125;);</span><br><span class="line">   &#125;,</span><br><span class="line">   &#123;</span><br><span class="line">     <span class="title function_">onSuccess</span>(<span class="params">data</span>) &#123;</span><br><span class="line">       <span class="variable language_">console</span>.<span class="title function_">log</span>(data);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;,</span><br><span class="line"> );</span><br></pre></td></tr></table></figure>
+
+<p>这段代码里，在page和params变化的时候会自动进行请求，因此不需要额外用户操作后再次发起请求更新数据。 但是默认情况下，第一次进来也会进行一次请求，另外如果请求失败，会进行三次重试。这是react-query默认设置的。</p>
+<ul>
+<li><code>queryKey</code><ul>
+<li><strong>必传</strong></li>
+<li>用于此查询的query key。</li>
+<li>当此键更改时，查询将自动更新（只要<code>enabled</code>未设置为<code>false</code>）。</li>
+</ul>
+</li>
+<li><code>queryFn:(context: QueryFunctionContext) =&gt; Promise&lt;TData&gt;</code><ul>
+<li>在没有指定默认的query function时<strong>必传</strong></li>
+<li>可以从context中获取<code>queryKey</code></li>
+<li>必须返回一个promise</li>
+</ul>
+</li>
+<li>第三个参数可以传一个对象，其中几个常用的属性如下：<ul>
+<li>enabled： 可以关闭自动更新</li>
+<li>retry: 请求失败重试，可以关闭或传入重试次数</li>
+<li>onSuccess: 成功回调</li>
+<li>onError：失败回调</li>
+<li>refetchOnWindowFocus: 如果数据过期了，当window focus时会进行请求（这也是默认设置），可以关闭该特性</li>
+<li>staleTime：多长时间数据会过期</li>
+</ul>
+</li>
+</ul>
+<h3 id="QueryClient"><a href="#QueryClient" class="headerlink" title="QueryClient"></a>QueryClient</h3><p>以上选型可以通过QueryClient设置默认值：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">queryClient</span> = <span class="keyword">new</span> <span class="title class_">QueryClient</span>();</span><br><span class="line"><span class="comment">// 默认不在挂载和focus时自动运行，不重试，但是默认enable为true，根据依赖变化自动运行</span></span><br><span class="line">queryClient.<span class="title function_ invoke__">setDefaultOptions</span>(&#123;</span><br><span class="line">  <span class="attr">queries</span>: &#123;</span><br><span class="line">    <span class="attr">refetchOnWindowFocus</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">refetchOnMount</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">refetchOnReconnect</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">retry</span>: <span class="literal">false</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="useMutation"><a href="#useMutation" class="headerlink" title="useMutation"></a>useMutation</h3><p>当需要变更数据时使用useMutation</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">const Upload: FC&lt;UploadProps&gt; = function (props) &#123;</span><br><span class="line">  const <span class="attr">component</span> = props.dragger ? FileSelector.Dragger : FileSelector<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">  const &#123; mutate, isLoading &#125; = useMutation(</span><br><span class="line">    (file: File) =&gt; &#123;</span><br><span class="line">      const <span class="attr">formData</span> = new FormData()<span class="comment">;</span></span><br><span class="line">      formData.append(&#x27;file&#x27;, file)<span class="comment">;</span></span><br><span class="line">      formData.append(&#x27;name&#x27;, file.name)<span class="comment">;</span></span><br><span class="line">      return fetch(&#123; url: &#x27;/api/upload&#x27;, method: &#x27;POST&#x27;, body: formData &#125;)<span class="comment">;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      onSuccess(data) &#123;</span><br><span class="line">        message.success(&#x27;文件上传成功&#x27;)<span class="comment">;</span></span><br><span class="line">        props.onSuccess?.(data)<span class="comment">;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      onError(err) &#123;</span><br><span class="line">        message.error(&#x27;文件上传失败&#x27;)<span class="comment">;</span></span><br><span class="line">        props.onError?.(err)<span class="comment">;</span></span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  )<span class="comment">;</span></span><br><span class="line">  const <span class="attr">upload</span> = (f: RcCustomRequestOptions) =&gt; &#123;</span><br><span class="line">    mutate(f.file)<span class="comment">;</span></span><br><span class="line">  &#125;<span class="comment">;</span></span><br><span class="line">  return React.createElement(</span><br><span class="line">    component,</span><br><span class="line">    &#123; customRequest: upload, ...props &#125;,</span><br><span class="line">    props.children || props.dragger ? (</span><br><span class="line">      &lt;p <span class="attr">className</span>=<span class="string">&quot;p-6&quot;</span>&gt;点击或拖拽文件到此区域&lt;/p&gt;</span><br><span class="line">    ) : (</span><br><span class="line">      &lt;Button</span><br><span class="line">        <span class="attr">type</span>=<span class="string">&quot;primary&quot;</span></span><br><span class="line">        <span class="attr">htmlType</span>=<span class="string">&quot;button&quot;</span></span><br><span class="line">        <span class="attr">loading</span>=&#123;isLoading&#125;</span><br><span class="line">        <span class="attr">disabled</span>=&#123;isLoading&#125;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;Icon <span class="attr">type</span>=&#123;props.icon || <span class="string">&#x27;upload&#x27;</span>&#125; className=<span class="string">&quot;align-middle&quot;</span> /&gt;</span><br><span class="line">        &lt;span <span class="attr">className</span>=<span class="string">&quot;align-middle&quot;</span>&gt; &#123;props.text || <span class="string">&#x27;上传文件&#x27;</span>&#125;&lt;/span&gt;</span><br><span class="line">      &lt;/Button&gt;</span><br><span class="line">    ),</span><br><span class="line">  )<span class="comment">;</span></span><br><span class="line">&#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面这段代码是一个简单的上传组件：</p>
+<p>用户点击按钮</p>
+<p>选择文件</p>
+<p>发起请求</p>
+<p><img src="/../imgs/af4554dd19ce4a6aa911769fc36a839f.png" alt="image.png"> 这里的请求需要我们主动发起，这时候就需要调用<code>useMutation</code>返回的<code>mutate</code></p>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> const &#123;</span><br><span class="line">   data,</span><br><span class="line">   error,</span><br><span class="line">   isError,</span><br><span class="line">   isIdle,</span><br><span class="line">   isLoading,</span><br><span class="line">   isPaused,</span><br><span class="line">   isSuccess,</span><br><span class="line">   mutate,</span><br><span class="line">   mutateAsync,</span><br><span class="line">   reset,</span><br><span class="line">   status,</span><br><span class="line"> &#125; = <span class="built_in">useMutation</span>(mutationFn, &#123;</span><br><span class="line">   mutationKey,</span><br><span class="line">   onError,</span><br><span class="line">   onMutate,</span><br><span class="line">   onSettled,</span><br><span class="line">   onSuccess,</span><br><span class="line">   useErrorBoundary,</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">mutate</span>(variables, &#123;</span><br><span class="line">   onError,</span><br><span class="line">   onSettled,</span><br><span class="line">   onSuccess,</span><br><span class="line"> &#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>mutationFn: (variables: TVariables) =&gt; Promise&lt;TData&gt;</code></p>
+<ul>
+<li><strong>必传</strong></li>
+<li>一个返回promise的函数。</li>
+<li>参数<code>variables</code>由<code>mutate</code>传过来</li>
+</ul>
+</li>
+<li><p><code>onSuccess: (data: TData, variables: TVariables, context?: TContext) =&gt; Promise&lt;unknown&gt; | void</code></p>
+<ul>
+<li>可选</li>
+<li>成功回调</li>
+</ul>
+</li>
+<li><p><code>onError: (err: TError, variables: TVariables, context?: TContext) =&gt; Promise&lt;unknown&gt; | void</code></p>
+<ul>
+<li>可选的</li>
+<li>失败回调</li>
+</ul>
+</li>
+<li><p><code>retry: boolean | number | (failureCount: number, error: TError) =&gt; boolean</code></p>
+<ul>
+<li>如果设置为<code>false</code>，失败后不会重试。</li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/11/09/%E5%A6%82%E4%BD%95%E4%BD%BFTypeScript%E6%A0%B9%E6%8D%AE%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9E%E5%8F%82%E6%8E%A8%E5%AF%BC%E5%85%B6%E8%BF%94%E5%9B%9E%E5%80%BC%E7%B1%BB%E5%9E%8B/"
+      title="如何使TypeScript根据函数的实参推导其返回值类型"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        如何使TypeScript根据函数的实参推导其返回值类型
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/11/07/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1%E4%B9%8B%E5%93%8D%E5%BA%94%E5%BC%8F%E5%9B%BE%E7%89%87(%E4%B8%80)/"
+      title="响应式网页设计之响应式图片(一)"
+     >
+
+    <p class="title-text">
+      
+        响应式网页设计之响应式图片(一)
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
