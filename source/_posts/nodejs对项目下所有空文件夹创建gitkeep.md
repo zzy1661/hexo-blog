@@ -1,13 +1,13 @@
 ---
-title: "nodejs对项目下所有空文件夹创建gitkeep"
-date: 2019-12-31
-tags: [Node.js]
-categories: 
+ title: "nodejs对项目下所有空文件夹创建gitkeep"
+ date: 2019-12-31
+ tags: [Node.js]
+ categories: 
 ---
 
 项目/框架初始化时可能需要保留一些空文件，这时候就需要批量新增gitkeep
 
-```javascript
+```
 const fs = require('fs')
 const baseurl = 'D:/test'
 const ignoreDir = ['.git', '.vscode', 'node_modules']

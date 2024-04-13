@@ -1,8 +1,8 @@
 ---
  title: "基于swagger和AST的轻量级mock方案"
- date: 
+ date: 2021-07-29
  tags: [前端]
- categories: 
+ categories: [前端笔记]
 ---
 
 目前主流的mock方案

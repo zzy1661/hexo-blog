@@ -1,8 +1,8 @@
 ---
-title: "封装一个Request库需要考虑哪些"
-date: 2021-05-26
-tags: [前端]
-categories: [前端笔记]
+ title: "封装一个Request库需要考虑哪些"
+ date: 2021-05-26
+ tags: [前端]
+ categories: [前端笔记]
 ---
 
 前言

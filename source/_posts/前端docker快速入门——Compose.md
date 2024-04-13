@@ -1,8 +1,8 @@
 ---
  title: "前端docker快速入门——Compose"
- date: 
+ date: 2022-03-06
  tags: [Docker]
- categories: 
+ categories: [前端笔记]
 ---
 
 前言

@@ -1,8 +1,8 @@
 ---
  title: "前端docker快速入门——常用命令"
- date: 
+ date: 2022-02-28
  tags: [前端,Docker]
- categories: 
+ categories: [前端笔记]
 ---
 
 「这是我参与2022首次更文挑战的第29天，活动详情查看：[2022首次更文挑战](https://juejin.cn/post/7052884569032392740 "https://juejin.cn/post/7052884569032392740")」

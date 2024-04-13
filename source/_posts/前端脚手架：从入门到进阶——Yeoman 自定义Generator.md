@@ -1,8 +1,8 @@
 ---
  title: "前端脚手架：从入门到进阶——Yeoman 自定义Generator"
- date: 
+ date: 2021-11-03
  tags: [前端]
- categories: 
+ categories: [前端笔记]
 ---
 
 这是我参与11月更文挑战的第 3 天，活动详情查看：[2021最后一次更文挑战](https://juejin.cn/post/7023643374569816095/ "https://juejin.cn/post/7023643374569816095/")

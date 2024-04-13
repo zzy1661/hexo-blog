@@ -1,8 +1,8 @@
 ---
  title: "UML快速入门——类图进阶"
- date: 
+ date: 2022-02-20
  tags: [架构,UML]
- categories: 
+ categories: [前端笔记]
 ---
 
 「这是我参与2022首次更文挑战的第24天，活动详情查看：[2022首次更文挑战](https://juejin.cn/post/7052884569032392740 "https://juejin.cn/post/7052884569032392740")」

@@ -1,8 +1,8 @@
 ---
-title: "tailwind使用指南——起步"
-date: 2021-08-16
-tags: [CSS]
-categories: [前端笔记]
+ title: "tailwind使用指南——起步"
+ date: 2021-08-16
+ tags: [CSS]
+ categories: [前端笔记]
 ---
 
 没有人能逃出tailwind真香定理。
