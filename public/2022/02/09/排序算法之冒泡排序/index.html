@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>排序算法之冒泡排序 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="「这是我参与2022首次更文挑战的第14天，活动详情查看：2022首次更文挑战」 介绍如果要学习排序算法，大多会先从冒泡算法开始，因为它是所有排序算法中最简单的一个。不过它也是最慢的一个。 冒泡排序比较所有相邻的两个项，如果第一个比第二个大，则交换它们。元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。  实现冒泡算法依次比较相邻两项，判断大小，并做交换。每一轮都只能确定一个数">
 <meta property="og:type" content="article">
@@ -27,28 +27,28 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="「这是我参与2022首次更文挑战的第14天，活动详情查看：2022首次更文挑战」 介绍如果要学习排序算法，大多会先从冒泡算法开始，因为它是所有排序算法中最简单的一个。不过它也是最慢的一个。 冒泡排序比较所有相邻的两个项，如果第一个比第二个大，则交换它们。元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。  实现冒泡算法依次比较相邻两项，判断大小，并做交换。每一轮都只能确定一个数">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/296a67578b674e6bbbc08b04d8714646.png">
-<meta property="og:image" content="http://example.com/imgs/e03c00247a8d44febb9a8f79bade6c66.png">
-<meta property="og:image" content="http://example.com/imgs/2427be496cb94155af84d9370af28118.png">
+<meta property="og:image" content="http://example.com/2022/02/09/imgs/296a67578b674e6bbbc08b04d8714646.png">
+<meta property="og:image" content="http://example.com/2022/02/09/imgs/e03c00247a8d44febb9a8f79bade6c66.png">
+<meta property="og:image" content="http://example.com/2022/02/09/imgs/2427be496cb94155af84d9370af28118.png">
 <meta property="article:published_time" content="2022-02-08T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-04-04T15:27:03.250Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/296a67578b674e6bbbc08b04d8714646.png">
+<meta name="twitter:image" content="http://example.com/2022/02/09/imgs/296a67578b674e6bbbc08b04d8714646.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -59,7 +59,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -71,11 +71,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -92,11 +92,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -141,12 +141,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -160,7 +160,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -199,7 +199,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">算法手册</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">算法手册</a>
    
 </div>
   
@@ -209,7 +209,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -217,17 +217,17 @@
           <p>「这是我参与2022首次更文挑战的第14天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7052884569032392740" title="https://juejin.cn/post/7052884569032392740">2022首次更文挑战</a>」</p>
 <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>如果要学习排序算法，大多会先从冒泡算法开始，因为它是所有排序算法中最简单的一个。不过它也是最慢的一个。</p>
 <p>冒泡排序比较所有相邻的两个项，如果第一个比第二个大，则交换它们。元素项向上移动至正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。</p>
-<p><img src="/../imgs/296a67578b674e6bbbc08b04d8714646.png" alt="sort-bub.gif"></p>
+<p><img src="./../imgs/296a67578b674e6bbbc08b04d8714646.png" alt="sort-bub.gif"></p>
 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>冒泡算法依次比较相邻两项，判断大小，并做交换。每一轮都只能确定一个数字的位置，因此如果有n个数，需要比较n轮。算法实现如下：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function bubbleSort(array) &#123;</span><br><span class="line">  const &#123; length &#125; = array<span class="comment">;</span></span><br><span class="line">  for (let <span class="attr">i</span> = <span class="number">0</span><span class="comment">; i &lt; length; i++) &#123;</span></span><br><span class="line">    for (let <span class="attr">j</span> = <span class="number">0</span><span class="comment">; j &lt; length - 1; j++) &#123;</span></span><br><span class="line">      if (array<span class="section">[j]</span> &gt; array<span class="section">[j + 1]</span>) &#123;</span><br><span class="line">        <span class="section">[array[j]</span>, array<span class="section">[j + 1]]</span> = <span class="section">[array[j + 1]</span>, array<span class="section">[j]]</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return array</span><br><span class="line">&#125;</span><br><span class="line">bubbleSort(<span class="section">[5, 4, 3, 2, 1]</span>) //  <span class="section">[1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>_这里用了es6的语法 <code>[array[j], array[j + 1]] = [array[j + 1], array[j]]</code>，一行代码便可以交换两个数 的位置_。</p>
-<p>下图展示了冒泡排序的执行过程： <img src="/../imgs/e03c00247a8d44febb9a8f79bade6c66.png" alt="image.png"></p>
+<p>下图展示了冒泡排序的执行过程： <img src="./../imgs/e03c00247a8d44febb9a8f79bade6c66.png" alt="image.png"></p>
 <h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>冒泡算法有两层循环，外循环一共执行了5次，每轮内循环执行4次。但是外循环第一轮就可以求出最大的值5，第二轮的内循环只需执行3次，不需要比较4和5。因此如果从内循环减去外循环中已跑过的轮数，就可以避免内循环中所有不必要的比较。</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function bubbleSort(array) &#123;</span><br><span class="line">  const &#123; length &#125; = array<span class="comment">;</span></span><br><span class="line">  for (let <span class="attr">i</span> = <span class="number">0</span><span class="comment">; i &lt; length; i++) &#123;</span></span><br><span class="line">    for (let <span class="attr">j</span> = <span class="number">0</span><span class="comment">; j &lt; length - 1 - i; j++) &#123;</span></span><br><span class="line">      if (array<span class="section">[j]</span> &gt; array<span class="section">[j + 1]</span>) &#123;</span><br><span class="line">        <span class="section">[array[j]</span>, array<span class="section">[j + 1]]</span> = <span class="section">[array[j + 1]</span>, array<span class="section">[j]]</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return array</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>改进后的执行过程如下：</p>
-<p><img src="/../imgs/2427be496cb94155af84d9370af28118.png" alt="image.png"></p>
+<p><img src="./../imgs/2427be496cb94155af84d9370af28118.png" alt="image.png"></p>
 <p>即便我们对它做了优化，冒泡算法的复杂度仍然是O(n2)O(n^2)O(n2)，因此在排序实践中，冒泡用的并不多。</p>
 
         
@@ -243,7 +243,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2022/02/10/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/"
+      href="hexo-blog/2022/02/10/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F/"
       title="排序算法之选择排序"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -255,7 +255,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2022/02/08/%E6%9E%B6%E6%9E%84%E6%96%B9%E6%B3%95%E4%B9%8BC4%E6%A8%A1%E5%9E%8B/"
+      href="hexo-blog/2022/02/08/%E6%9E%B6%E6%9E%84%E6%96%B9%E6%B3%95%E4%B9%8BC4%E6%A8%A1%E5%9E%8B/"
       title="架构方法之C4模型"
      >
 
@@ -313,6 +313,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

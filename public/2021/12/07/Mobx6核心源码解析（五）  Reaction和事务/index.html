@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>Mobx6核心源码解析（五）: Reaction和事务 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="前言前面的文章解析了“观察”部分的源码，既下面代码中的第一行。本文将介绍“反应”部分的代码，既下面代码中的第二行。 12const target &#x3D; observable(obj)autorun(() &#x3D;&gt; &#123; console.log(&#x27;target.value&#x3D;&#x27;, target.value) &#125;)  autorun在介绍Reaction之前先介绍一">
 <meta property="og:type" content="article">
@@ -27,26 +27,26 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="前言前面的文章解析了“观察”部分的源码，既下面代码中的第一行。本文将介绍“反应”部分的代码，既下面代码中的第二行。 12const target &#x3D; observable(obj)autorun(() &#x3D;&gt; &#123; console.log(&#x27;target.value&#x3D;&#x27;, target.value) &#125;)  autorun在介绍Reaction之前先介绍一">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/d886abe69e114dddb8a1c6235046d729.png">
+<meta property="og:image" content="http://example.com/2021/12/07/imgs/d886abe69e114dddb8a1c6235046d729.png">
 <meta property="article:published_time" content="2021-12-06T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-04-04T15:27:03.570Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="前端">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/d886abe69e114dddb8a1c6235046d729.png">
+<meta name="twitter:image" content="http://example.com/2021/12/07/imgs/d886abe69e114dddb8a1c6235046d729.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -57,7 +57,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -69,11 +69,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -90,11 +90,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -139,12 +139,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -158,7 +158,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -197,7 +197,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -207,7 +207,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -288,7 +288,7 @@
 <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>Mobx中还有一个重要的特性：<strong>事务</strong>。</p>
 <h3 id="startBatch与endBatch"><a href="#startBatch与endBatch" class="headerlink" title="startBatch与endBatch"></a>startBatch与endBatch</h3><p>Mobx维护了一个全局变量<code>globalState.inBatch</code>,<code>startBatch</code>时加1，<code>endBatch</code>时减1,当为0,当为1时（–globalState.inBatch &#x3D;&#x3D;&#x3D; 0），会调用<code>runReactions</code>。</p>
 <p>每一次变更开始都会调用<code>startBatch</code>,结束时调用<code>endBatch</code>。过程中可能多次调用<code>runReactions</code>,但每个reaction只会调用一次<code>runReaction_</code>。</p>
-<p><img src="/../imgs/d886abe69e114dddb8a1c6235046d729.png" alt="image.png"></p>
+<p><img src="./../imgs/d886abe69e114dddb8a1c6235046d729.png" alt="image.png"></p>
 <p>但是对于两个独立的setter所触发的反应，并不会合并到同一个事务里。这也是为什么Mobx建议所有的变更都放在<code>action</code>中。我们看<code>runInAction</code>的源码:</p>
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> runInAction&lt;T&gt;(<span class="attr">fn</span>: <span class="function">() =&gt;</span> T): T &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">executeAction</span>(fn.<span class="property">name</span> || <span class="variable constant_">DEFAULT_ACTION_NAME</span>, <span class="literal">false</span>, fn, <span class="variable language_">this</span>, <span class="literal">undefined</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">executeAction</span>(<span class="params"></span></span><br><span class="line"><span class="params">    actionName: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    canRunAsDerivation: <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">    fn: <span class="built_in">Function</span>,</span></span><br><span class="line"><span class="params">    scope?: <span class="built_in">any</span>,</span></span><br><span class="line"><span class="params">    args?: IArguments</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> runInfo = <span class="title function_">_startAction</span>(actionName, canRunAsDerivation, scope, args)</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fn.<span class="title function_">apply</span>(scope, args)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        runInfo.<span class="property">error_</span> = err</span><br><span class="line">        <span class="keyword">throw</span> err</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="title function_">_endAction</span>(runInfo)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -308,7 +308,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2021/12/19/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E5%AE%98%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97(%E4%B8%8A)/"
+      href="hexo-blog/2021/12/19/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E5%AE%98%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97(%E4%B8%8A)/"
       title="前端面试官进阶指南(上)"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -320,7 +320,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2021/12/06/Mobx6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E5%9B%9B%EF%BC%89%20%20ObservableValue/"
+      href="hexo-blog/2021/12/06/Mobx6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E5%9B%9B%EF%BC%89%20%20ObservableValue/"
       title="Mobx6核心源码解析（四）: ObservableValue"
      >
 
@@ -378,6 +378,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

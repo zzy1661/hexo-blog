@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>@nestjsx/crud快速入门 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="「这是我参与2022首次更文挑战的第22天，活动详情查看：2022首次更文挑战」 介绍@nestjsx&#x2F;crud 是为NestJs服务的个“微框架”，能大大简化CRUD代码的编写。虽然官方自称为“微框架”，但个人觉得理解为“工具集”可能更合适。 项目初始化首先使用nest脚手架生成一个项目 12npm i -g @nestjs&#x2F;clinest new curd-demo  然后安装@ne">
 <meta property="og:type" content="article">
@@ -27,31 +27,31 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="「这是我参与2022首次更文挑战的第22天，活动详情查看：2022首次更文挑战」 介绍@nestjsx&#x2F;crud 是为NestJs服务的个“微框架”，能大大简化CRUD代码的编写。虽然官方自称为“微框架”，但个人觉得理解为“工具集”可能更合适。 项目初始化首先使用nest脚手架生成一个项目 12npm i -g @nestjs&#x2F;clinest new curd-demo  然后安装@ne">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/441d5fe819d241e0ae5c27a8dc5d05bb.png">
-<meta property="og:image" content="http://example.com/imgs/6d3566e0ddcd4bbdab3d5a39d04c918c.png">
-<meta property="og:image" content="http://example.com/imgs/071f7b1d75294faa9789f01815f25fa0.png">
-<meta property="og:image" content="http://example.com/imgs/e8e040971352443faa8d18bd39eb37fa.png">
-<meta property="og:image" content="http://example.com/imgs/0731bc95d135415e9b5ad45fae7a0e6d.png">
+<meta property="og:image" content="http://example.com/2022/02/18/imgs/441d5fe819d241e0ae5c27a8dc5d05bb.png">
+<meta property="og:image" content="http://example.com/2022/02/18/imgs/6d3566e0ddcd4bbdab3d5a39d04c918c.png">
+<meta property="og:image" content="http://example.com/2022/02/18/imgs/071f7b1d75294faa9789f01815f25fa0.png">
+<meta property="og:image" content="http://example.com/2022/02/18/imgs/e8e040971352443faa8d18bd39eb37fa.png">
+<meta property="og:image" content="http://example.com/2022/02/18/imgs/0731bc95d135415e9b5ad45fae7a0e6d.png">
 <meta property="article:published_time" content="2022-02-17T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-04-04T15:27:03.212Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="Node.js">
 <meta property="article:tag" content="NestJS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/441d5fe819d241e0ae5c27a8dc5d05bb.png">
+<meta name="twitter:image" content="http://example.com/2022/02/18/imgs/441d5fe819d241e0ae5c27a8dc5d05bb.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -62,7 +62,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -74,11 +74,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -95,11 +95,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -144,12 +144,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -163,7 +163,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -202,7 +202,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -212,7 +212,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -249,13 +249,13 @@
 
 <p>需要注意这里TypeORM的配置文件位置不在根路径，名字也不是它默认的，因此先<code>cd src</code>，然后再<code>typeorm schema:sync -f=orm</code>,<code>-f</code>表示文件名是orm。</p>
 <p>然后运行命令<code>yarn db:sync</code>，可以看到数据库表创建成功：</p>
-<p><img src="/../imgs/441d5fe819d241e0ae5c27a8dc5d05bb.png" alt="image.png"></p>
-<p><img src="/../imgs/6d3566e0ddcd4bbdab3d5a39d04c918c.png" alt="image.png"></p>
+<p><img src="./../imgs/441d5fe819d241e0ae5c27a8dc5d05bb.png" alt="image.png"></p>
+<p><img src="./../imgs/6d3566e0ddcd4bbdab3d5a39d04c918c.png" alt="image.png"></p>
 <h2 id="创建controller、service和module"><a href="#创建controller、service和module" class="headerlink" title="创建controller、service和module"></a>创建controller、service和module</h2><p>service:</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Injectable</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/common&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">InjectRepository</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjs/typeorm&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">TypeOrmCrudService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjsx/crud-typeorm&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AnnualProfit</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./annualProfit.entity&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Injectable</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AnnualProfitService</span> <span class="keyword">extends</span> <span class="title class_ inherited__">TypeOrmCrudService</span>&lt;<span class="title class_">AnnualProfit</span>&gt; &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="meta">@InjectRepository</span>(AnnualProfit) repo</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(repo);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">updateScaleByCode</span>(<span class="params">code, info: <span class="built_in">Array</span>&lt;[<span class="built_in">number</span>, <span class="built_in">number</span>]&gt;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="title class_">Promise</span>.<span class="title function_">all</span>(</span><br><span class="line">      info.<span class="title function_">map</span>(<span class="function">(<span class="params">[year, scale]</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">repo</span>.<span class="title function_">update</span>(&#123; code, year &#125;, &#123; scale &#125;);</span><br><span class="line">      &#125;),</span><br><span class="line">    ).<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span></span><br><span class="line">      res.<span class="title function_">reduce</span>(<span class="function">(<span class="params">pre, cur</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> pre + cur.<span class="property">affected</span>;</span><br><span class="line">      &#125;, <span class="number">0</span>),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>service需要继承<code>TypeOrmCrudService</code>，这个类有很多基本的CRUD操作api,可以直接用。service中需要自定义处理逻辑时可以使用TypeORM的responsitory对象。</p>
-<p><img src="/../imgs/071f7b1d75294faa9789f01815f25fa0.png" alt="image.png"> controller:</p>
+<p><img src="./../imgs/071f7b1d75294faa9789f01815f25fa0.png" alt="image.png"> controller:</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Crud</span>, <span class="title class_">CrudController</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjsx/crud&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BaseRes</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;src/base-entity&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AnnualProfit</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./annualProfit.entity&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AnnualProfitService</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./annualProfit.service&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Crud</span>(&#123;</span><br><span class="line">  <span class="attr">model</span>: &#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="title class_">AnnualProfit</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="meta">@Controller</span>(<span class="string">&#x27;/annualProfit&#x27;</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AnnualProfitController</span> <span class="keyword">implements</span> <span class="title class_">CrudController</span>&lt;<span class="title class_">AnnualProfit</span>&gt; &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"><span class="keyword">public</span> service: AnnualProfitService</span>) &#123;&#125;</span><br><span class="line">  <span class="meta">@Post</span>(<span class="string">&#x27;updateScale&#x27;</span>)</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">updateScale</span>(<span class="params"></span></span><br><span class="line"><span class="params">    <span class="meta">@Body</span>() body: &#123; code: <span class="built_in">string</span>; scale: <span class="built_in">Array</span>&lt;[<span class="built_in">number</span>, <span class="built_in">number</span>]&gt; &#125;,</span></span><br><span class="line"><span class="params">  </span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">service</span></span><br><span class="line">      .<span class="title function_">updateScaleByCode</span>(body.<span class="property">code</span>, body.<span class="property">scale</span>)</span><br><span class="line">      .<span class="title function_">then</span>(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BaseRes</span>(<span class="number">0</span>, &#123; <span class="attr">data</span>: result, <span class="attr">message</span>: <span class="string">`affected <span class="subst">$&#123;result&#125;</span>`</span> &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>controller需要用<code>@Crud</code>装饰，这会直接生成基本的CRUD resultful 请求。当然controller中也可以自定义其他请求。</p>
@@ -273,9 +273,9 @@
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">bootstrap</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> app = <span class="keyword">await</span> <span class="title class_">NestFactory</span>.<span class="title function_">create</span>(<span class="title class_">AppModule</span>);</span><br><span class="line">  <span class="keyword">const</span> options = <span class="keyword">new</span> <span class="title class_">DocumentBuilder</span>()</span><br><span class="line">    .<span class="title function_">setTitle</span>(<span class="string">&#x27;fund-curd&#x27;</span>)</span><br><span class="line">    .<span class="title function_">setDescription</span>(<span class="string">&#x27;fund-curd&#x27;</span>)</span><br><span class="line">    .<span class="title function_">setVersion</span>(<span class="string">&#x27;1.0&#x27;</span>)</span><br><span class="line">    .<span class="title function_">build</span>();</span><br><span class="line">  <span class="keyword">const</span> <span class="variable language_">document</span> = <span class="title class_">SwaggerModule</span>.<span class="title function_">createDocument</span>(app, options);</span><br><span class="line">  <span class="title class_">SwaggerModule</span>.<span class="title function_">setup</span>(<span class="string">&#x27;docs&#x27;</span>, app, <span class="variable language_">document</span>);</span><br><span class="line">  <span class="keyword">await</span> app.<span class="title function_">listen</span>(process.<span class="property">env</span>.<span class="property">PORT</span> || <span class="number">3000</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">bootstrap</span>();</span><br></pre></td></tr></table></figure>
 
 <p>访问页面<code>http://localhost:3000/docs</code>,图中框住的部分就是@nestjsx&#x2F;crud给我们生成的restful接口，另一个是我们自己设置的接口。</p>
-<p><img src="/../imgs/e8e040971352443faa8d18bd39eb37fa.png" alt="image.png"></p>
+<p><img src="./../imgs/e8e040971352443faa8d18bd39eb37fa.png" alt="image.png"></p>
 <h2 id="nestjsx-crud-request"><a href="#nestjsx-crud-request" class="headerlink" title="@nestjsx&#x2F;crud-request"></a>@nestjsx&#x2F;crud-request</h2><p>截图中可以看到基本的增删改查、批量创建、分页查询它都已经有了，其中查询支持搜索条件、指定返回字段、排序等等。</p>
-<p><img src="/../imgs/0731bc95d135415e9b5ad45fae7a0e6d.png" alt="image.png"> 但是参数也比较复杂，此时可以用到@nestjsx&#x2F;crud-request。这是一个给前端使用的，快速创建查询条件的lib：</p>
+<p><img src="./../imgs/0731bc95d135415e9b5ad45fae7a0e6d.png" alt="image.png"> 但是参数也比较复杂，此时可以用到@nestjsx&#x2F;crud-request。这是一个给前端使用的，快速创建查询条件的lib：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import &#123; RequestQueryBuilder &#125; <span class="keyword">from</span> <span class="string">&#x27;@nestjsx/crud-request&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">queryString</span> = RequestQueryBuilder.<span class="title function_ invoke__">create</span>(&#123;</span><br><span class="line">  <span class="attr">fields</span>: [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;email&#x27;</span>],</span><br><span class="line">  <span class="attr">search</span>: &#123; <span class="attr">isActive</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">  <span class="attr">join</span>: [&#123; <span class="attr">field</span>: <span class="string">&#x27;company&#x27;</span> &#125;],</span><br><span class="line">  <span class="attr">sort</span>: [&#123; <span class="attr">field</span>: <span class="string">&#x27;id&#x27;</span>, <span class="attr">order</span>: <span class="string">&#x27;DESC&#x27;</span> &#125;],</span><br><span class="line">  <span class="attr">page</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">limit</span>: <span class="number">25</span>,</span><br><span class="line">  <span class="attr">resetCache</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;).<span class="title function_ invoke__">query</span>();</span><br><span class="line"></span><br><span class="line">console.<span class="title function_ invoke__">log</span>(queryString); </span><br><span class="line"><span class="comment">//fields=name%2Cemail&amp;s=%7B%22isActive%22%3Atrue%7D&amp;join%5B0%5D=company&amp;limit=25&amp;page=1&amp;sort%5B0%5D=id%2CDESC&amp;cache=0</span></span><br></pre></td></tr></table></figure>
         
       </div>
@@ -290,7 +290,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2022/02/19/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E7%B1%BB%E5%9B%BE%E5%9F%BA%E7%A1%80/"
+      href="hexo-blog/2022/02/19/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E7%B1%BB%E5%9B%BE%E5%9F%BA%E7%A1%80/"
       title="UML快速入门——类图基础"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -302,7 +302,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2022/02/16/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/"
+      href="hexo-blog/2022/02/16/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/"
       title="排序算法之计数排序"
      >
 
@@ -360,6 +360,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

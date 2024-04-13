@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>什么时候该用useReducer | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="「这是我参与2022首次更文挑战的第12天，活动详情查看：2022首次更文挑战」 被滥用的useState和被忽略的useReducer过去的一年里，Hook成了React中最普遍的使用的api。然而Hook的设计是为了更细粒度的划分状态逻辑以便进行复用，在实践中大多数情况却是因写法便捷而使用，以致代码中充斥着滥用的useState和无效的useMemo。 然而并不是每一个Hook api都大受欢">
 <meta property="og:type" content="article">
@@ -27,32 +27,32 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="「这是我参与2022首次更文挑战的第12天，活动详情查看：2022首次更文挑战」 被滥用的useState和被忽略的useReducer过去的一年里，Hook成了React中最普遍的使用的api。然而Hook的设计是为了更细粒度的划分状态逻辑以便进行复用，在实践中大多数情况却是因写法便捷而使用，以致代码中充斥着滥用的useState和无效的useMemo。 然而并不是每一个Hook api都大受欢">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/a03b864b3bed427592c6c363019b0943.png">
-<meta property="og:image" content="http://example.com/imgs/1324acbb236147538ee6038c283548cf.png">
-<meta property="og:image" content="http://example.com/imgs/2435791a1fdd44a4ad5778657f7ebb08.png">
-<meta property="og:image" content="http://example.com/imgs/f849f6db6f584dc6b27307ae1f738aa5.png">
-<meta property="og:image" content="http://example.com/imgs/ca7ca0ea83704218b251c1d867dfc2fd.png">
-<meta property="og:image" content="http://example.com/imgs/f0768686252f4a8589a36b0f587ee340.png">
+<meta property="og:image" content="http://example.com/2022/02/07/imgs/a03b864b3bed427592c6c363019b0943.png">
+<meta property="og:image" content="http://example.com/2022/02/07/imgs/1324acbb236147538ee6038c283548cf.png">
+<meta property="og:image" content="http://example.com/2022/02/07/imgs/2435791a1fdd44a4ad5778657f7ebb08.png">
+<meta property="og:image" content="http://example.com/2022/02/07/imgs/f849f6db6f584dc6b27307ae1f738aa5.png">
+<meta property="og:image" content="http://example.com/2022/02/07/imgs/ca7ca0ea83704218b251c1d867dfc2fd.png">
+<meta property="og:image" content="http://example.com/2022/02/07/imgs/f0768686252f4a8589a36b0f587ee340.png">
 <meta property="article:published_time" content="2022-02-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-04-04T15:27:03.412Z">
+<meta property="article:modified_time" content="2024-04-13T12:20:29.583Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="前端">
 <meta property="article:tag" content="React.js">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/a03b864b3bed427592c6c363019b0943.png">
+<meta name="twitter:image" content="http://example.com/2022/02/07/imgs/a03b864b3bed427592c6c363019b0943.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -63,7 +63,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -75,11 +75,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -96,11 +96,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -145,12 +145,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -164,7 +164,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -203,7 +203,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -213,7 +213,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -229,20 +229,20 @@
 <p>在某些场景下，<code>useReducer</code> 会比 <code>useState</code> 更适用，例如 state 逻辑较复杂且包含多个子值，或者下一个 state 依赖于之前的 state 等。并且，使用 <code>useReducer</code> 还能给那些会触发深更新的组件做性能优化，因为<a href="https://zh-hans.reactjs.org%2Fdocs%2Fhooks-faq.html%23how-to-avoid-passing-callbacks-down" title="https://zh-hans.reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down">你可以向子组件传递 <code>dispatch</code> 而不是回调函数</a> 。</p>
 </blockquote>
 <h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>虽然官网给了一个demo，但是并不清晰。这里给一个更简单的例子：</p>
-<p><img src="/../imgs/a03b864b3bed427592c6c363019b0943.png" alt="9ad5fec8f58215de6fa8b60549e7d3c.png"></p>
+<p><img src="./../imgs/a03b864b3bed427592c6c363019b0943.png" alt="9ad5fec8f58215de6fa8b60549e7d3c.png"></p>
 <p>父组件渲染count，子组件修改父组件的count。看起来很简单的代码，却隐藏着一个问题：当修改count时，父组件的re-render会触发子组件的re-render。</p>
-<p><img src="/../imgs/1324acbb236147538ee6038c283548cf.png" alt="a115567ee75f1e83a36e12d8ef0101c.png"></p>
+<p><img src="./../imgs/1324acbb236147538ee6038c283548cf.png" alt="a115567ee75f1e83a36e12d8ef0101c.png"></p>
 <p>但是子组件并没有用到count值，完全不需要被re-render。</p>
 <p>如果对子组件加个memo呢？</p>
-<p><img src="/../imgs/2435791a1fdd44a4ad5778657f7ebb08.png" alt="79899ee31cdf3bcbca225b7a4aea29f.png"></p>
+<p><img src="./../imgs/2435791a1fdd44a4ad5778657f7ebb08.png" alt="79899ee31cdf3bcbca225b7a4aea29f.png"></p>
 <p>还是不行，因为父组件的更新会造成<code>const addCount =()=&gt; setCount(count =&gt; ++count)</code> 重新声明，因此子组件的props还是变了。</p>
 <p>所以还需对父组件修改,加个useCallback：</p>
 <p><code>const addCount =useCallback(()=&gt; setCount(count =&gt; ++count),[])</code></p>
-<p>这样修改count，就子组件就不会再re-render了。 <img src="/../imgs/f849f6db6f584dc6b27307ae1f738aa5.png" alt="aa3156d5534e18450ab6c99ebe6936c.png"></p>
+<p>这样修改count，就子组件就不会再re-render了。 <img src="./../imgs/f849f6db6f584dc6b27307ae1f738aa5.png" alt="aa3156d5534e18450ab6c99ebe6936c.png"></p>
 <p>但如果这里使用useReducer，就不需要增加useCallback，因为<strong>dispatch不会在多次渲染之间变化</strong>。</p>
-<p><img src="/../imgs/ca7ca0ea83704218b251c1d867dfc2fd.png" alt="cdba3f553ad659b0bcd5bb49bfe9db5.png"></p>
+<p><img src="./../imgs/ca7ca0ea83704218b251c1d867dfc2fd.png" alt="cdba3f553ad659b0bcd5bb49bfe9db5.png"></p>
 <p>虽然这里用useState同样可以实现这个优化，但是如果<strong>state之间有相互依赖</strong>，比如：</p>
-<p><img src="/../imgs/f0768686252f4a8589a36b0f587ee340.png" alt="475938760120dd63a1cfdefbc2fbb36.png"></p>
+<p><img src="./../imgs/f0768686252f4a8589a36b0f587ee340.png" alt="475938760120dd63a1cfdefbc2fbb36.png"></p>
 <p>这里的rate，子组件不需要，因此rate的改变不应该导致子组件的更新，但如果不把rate放在callback的依赖中，会因为闭包问题造成无法更新。但如果把这两个值合并成一个state，用useReducer修改，会帮你避开这个坑。</p>
 
         
@@ -258,7 +258,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2022/02/08/%E6%9E%B6%E6%9E%84%E6%96%B9%E6%B3%95%E4%B9%8BC4%E6%A8%A1%E5%9E%8B/"
+      href="hexo-blog/2022/02/08/%E6%9E%B6%E6%9E%84%E6%96%B9%E6%B3%95%E4%B9%8BC4%E6%A8%A1%E5%9E%8B/"
       title="架构方法之C4模型"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -270,7 +270,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2022/01/29/%E5%A6%82%E4%BD%95%E5%A4%87%E4%BB%BD%E6%8E%98%E9%87%91%E4%B8%8A%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%9F%E7%94%A8node%E5%86%99%E4%B8%AA%E7%88%AC%E8%99%AB%E5%90%A7~/"
+      href="hexo-blog/2022/01/29/%E5%A6%82%E4%BD%95%E5%A4%87%E4%BB%BD%E6%8E%98%E9%87%91%E4%B8%8A%E7%9A%84%E5%8D%9A%E5%AE%A2%EF%BC%9F%E7%94%A8node%E5%86%99%E4%B8%AA%E7%88%AC%E8%99%AB%E5%90%A7~/"
       title="如何备份掘金上的博客？用node写个爬虫吧~"
      >
 
@@ -328,6 +328,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

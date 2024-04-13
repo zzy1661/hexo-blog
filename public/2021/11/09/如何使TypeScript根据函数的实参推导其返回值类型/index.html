@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>如何使TypeScript根据函数的实参推导其返回值类型 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="这是我参与11月更文挑战的第9天，活动详情查看：2021最后一次更文挑战 场景1：实参推导假设有这么一个函数，它接受一个简单的对象作为参数，并对这个对象扩展了一些字段并返回： 12345function a(p1: &#123; [key: string]: any &#125;) &#123;  const p2 &#x3D; &#123; ...p1, extra: &quot;I&#x27;m p2&amp;">
 <meta property="og:type" content="article">
@@ -27,33 +27,33 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="这是我参与11月更文挑战的第9天，活动详情查看：2021最后一次更文挑战 场景1：实参推导假设有这么一个函数，它接受一个简单的对象作为参数，并对这个对象扩展了一些字段并返回： 12345function a(p1: &#123; [key: string]: any &#125;) &#123;  const p2 &#x3D; &#123; ...p1, extra: &quot;I&#x27;m p2&amp;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/3b9187f6322240598ef5bb8d761c8509.png">
-<meta property="og:image" content="http://example.com/imgs/7ebeb02d90d54c5c88501bab914a2dcd.png">
-<meta property="og:image" content="http://example.com/imgs/6e3bfe5b9ff64cea9530258638e7adc9.png">
-<meta property="og:image" content="http://example.com/imgs/993504fc4765448fbba439d0f2af30aa.png">
-<meta property="og:image" content="http://example.com/imgs/0a93bdaa9fe94dc5a1ea5ca1a7b6560c.png">
-<meta property="og:image" content="http://example.com/imgs/3301aafe08f84015a75606a2239dc394.png">
-<meta property="og:image" content="http://example.com/imgs/336a595311e841fd880a6c0ef46682e1.png">
-<meta property="og:image" content="http://example.com/imgs/ad653329549a4673a85f0bff18ac4bfd.png">
+<meta property="og:image" content="http://example.com/2021/11/09/imgs/3b9187f6322240598ef5bb8d761c8509.png">
+<meta property="og:image" content="http://example.com/2021/11/09/imgs/7ebeb02d90d54c5c88501bab914a2dcd.png">
+<meta property="og:image" content="http://example.com/2021/11/09/imgs/6e3bfe5b9ff64cea9530258638e7adc9.png">
+<meta property="og:image" content="http://example.com/2021/11/09/imgs/993504fc4765448fbba439d0f2af30aa.png">
+<meta property="og:image" content="http://example.com/2021/11/09/imgs/0a93bdaa9fe94dc5a1ea5ca1a7b6560c.png">
+<meta property="og:image" content="http://example.com/2021/11/09/imgs/3301aafe08f84015a75606a2239dc394.png">
+<meta property="og:image" content="http://example.com/2021/11/09/imgs/336a595311e841fd880a6c0ef46682e1.png">
+<meta property="og:image" content="http://example.com/2021/11/09/imgs/ad653329549a4673a85f0bff18ac4bfd.png">
 <meta property="article:published_time" content="2021-11-08T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-04-04T15:27:03.382Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="前端">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/3b9187f6322240598ef5bb8d761c8509.png">
+<meta name="twitter:image" content="http://example.com/2021/11/09/imgs/3b9187f6322240598ef5bb8d761c8509.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -64,7 +64,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -76,11 +76,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -97,11 +97,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -146,12 +146,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -165,7 +165,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -204,7 +204,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -214,7 +214,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -224,33 +224,33 @@
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function a(p1: &#123; <span class="section">[key: string]</span>: any &#125;) &#123;</span><br><span class="line">  const <span class="attr">p2</span> = &#123; ...p1, extra: <span class="string">&quot;I&#x27;m p2&quot;</span> &#125;<span class="comment">;</span></span><br><span class="line">  return p2<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">let <span class="attr">p2</span> = a(&#123; name: <span class="string">&#x27;p1&#x27;</span> &#125;)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
 <p>此时<code>p2</code>被推导的类型为</p>
-<p><img src="/../imgs/3b9187f6322240598ef5bb8d761c8509.png" alt="image.png"></p>
-<p>也就是说我们无法在p2上点出<code>name</code>属性 <img src="/../imgs/7ebeb02d90d54c5c88501bab914a2dcd.png" alt="image.png"></p>
+<p><img src="./../imgs/3b9187f6322240598ef5bb8d761c8509.png" alt="image.png"></p>
+<p>也就是说我们无法在p2上点出<code>name</code>属性 <img src="./../imgs/7ebeb02d90d54c5c88501bab914a2dcd.png" alt="image.png"></p>
 <p>如果对p1设置了明确的类型描述，那么ts将会根据这个类型推导p2d 类型。</p>
 <p>然而p1是一个简单的对象，并且有任意的key和value，也就是说我们对<code>p1</code>的类型描述只能为</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="selector-attr">[key:string]</span>:any;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>我们希望的是ts能够先根据p1推导出其具体的类型，再推导p2的类型</p>
-<p><img src="/../imgs/6e3bfe5b9ff64cea9530258638e7adc9.png" alt="image.png"></p>
+<p><img src="./../imgs/6e3bfe5b9ff64cea9530258638e7adc9.png" alt="image.png"></p>
 <p>就像图中的，将p1的类型推导为<code>&#123;name:string&#125;</code>,然后在这个基础上再推导p2。</p>
 <h3 id="不设置类型"><a href="#不设置类型" class="headerlink" title="不设置类型"></a>不设置类型</h3><p>如果不对<code>p1</code>设置类型，那么<code>p1</code>会被推导为<code>any</code>，从而导致p2也被推导为<code>any</code>;</p>
-<p><img src="/../imgs/993504fc4765448fbba439d0f2af30aa.png" alt="image.png"></p>
+<p><img src="./../imgs/993504fc4765448fbba439d0f2af30aa.png" alt="image.png"></p>
 <h3 id="使用泛型"><a href="#使用泛型" class="headerlink" title="使用泛型"></a>使用泛型</h3><p>如果我们将<code>p1</code>的类型设为<code>T</code>，那么</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function a&lt;T&gt;(p1: T) &#123;</span><br><span class="line">  const <span class="attr">p2</span> = &#123; ...p1, extra: <span class="string">&quot;I&#x27;m p2&quot;</span> &#125;<span class="comment">;</span></span><br><span class="line">  return p2<span class="comment">;</span></span><br><span class="line">&#125;</span><br><span class="line">let <span class="attr">p2</span> = a(&#123; name: <span class="string">&#x27;p1&#x27;</span> &#125;)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
 
 <p>ts确实如我们希望的那样推导类型了</p>
-<p><img src="/../imgs/0a93bdaa9fe94dc5a1ea5ca1a7b6560c.png" alt="image.png"></p>
+<p><img src="./../imgs/0a93bdaa9fe94dc5a1ea5ca1a7b6560c.png" alt="image.png"></p>
 <p>看起来问题解决了，我们将场景设置得更复杂些：</p>
 <h2 id="场景2：约束泛型"><a href="#场景2：约束泛型" class="headerlink" title="场景2：约束泛型"></a>场景2：约束泛型</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">interface <span class="selector-tag">I</span> &#123;</span><br><span class="line">  msg: string;</span><br><span class="line">  data: any;</span><br><span class="line">  <span class="selector-attr">[key: string]</span>: any;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function <span class="selector-tag">a</span>(p1: I) &#123;</span><br><span class="line">  const p2 = &#123; ..<span class="selector-class">.p1</span>, extra: p1.data.extra &#125;;</span><br><span class="line">  return p2;</span><br><span class="line">&#125;</span><br><span class="line">let p2 = <span class="selector-tag">a</span>(&#123; msg: <span class="string">&#x27;p1&#x27;</span>, data: &#123; extra: &#123; platform: <span class="string">&#x27;h5&#x27;</span> &#125; &#125;, <span class="selector-tag">code</span>: -<span class="number">1</span> &#125;);</span><br></pre></td></tr></table></figure>
 
 <p>这里<code>p1</code>的类型一定要符合<code>interface I</code>的约束，此时又回到了场景1的问题：ts无法根据实参的类型推导出参的类型</p>
-<p><img src="/../imgs/3301aafe08f84015a75606a2239dc394.png" alt="image.png"></p>
+<p><img src="./../imgs/3301aafe08f84015a75606a2239dc394.png" alt="image.png"></p>
 <h3 id="extends"><a href="#extends" class="headerlink" title="extends"></a>extends</h3><p>在这里我们需要对泛型<code>T</code>增加一些约束：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">interface <span class="selector-tag">I</span> &#123;</span><br><span class="line">  msg: string;</span><br><span class="line">  data: any;</span><br><span class="line">  <span class="selector-attr">[key: string]</span>: any;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function <span class="selector-tag">a</span>&lt;T extends <span class="selector-tag">I</span>&gt;(p1: T) &#123;</span><br><span class="line">  const p2 = &#123; ..<span class="selector-class">.p1</span>, extra: p1.data.extra &#125;;</span><br><span class="line">  return p2;</span><br><span class="line">&#125;</span><br><span class="line">let p2 = <span class="selector-tag">a</span>(&#123; msg: <span class="string">&#x27;p1&#x27;</span>, data: &#123; extra: &#123; platform: <span class="string">&#x27;h5&#x27;</span> &#125; &#125;, <span class="selector-tag">code</span>: -<span class="number">1</span> &#125;);</span><br></pre></td></tr></table></figure>
 
 <p>这里的<code>extends</code>表明了<code>T</code>类型是<code>I</code>的一个子类型，而<code>T</code>的类型，则需要从实参推导：</p>
-<p><img src="/../imgs/336a595311e841fd880a6c0ef46682e1.png" alt="image.png"></p>
-<p><img src="/../imgs/ad653329549a4673a85f0bff18ac4bfd.png" alt="image.png"></p>
+<p><img src="./../imgs/336a595311e841fd880a6c0ef46682e1.png" alt="image.png"></p>
+<p><img src="./../imgs/ad653329549a4673a85f0bff18ac4bfd.png" alt="image.png"></p>
 
         
       </div>
@@ -265,7 +265,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2021/11/11/%E5%89%8D%E7%AB%AF%E8%84%9A%E6%89%8B%E6%9E%B6%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%BF%9B%E9%98%B6%E2%80%94%E2%80%94CLI%E5%B8%B8%E7%94%A8%E7%9A%84npm%E5%8C%85(%E4%BA%8C)/"
+      href="hexo-blog/2021/11/11/%E5%89%8D%E7%AB%AF%E8%84%9A%E6%89%8B%E6%9E%B6%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%BF%9B%E9%98%B6%E2%80%94%E2%80%94CLI%E5%B8%B8%E7%94%A8%E7%9A%84npm%E5%8C%85(%E4%BA%8C)/"
       title="前端脚手架：从入门到进阶——CLI常用的npm包(二)"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -277,7 +277,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2021/11/08/React%20library%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94React%20Query/"
+      href="hexo-blog/2021/11/08/React%20library%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94React%20Query/"
       title="React library 快速入门——React Query"
      >
 
@@ -335,6 +335,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

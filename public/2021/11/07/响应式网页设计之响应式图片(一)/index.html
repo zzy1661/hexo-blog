@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>响应式网页设计之响应式图片(一) | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="这是我参与11月更文挑战的第 7 天，活动详情查看：2021最后一次更文挑战 什么是响应式图片我想大家都知道响应式网页设计，利用弹性布局、百分百布局、rem、媒体查询等使得一个网页能够在多个终端显示合适的布局。而其中一个重要的组成设计————响应式图片，却很常被大家忽略。 那么什么是响应式图片？ 响应式图片是一种根据显示密度、页面中图像元素的大小或其他各种因素为浏览器提供多个图像源的方法。  A">
 <meta property="og:type" content="article">
@@ -27,33 +27,33 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="这是我参与11月更文挑战的第 7 天，活动详情查看：2021最后一次更文挑战 什么是响应式图片我想大家都知道响应式网页设计，利用弹性布局、百分百布局、rem、媒体查询等使得一个网页能够在多个终端显示合适的布局。而其中一个重要的组成设计————响应式图片，却很常被大家忽略。 那么什么是响应式图片？ 响应式图片是一种根据显示密度、页面中图像元素的大小或其他各种因素为浏览器提供多个图像源的方法。  A">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/b2f374a4c4bc4e7c8220819ea727b931.png">
-<meta property="og:image" content="http://example.com/imgs/68b2855217d14296af6aa3e10dfa18d7.png">
-<meta property="og:image" content="http://example.com/imgs/8fc2530298d944708d0ab28d9deca363.png">
-<meta property="og:image" content="http://example.com/imgs/a2876bf6aa8c48179ab7bf61cc768452.png">
-<meta property="og:image" content="http://example.com/imgs/b30c992919e44b42b5837344a3ee85f5.png">
-<meta property="og:image" content="http://example.com/imgs/081f77e8e6d6428f80387f303c750866.png">
-<meta property="og:image" content="http://example.com/imgs/93c65034030940bca0c2f06a6cb5a3d2.png">
-<meta property="og:image" content="http://example.com/imgs/83ac44a2a5984f138e3b756c1675d8be.png">
+<meta property="og:image" content="http://example.com/2021/11/07/imgs/b2f374a4c4bc4e7c8220819ea727b931.png">
+<meta property="og:image" content="http://example.com/2021/11/07/imgs/68b2855217d14296af6aa3e10dfa18d7.png">
+<meta property="og:image" content="http://example.com/2021/11/07/imgs/8fc2530298d944708d0ab28d9deca363.png">
+<meta property="og:image" content="http://example.com/2021/11/07/imgs/a2876bf6aa8c48179ab7bf61cc768452.png">
+<meta property="og:image" content="http://example.com/2021/11/07/imgs/b30c992919e44b42b5837344a3ee85f5.png">
+<meta property="og:image" content="http://example.com/2021/11/07/imgs/081f77e8e6d6428f80387f303c750866.png">
+<meta property="og:image" content="http://example.com/2021/11/07/imgs/93c65034030940bca0c2f06a6cb5a3d2.png">
+<meta property="og:image" content="http://example.com/2021/11/07/imgs/83ac44a2a5984f138e3b756c1675d8be.png">
 <meta property="article:published_time" content="2021-11-06T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-04-04T15:27:03.458Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="前端">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/b2f374a4c4bc4e7c8220819ea727b931.png">
+<meta name="twitter:image" content="http://example.com/2021/11/07/imgs/b2f374a4c4bc4e7c8220819ea727b931.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -64,7 +64,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -76,11 +76,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -97,11 +97,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -146,12 +146,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -165,7 +165,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -214,7 +214,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -227,23 +227,23 @@
 <p>A method for providing the browser with multiple image sources depending on display density, size of the image element in the page, or any number of other factors.</p>
 </blockquote>
 <p>是不是有些不好理解？举几个例子就懂了。</p>
-<h2 id="常见场景："><a href="#常见场景：" class="headerlink" title="常见场景："></a>常见场景：</h2><h3 id="图片缩放"><a href="#图片缩放" class="headerlink" title="图片缩放"></a>图片缩放</h3><p><img src="/../imgs/b2f374a4c4bc4e7c8220819ea727b931.png" alt="image.png"> 这是同一张图片的三种大小，针对不同大小、分辨率的设备，你往往希望浏览器能够显示不同的图片。</p>
-<h3 id="图片裁剪"><a href="#图片裁剪" class="headerlink" title="图片裁剪"></a>图片裁剪</h3><p><img src="/../imgs/68b2855217d14296af6aa3e10dfa18d7.png" alt="image.png"></p>
+<h2 id="常见场景："><a href="#常见场景：" class="headerlink" title="常见场景："></a>常见场景：</h2><h3 id="图片缩放"><a href="#图片缩放" class="headerlink" title="图片缩放"></a>图片缩放</h3><p><img src="./../imgs/b2f374a4c4bc4e7c8220819ea727b931.png" alt="image.png"> 这是同一张图片的三种大小，针对不同大小、分辨率的设备，你往往希望浏览器能够显示不同的图片。</p>
+<h3 id="图片裁剪"><a href="#图片裁剪" class="headerlink" title="图片裁剪"></a>图片裁剪</h3><p><img src="./../imgs/68b2855217d14296af6aa3e10dfa18d7.png" alt="image.png"></p>
 <p>这张奥巴马演讲的图片显然适合用在大屏设备上，而如果屏幕较小时该怎么处理呢？</p>
 <p>你一定会想到将图片等比例缩放：</p>
-<p><img src="/../imgs/8fc2530298d944708d0ab28d9deca363.png" alt="image.png"></p>
+<p><img src="./../imgs/8fc2530298d944708d0ab28d9deca363.png" alt="image.png"></p>
 <p>这是我们最常见、最简单的做法，对于大多数场景来说这么做已经足够了，但并不能因为一个做法能够适应多数场景而不去思考这种做法在当下这个场景是否合适。</p>
 <p>当这张图等比缩放后，显得重点不够突出，即看不清演讲者，背景又会让人有些费解。这种情况下不如考虑图片裁剪：</p>
-<p><img src="/../imgs/a2876bf6aa8c48179ab7bf61cc768452.png" alt="image.png"></p>
+<p><img src="./../imgs/a2876bf6aa8c48179ab7bf61cc768452.png" alt="image.png"></p>
 <p>这么处理可以较为清楚得看到演讲者，显然比上一种做法更合适。</p>
-<h3 id="图片调整"><a href="#图片调整" class="headerlink" title="图片调整"></a>图片调整</h3><p>看下面这张图：它含有三个图片、一段文本、一个图章、还有一些徽标等。 <img src="/../imgs/b30c992919e44b42b5837344a3ee85f5.png" alt="image.png"></p>
+<h3 id="图片调整"><a href="#图片调整" class="headerlink" title="图片调整"></a>图片调整</h3><p>看下面这张图：它含有三个图片、一段文本、一个图章、还有一些徽标等。 <img src="./../imgs/b30c992919e44b42b5837344a3ee85f5.png" alt="image.png"></p>
 <p>在pc上这么显示没有任何问题，但是如果在移动端呢？如果粗暴地使用缩放，用户看到的很可能是这样一张图片：</p>
-<p><img src="/../imgs/081f77e8e6d6428f80387f303c750866.png" alt="image.png"></p>
-<p>这时候既不适合缩放，也不适合裁剪。裁剪的目的是突出重点，而这张图作为一个整体，显然没办法切割掉其中任何一个部分。 这个时候就需要考虑是否更换这张图片，”更换”并不是找一张完全不同的图片代替，而是重新思考这张图片的设计、布局、内容，并做调整和筛选。 <img src="/../imgs/93c65034030940bca0c2f06a6cb5a3d2.png" alt="image.png"></p>
+<p><img src="./../imgs/081f77e8e6d6428f80387f303c750866.png" alt="image.png"></p>
+<p>这时候既不适合缩放，也不适合裁剪。裁剪的目的是突出重点，而这张图作为一个整体，显然没办法切割掉其中任何一个部分。 这个时候就需要考虑是否更换这张图片，”更换”并不是找一张完全不同的图片代替，而是重新思考这张图片的设计、布局、内容，并做调整和筛选。 <img src="./../imgs/93c65034030940bca0c2f06a6cb5a3d2.png" alt="image.png"></p>
 <h2 id="前端做什么"><a href="#前端做什么" class="headerlink" title="前端做什么"></a>前端做什么</h2><p>上面讲的内容似乎是设计师需要考虑的，那么我们前端该怎么做呢？媒体查询+自适应布局？</p>
 <p>如果设计师提供一张图片，那么就用自适应布局，如果提供多张图片，那么设置媒体查询以显示不同的图片。</p>
 <p>虽然这么做也能实现需求，但是还有一种更简单的办法：利用<code>img</code>标签的<code>srcset</code>和<code>sizes</code></p>
-<p><img src="/../imgs/83ac44a2a5984f138e3b756c1675d8be.png" alt="image.png"></p>
+<p><img src="./../imgs/83ac44a2a5984f138e3b756c1675d8be.png" alt="image.png"></p>
 <p>这一节我们主要认识了响应式图片的几种场景，下一节我们将具体展开介绍<code>sizes</code>和<code>srcset</code>属性的设置。</p>
 
         
@@ -259,7 +259,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2021/11/08/React%20library%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94React%20Query/"
+      href="hexo-blog/2021/11/08/React%20library%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94React%20Query/"
       title="React library 快速入门——React Query"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -271,7 +271,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2021/11/06/%E5%89%8D%E7%AB%AF%E8%84%9A%E6%89%8B%E6%9E%B6%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%BF%9B%E9%98%B6%E2%80%94%E2%80%94Create%20React%20App%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89/"
+      href="hexo-blog/2021/11/06/%E5%89%8D%E7%AB%AF%E8%84%9A%E6%89%8B%E6%9E%B6%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%BF%9B%E9%98%B6%E2%80%94%E2%80%94Create%20React%20App%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89/"
       title="前端脚手架：从入门到进阶——Create React App源码解析（三）"
      >
 
@@ -329,6 +329,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

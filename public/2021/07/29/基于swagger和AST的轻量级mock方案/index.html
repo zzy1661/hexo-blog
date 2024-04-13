@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>基于swagger和AST的轻量级mock方案 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="目前主流的mock方案目前大多数公司都会搭建自己的mock server或接口平台，比如yapi;或者使用第三方的api管理平台，通常也会带mock功能。 前后端协作过程中，后端将接口写入或者用用swagger.json导入接口平台，前端在接口平台编辑mock数据，并配置dev server的proxy代理到接口平台。 然而，当项目进项到小范围迭代时，由于需要配置多个服务的多个接口的代理,当然每次">
 <meta property="og:type" content="article">
@@ -27,34 +27,34 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="目前主流的mock方案目前大多数公司都会搭建自己的mock server或接口平台，比如yapi;或者使用第三方的api管理平台，通常也会带mock功能。 前后端协作过程中，后端将接口写入或者用用swagger.json导入接口平台，前端在接口平台编辑mock数据，并配置dev server的proxy代理到接口平台。 然而，当项目进项到小范围迭代时，由于需要配置多个服务的多个接口的代理,当然每次">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/10c5f00eda3c48d29258f27106bdd07d.png">
-<meta property="og:image" content="http://example.com/imgs/60e2c179cd9d4caa9cfd576459bd8a08.png">
-<meta property="og:image" content="http://example.com/imgs/0be2614c9e344dae9bfddf91d293525b.png">
-<meta property="og:image" content="http://example.com/imgs/0e8108de34d14efdb7b72d13e37121ac.png">
-<meta property="og:image" content="http://example.com/imgs/76bd8f8d77934079b3d1921ee8c65baa.png">
-<meta property="og:image" content="http://example.com/imgs/1902c6bb31c6405ca1c5c77e9f35fe1a.png">
-<meta property="og:image" content="http://example.com/imgs/fb8618145de9463981c94d9afcd58dab.png">
-<meta property="og:image" content="http://example.com/imgs/e27249efe15b4c27b00bb6e5096c23d9.png">
-<meta property="og:image" content="http://example.com/imgs/a7c6fea42810464aa34b8a331ac925af.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/10c5f00eda3c48d29258f27106bdd07d.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/60e2c179cd9d4caa9cfd576459bd8a08.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/0be2614c9e344dae9bfddf91d293525b.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/0e8108de34d14efdb7b72d13e37121ac.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/76bd8f8d77934079b3d1921ee8c65baa.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/1902c6bb31c6405ca1c5c77e9f35fe1a.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/fb8618145de9463981c94d9afcd58dab.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/e27249efe15b4c27b00bb6e5096c23d9.png">
+<meta property="og:image" content="http://example.com/2021/07/29/imgs/a7c6fea42810464aa34b8a331ac925af.png">
 <meta property="article:published_time" content="2021-07-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-04-04T15:27:03.221Z">
+<meta property="article:modified_time" content="2024-04-13T12:20:29.584Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="前端">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/10c5f00eda3c48d29258f27106bdd07d.png">
+<meta name="twitter:image" content="http://example.com/2021/07/29/imgs/10c5f00eda3c48d29258f27106bdd07d.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -65,7 +65,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -77,11 +77,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -98,11 +98,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -147,12 +147,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -166,7 +166,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -205,7 +205,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -215,7 +215,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -225,13 +225,13 @@
 <p>然而，当项目进项到小范围迭代时，由于需要配置多个服务的多个接口的代理,当然每次配置修改，还得重启dev server，有些时候过于麻烦，不如跳过请求，直接模拟接口返回的数据。可是这些测试数据，一旦忘了删除，又会引起不小的事故。</p>
 <h2 id="更轻量的mock方案"><a href="#更轻量的mock方案" class="headerlink" title="更轻量的mock方案"></a>更轻量的mock方案</h2><p>我想要mock，但是又不想走mock server，又不想在代码里写测试数据，那么有没有办法呢？有的！</p>
 <p>通常情况下，如果公司后端能够提供swagger，那么前端可以根据json文件生成接口请求的统一代码。 比如</p>
-<p><img src="/../imgs/10c5f00eda3c48d29258f27106bdd07d.png" alt="image.png"> 或者 <img src="/../imgs/60e2c179cd9d4caa9cfd576459bd8a08.png" alt="image.png"></p>
+<p><img src="./../imgs/10c5f00eda3c48d29258f27106bdd07d.png" alt="image.png"> 或者 <img src="./../imgs/60e2c179cd9d4caa9cfd576459bd8a08.png" alt="image.png"></p>
 <p>当然如果项目是用ts的，那么各种类型定义也可以生成，注释块中也不用写这么多内容。</p>
 <p><strong>既然返回信息都已经在注释中了，那么是否可以更进一步，支持mock呢？</strong> 比如新增一个@mock符号，根据@returns中的类型定义，将mock好的数据注入进来。</p>
-<p><img src="/../imgs/0be2614c9e344dae9bfddf91d293525b.png" alt="image.png"></p>
+<p><img src="./../imgs/0be2614c9e344dae9bfddf91d293525b.png" alt="image.png"></p>
 <p><strong>理论上可以，但是现实不允许</strong>，就比如截图中，各种字段没有任何注释，result到底是什么结构也不清楚。上述想法只能在后端比较规范的情况下实施。</p>
 <p><strong>那么退而求其次，前端指定mock</strong>。</p>
-<p><img src="/../imgs/0e8108de34d14efdb7b72d13e37121ac.png" alt="image.png"></p>
+<p><img src="./../imgs/0e8108de34d14efdb7b72d13e37121ac.png" alt="image.png"></p>
 <p>这样可行性就很高了，我们可以操作一下。</p>
 <h2 id="自定义babel-plugin"><a href="#自定义babel-plugin" class="headerlink" title="自定义babel-plugin"></a>自定义babel-plugin</h2><p>生成的代码都是包含了</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> res = <span class="keyword">await</span> ...</span><br><span class="line"><span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
@@ -240,14 +240,14 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">res</span> = Mock.<span class="title function_ invoke__">mock</span>(&#123;<span class="attr">code</span>:<span class="number">0</span>,<span class="attr">msg</span>:<span class="string">&#x27;@string&#x27;</span>&#125;)</span><br><span class="line"><span class="keyword">return</span> res;</span><br></pre></td></tr></table></figure>
 
 <p>plugin大致这个样子</p>
-<p><img src="/../imgs/76bd8f8d77934079b3d1921ee8c65baa.png" alt="image.png"> process.env.NODE_ENV判断只有在开发环境下才会转换，对开发者来说，由于@mock是写在注释里的，他们不用关心提测上线的时候有没有把它去掉。</p>
+<p><img src="./../imgs/76bd8f8d77934079b3d1921ee8c65baa.png" alt="image.png"> process.env.NODE_ENV判断只有在开发环境下才会转换，对开发者来说，由于@mock是写在注释里的，他们不用关心提测上线的时候有没有把它去掉。</p>
 <h3 id="ast的几个重要概念"><a href="#ast的几个重要概念" class="headerlink" title="ast的几个重要概念"></a>ast的几个重要概念</h3><p>node： ast是一个树状结构，因此有很多节点，每个节点就是一个node，node是有类型的，一个node对应一个代码片段。</p>
 <p>path: 用来连接node的一个对象，node在path下，通过path可以找到其他的path，从而找到其他的node</p>
 <p>node也是一个树形的数据结构，可以通过node的属性不断往下访问，但是这种方式，只能访问到下面的node，获取不到这个node对应的path； 而通过path.get得到的则是path</p>
 <p>visitor以及visitor下面的方法：</p>
-<p><img src="/../imgs/1902c6bb31c6405ca1c5c77e9f35fe1a.png" alt="image.png"></p>
+<p><img src="./../imgs/1902c6bb31c6405ca1c5c77e9f35fe1a.png" alt="image.png"></p>
 <p>visitor下的几个方法，基本上对应的是node的类型，进入某个节点后，会相应执行这个node的type对应的方法。第一个参数是path，第二个参数state可以获取文件名、plugin的选项等等。</p>
-<p><img src="/../imgs/fb8618145de9463981c94d9afcd58dab.png" alt="image.png"></p>
+<p><img src="./../imgs/fb8618145de9463981c94d9afcd58dab.png" alt="image.png"></p>
 <h3 id="ast的操作"><a href="#ast的操作" class="headerlink" title="ast的操作"></a>ast的操作</h3><p>ast是一个很复杂的对象，首先必备ast可视化工具 <a href="https://astexplorer.net%2F" title="https://astexplorer.net/">astexplorer.net&#x2F;</a></p>
 <ol>
 <li>遍历： 可以通过path.get或者通过path.traverse(visitor),当需要查询子path时用后者会比较方便</li>
@@ -256,8 +256,8 @@
 </ol>
 <p>用@babel&#x2F;types构造ast是很痛苦的，不过babel还有个工具可以直接将字符串转化为ast:@babel&#x2F;parser</p>
 <p><code>const &#123; parseExpression &#125; = require(&#39;@babel/parser&#39;)</code></p>
-<p><img src="/../imgs/e27249efe15b4c27b00bb6e5096c23d9.png" alt="image.png"></p>
-<h2 id="具体代码"><a href="#具体代码" class="headerlink" title="具体代码"></a>具体代码</h2><p><img src="/../imgs/a7c6fea42810464aa34b8a331ac925af.png" alt="image.png"></p>
+<p><img src="./../imgs/e27249efe15b4c27b00bb6e5096c23d9.png" alt="image.png"></p>
+<h2 id="具体代码"><a href="#具体代码" class="headerlink" title="具体代码"></a>具体代码</h2><p><img src="./../imgs/a7c6fea42810464aa34b8a331ac925af.png" alt="image.png"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这套方案胜在轻量灵活，可以很好地和mock server互补。并不是推荐用这种方式替换掉mock server，当然团队没有mock server时，编写个插件的成本肯定是很小的。另外如果团队文档规范的话，这套方案可以发挥更大的潜力。</p>
 <p>不要再说学了ast没处用，掌握ast，真的可以为所欲为！</p>
 
@@ -274,7 +274,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2021/08/16/tailwind%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE/"
+      href="hexo-blog/2021/08/16/tailwind%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E2%80%94%E2%80%94%E9%85%8D%E7%BD%AE/"
       title="tailwind使用指南——配置"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -286,7 +286,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2021/05/26/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AARequest%E5%BA%93%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E5%93%AA%E4%BA%9B/"
+      href="hexo-blog/2021/05/26/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AARequest%E5%BA%93%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E5%93%AA%E4%BA%9B/"
       title="封装一个Request库需要考虑哪些"
      >
 
@@ -344,6 +344,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

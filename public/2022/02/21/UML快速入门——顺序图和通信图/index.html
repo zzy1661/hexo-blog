@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>UML快速入门——顺序图和通信图 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="「这是我参与2022首次更文挑战的第25天，活动详情查看：2022首次更文挑战」 交互图UML中交互图是顺序图和通信图的统称，这两种图都可以表示类似的交互，其中顺序图具有更丰富的符号标记，但是通信图也有其独特的功能，尤其适用于在墙上画草图。 顺序图顺序图是最常见的交互图。 生命线框顺序图以生命线框表示参与者，生命线框图包括框图之下的垂直延伸线。 消息在垂直生命线之间，用带实心箭头（同步消息）的实线">
 <meta property="og:type" content="article">
@@ -27,47 +27,47 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="「这是我参与2022首次更文挑战的第25天，活动详情查看：2022首次更文挑战」 交互图UML中交互图是顺序图和通信图的统称，这两种图都可以表示类似的交互，其中顺序图具有更丰富的符号标记，但是通信图也有其独特的功能，尤其适用于在墙上画草图。 顺序图顺序图是最常见的交互图。 生命线框顺序图以生命线框表示参与者，生命线框图包括框图之下的垂直延伸线。 消息在垂直生命线之间，用带实心箭头（同步消息）的实线">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/a7739d7ba24a40dda484ee0823b99f4e.png">
-<meta property="og:image" content="http://example.com/imgs/14c0aaf10ecf4fa8948b749f56399177.png">
-<meta property="og:image" content="http://example.com/imgs/5d28b35a63a94d68a8962c1baa5a6418.png">
-<meta property="og:image" content="http://example.com/imgs/89bd18d28389452c962cd3384ac18434.png">
-<meta property="og:image" content="http://example.com/imgs/e5730d7a315d4863b7ac568223aeefdc.png">
-<meta property="og:image" content="http://example.com/imgs/ab523cf7253e43bfb13334615183db2c.png">
-<meta property="og:image" content="http://example.com/imgs/658415d364934e01a794eb8c1642a252.png">
-<meta property="og:image" content="http://example.com/imgs/050011baf7694e6f8e029d617274b4c5.png">
-<meta property="og:image" content="http://example.com/imgs/4ad9b45c288243cc871d388a9e4ee02c.png">
-<meta property="og:image" content="http://example.com/imgs/03a48de8e5e14bfa86aace25630fe9f0.png">
-<meta property="og:image" content="http://example.com/imgs/607c8312c8c041f98238c8207f7d6486.png">
-<meta property="og:image" content="http://example.com/imgs/9a9e3fecab1a430099f67a25ecf96322.png">
-<meta property="og:image" content="http://example.com/imgs/d0497dc61b2a4607abca4bef7bcc1291.png">
-<meta property="og:image" content="http://example.com/imgs/6de6c2ae614f4716af6c0ba282fb0e8f.png">
-<meta property="og:image" content="http://example.com/imgs/ca28f113fdbf4f3a8803fcff7e67687e.png">
-<meta property="og:image" content="http://example.com/imgs/bbc47e5ba90344129027b9cf69933a11.png">
-<meta property="og:image" content="http://example.com/imgs/21e20e18c0224cfeaebd4a03966d320a.png">
-<meta property="og:image" content="http://example.com/imgs/b2cffc1c128c453aa87bcc8c436b5edb.png">
-<meta property="og:image" content="http://example.com/imgs/d55d28b03e5345b0a6d0b4e16968694a.png">
-<meta property="og:image" content="http://example.com/imgs/2cac1920e79d41f692a0a3690999cdbb.png">
-<meta property="og:image" content="http://example.com/imgs/4b2e4540dcc440fc95a8bb27c35ece17.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/a7739d7ba24a40dda484ee0823b99f4e.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/14c0aaf10ecf4fa8948b749f56399177.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/5d28b35a63a94d68a8962c1baa5a6418.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/89bd18d28389452c962cd3384ac18434.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/e5730d7a315d4863b7ac568223aeefdc.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/ab523cf7253e43bfb13334615183db2c.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/658415d364934e01a794eb8c1642a252.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/050011baf7694e6f8e029d617274b4c5.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/4ad9b45c288243cc871d388a9e4ee02c.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/03a48de8e5e14bfa86aace25630fe9f0.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/607c8312c8c041f98238c8207f7d6486.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/9a9e3fecab1a430099f67a25ecf96322.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/d0497dc61b2a4607abca4bef7bcc1291.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/6de6c2ae614f4716af6c0ba282fb0e8f.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/ca28f113fdbf4f3a8803fcff7e67687e.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/bbc47e5ba90344129027b9cf69933a11.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/21e20e18c0224cfeaebd4a03966d320a.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/b2cffc1c128c453aa87bcc8c436b5edb.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/d55d28b03e5345b0a6d0b4e16968694a.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/2cac1920e79d41f692a0a3690999cdbb.png">
+<meta property="og:image" content="http://example.com/2022/02/21/imgs/4b2e4540dcc440fc95a8bb27c35ece17.png">
 <meta property="article:published_time" content="2022-02-20T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-04-04T15:27:03.832Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="架构">
 <meta property="article:tag" content="UML">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/a7739d7ba24a40dda484ee0823b99f4e.png">
+<meta name="twitter:image" content="http://example.com/2022/02/21/imgs/a7739d7ba24a40dda484ee0823b99f4e.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -78,7 +78,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -90,11 +90,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -111,11 +111,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -160,12 +160,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -179,7 +179,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -218,7 +218,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -228,7 +228,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -237,28 +237,28 @@
 <h2 id="交互图"><a href="#交互图" class="headerlink" title="交互图"></a>交互图</h2><p>UML中交互图是顺序图和通信图的统称，这两种图都可以表示类似的交互，其中顺序图具有更丰富的符号标记，但是通信图也有其独特的功能，尤其适用于在墙上画草图。</p>
 <h2 id="顺序图"><a href="#顺序图" class="headerlink" title="顺序图"></a>顺序图</h2><p>顺序图是最常见的交互图。</p>
 <h3 id="生命线框"><a href="#生命线框" class="headerlink" title="生命线框"></a>生命线框</h3><p>顺序图以生命线框表示参与者，生命线框图包括框图之下的垂直延伸线。</p>
-<h3 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h3><p>在垂直生命线之间，用带实心箭头（同步消息）的实线并附以消息表达式的方式表示对象间的每个消息，生命线自上而下表示时间顺序。 <img src="/../imgs/a7739d7ba24a40dda484ee0823b99f4e.png" alt="image.png"></p>
-<h4 id="消息的返回"><a href="#消息的返回" class="headerlink" title="消息的返回"></a>消息的返回</h4><p>可以在活动条末端使用应答（或返回）消息线表示消息的返回。 <img src="/../imgs/14c0aaf10ecf4fa8948b749f56399177.png" alt="image.png"></p>
-<h4 id="发给自己的消息"><a href="#发给自己的消息" class="headerlink" title="发给自己的消息"></a>发给自己的消息</h4><p>可以使用嵌套的活动条表示对象发送给自身的消息 <img src="/../imgs/5d28b35a63a94d68a8962c1baa5a6418.png" alt="image.png"></p>
-<h3 id="实例的创建和销毁"><a href="#实例的创建和销毁" class="headerlink" title="实例的创建和销毁"></a>实例的创建和销毁</h3><p>下图的虚线部分表示实例的创建，消息名称中的create不是必需的 <img src="/../imgs/89bd18d28389452c962cd3384ac18434.png" alt="image.png"> 在某些情况下，需要显式地表示对象的销毁，可以用大X表示。 <img src="/../imgs/e5730d7a315d4863b7ac568223aeefdc.png" alt="image.png"></p>
+<h3 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h3><p>在垂直生命线之间，用带实心箭头（同步消息）的实线并附以消息表达式的方式表示对象间的每个消息，生命线自上而下表示时间顺序。 <img src="./../imgs/a7739d7ba24a40dda484ee0823b99f4e.png" alt="image.png"></p>
+<h4 id="消息的返回"><a href="#消息的返回" class="headerlink" title="消息的返回"></a>消息的返回</h4><p>可以在活动条末端使用应答（或返回）消息线表示消息的返回。 <img src="./../imgs/14c0aaf10ecf4fa8948b749f56399177.png" alt="image.png"></p>
+<h4 id="发给自己的消息"><a href="#发给自己的消息" class="headerlink" title="发给自己的消息"></a>发给自己的消息</h4><p>可以使用嵌套的活动条表示对象发送给自身的消息 <img src="./../imgs/5d28b35a63a94d68a8962c1baa5a6418.png" alt="image.png"></p>
+<h3 id="实例的创建和销毁"><a href="#实例的创建和销毁" class="headerlink" title="实例的创建和销毁"></a>实例的创建和销毁</h3><p>下图的虚线部分表示实例的创建，消息名称中的create不是必需的 <img src="./../imgs/89bd18d28389452c962cd3384ac18434.png" alt="image.png"> 在某些情况下，需要显式地表示对象的销毁，可以用大X表示。 <img src="./../imgs/e5730d7a315d4863b7ac568223aeefdc.png" alt="image.png"></p>
 <h3 id="循环和条件"><a href="#循环和条件" class="headerlink" title="循环和条件"></a>循环和条件</h3><p>UML中可以用图框表示条件和循环。</p>
-<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><p>loop表示条件为真的循环片段，也可以用loop(n)强调循环的次数，表示for循环时，还可以以loop(i,1,10)强调起点和终点。 <img src="/../imgs/ab523cf7253e43bfb13334615183db2c.png" alt="image.png"></p>
-<h5 id="迭代集合"><a href="#迭代集合" class="headerlink" title="迭代集合"></a>迭代集合</h5><p>loop还可以用来表示迭代集合，比如Set、Map、Array等类型对象。 <img src="/../imgs/658415d364934e01a794eb8c1642a252.png" alt="image.png"> 上面这种表示还有更简洁的形式： <img src="/../imgs/050011baf7694e6f8e029d617274b4c5.png" alt="image.png"></p>
-<h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><p>opt表示条件为真时执行的代码 <img src="/../imgs/4ad9b45c288243cc871d388a9e4ee02c.png" alt="image.png"> 在绘制草图时可以用这种方式简写，它是UML 1.x中的表示方法。 <img src="/../imgs/03a48de8e5e14bfa86aace25630fe9f0.png" alt="image.png"></p>
-<h4 id="互斥"><a href="#互斥" class="headerlink" title="互斥"></a>互斥</h4><p>alt可以用来表示代码中的if else，表示互斥的条件 <img src="/../imgs/607c8312c8c041f98238c8207f7d6486.png" alt="image.png"></p>
-<h4 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h4><p>图框是可以嵌套的： <img src="/../imgs/9a9e3fecab1a430099f67a25ecf96322.png" alt="image.png"></p>
+<h4 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h4><p>loop表示条件为真的循环片段，也可以用loop(n)强调循环的次数，表示for循环时，还可以以loop(i,1,10)强调起点和终点。 <img src="./../imgs/ab523cf7253e43bfb13334615183db2c.png" alt="image.png"></p>
+<h5 id="迭代集合"><a href="#迭代集合" class="headerlink" title="迭代集合"></a>迭代集合</h5><p>loop还可以用来表示迭代集合，比如Set、Map、Array等类型对象。 <img src="./../imgs/658415d364934e01a794eb8c1642a252.png" alt="image.png"> 上面这种表示还有更简洁的形式： <img src="./../imgs/050011baf7694e6f8e029d617274b4c5.png" alt="image.png"></p>
+<h4 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h4><p>opt表示条件为真时执行的代码 <img src="./../imgs/4ad9b45c288243cc871d388a9e4ee02c.png" alt="image.png"> 在绘制草图时可以用这种方式简写，它是UML 1.x中的表示方法。 <img src="./../imgs/03a48de8e5e14bfa86aace25630fe9f0.png" alt="image.png"></p>
+<h4 id="互斥"><a href="#互斥" class="headerlink" title="互斥"></a>互斥</h4><p>alt可以用来表示代码中的if else，表示互斥的条件 <img src="./../imgs/607c8312c8c041f98238c8207f7d6486.png" alt="image.png"></p>
+<h4 id="嵌套"><a href="#嵌套" class="headerlink" title="嵌套"></a>嵌套</h4><p>图框是可以嵌套的： <img src="./../imgs/9a9e3fecab1a430099f67a25ecf96322.png" alt="image.png"></p>
 <h3 id="关联"><a href="#关联" class="headerlink" title="关联"></a>关联</h3><p>可以使用两种图框来创建交互图的关联。</p>
 <p>在整个顺序图周围放置图框，并加上sd标记和诸如AuthenticateUser这样的名称。</p>
-<p>标记为ref的图框称为引用，该引用指另一个已命名顺序图。所指的顺序图是实际的交互具体值。 <img src="/../imgs/d0497dc61b2a4607abca4bef7bcc1291.png" alt="image.png"></p>
-<h3 id="发送给类方法-static-的消息"><a href="#发送给类方法-static-的消息" class="headerlink" title="发送给类方法(static)的消息"></a>发送给类方法(static)的消息</h3><p>当和类的static方法通信时，可以对class增加metaclass标记： <img src="/../imgs/6de6c2ae614f4716af6c0ba282fb0e8f.png" alt="image.png"></p>
+<p>标记为ref的图框称为引用，该引用指另一个已命名顺序图。所指的顺序图是实际的交互具体值。 <img src="./../imgs/d0497dc61b2a4607abca4bef7bcc1291.png" alt="image.png"></p>
+<h3 id="发送给类方法-static-的消息"><a href="#发送给类方法-static-的消息" class="headerlink" title="发送给类方法(static)的消息"></a>发送给类方法(static)的消息</h3><p>当和类的static方法通信时，可以对class增加metaclass标记： <img src="./../imgs/6de6c2ae614f4716af6c0ba282fb0e8f.png" alt="image.png"></p>
 <h3 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h3><p>UML利用刺形箭头消息表示异步调用；常规同步（阻塞）调用用实心箭头表示 这种箭头上的区别是细微的。在墙上画UML草图时，通常使用刺形箭头表示同步调用，因为这样对绘制来说更为简便。因此，在阅读UML交互图时，不要假设箭头的形状的正确的！</p>
 <h2 id="通信图"><a href="#通信图" class="headerlink" title="通信图"></a>通信图</h2><p>通信图是另一种交互图，比顺序图更简约，特别适合我们绘制草图。</p>
 <h3 id="链和消息"><a href="#链和消息" class="headerlink" title="链和消息"></a>链和消息</h3><p>链是连接两个对象的路径，它指明了对象间某种可能的导航和可见性，消息会延此链流转。</p>
-<p>所有消息都会沿一条线路传输，就像一条允许双向消息传输的线路一样。 <img src="/../imgs/ca28f113fdbf4f3a8803fcff7e67687e.png" alt="image.png"></p>
-<h4 id="传给自己的消息"><a href="#传给自己的消息" class="headerlink" title="传给自己的消息"></a>传给自己的消息</h4><p>对象可以向自身发送消息。在这种情况下可以使用到自身的链来表示 <img src="/../imgs/bbc47e5ba90344129027b9cf69933a11.png" alt="image.png"></p>
-<h4 id="消息的顺序"><a href="#消息的顺序" class="headerlink" title="消息的顺序"></a>消息的顺序</h4><p>消息的顺序使用顺序编号来表示 <img src="/../imgs/21e20e18c0224cfeaebd4a03966d320a.png" alt="image.png"></p>
+<p>所有消息都会沿一条线路传输，就像一条允许双向消息传输的线路一样。 <img src="./../imgs/ca28f113fdbf4f3a8803fcff7e67687e.png" alt="image.png"></p>
+<h4 id="传给自己的消息"><a href="#传给自己的消息" class="headerlink" title="传给自己的消息"></a>传给自己的消息</h4><p>对象可以向自身发送消息。在这种情况下可以使用到自身的链来表示 <img src="./../imgs/bbc47e5ba90344129027b9cf69933a11.png" alt="image.png"></p>
+<h4 id="消息的顺序"><a href="#消息的顺序" class="headerlink" title="消息的顺序"></a>消息的顺序</h4><p>消息的顺序使用顺序编号来表示 <img src="./../imgs/21e20e18c0224cfeaebd4a03966d320a.png" alt="image.png"></p>
 <h3 id="条件和循环"><a href="#条件和循环" class="headerlink" title="条件和循环"></a>条件和循环</h3><p>通信图中表示条件和循环的方式和顺序图类似。</p>
-<p>可以在顺序编号后使用带有方括号的条件子句来表示有条件消息，下图表示只有在子句为真时才发送该消息。 <img src="/../imgs/b2cffc1c128c453aa87bcc8c436b5edb.png" alt="image.png"> 下面示例表示了带有互斥条件路径的顺序编号，示例暗示了在msg1之后可能执行1a或1b。 <img src="/../imgs/d55d28b03e5345b0a6d0b4e16968694a.png" alt="image.png"> 下面是迭代的例子，如果迭代子句对建模者而言并不重要，则可以使用“*”对其简化。 <img src="/../imgs/2cac1920e79d41f692a0a3690999cdbb.png" alt="image.png"> 对集合的所有成员进行迭代的常见算法是给每个成员发送相同的消息。UML中并没有明确的规定，但是我们可以用下面两个方式来表示： <img src="/../imgs/4b2e4540dcc440fc95a8bb27c35ece17.png" alt="image.png"></p>
+<p>可以在顺序编号后使用带有方括号的条件子句来表示有条件消息，下图表示只有在子句为真时才发送该消息。 <img src="./../imgs/b2cffc1c128c453aa87bcc8c436b5edb.png" alt="image.png"> 下面示例表示了带有互斥条件路径的顺序编号，示例暗示了在msg1之后可能执行1a或1b。 <img src="./../imgs/d55d28b03e5345b0a6d0b4e16968694a.png" alt="image.png"> 下面是迭代的例子，如果迭代子句对建模者而言并不重要，则可以使用“*”对其简化。 <img src="./../imgs/2cac1920e79d41f692a0a3690999cdbb.png" alt="image.png"> 对集合的所有成员进行迭代的常见算法是给每个成员发送相同的消息。UML中并没有明确的规定，但是我们可以用下面两个方式来表示： <img src="./../imgs/4b2e4540dcc440fc95a8bb27c35ece17.png" alt="image.png"></p>
 
         
       </div>
@@ -273,7 +273,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2022/02/22/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E6%B4%BB%E5%8A%A8%E5%9B%BE/"
+      href="hexo-blog/2022/02/22/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E6%B4%BB%E5%8A%A8%E5%9B%BE/"
       title="UML快速入门——活动图"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -285,7 +285,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2022/02/20/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E7%B1%BB%E5%9B%BE%E8%BF%9B%E9%98%B6/"
+      href="hexo-blog/2022/02/20/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E7%B1%BB%E5%9B%BE%E8%BF%9B%E9%98%B6/"
       title="UML快速入门——类图进阶"
      >
 
@@ -343,6 +343,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

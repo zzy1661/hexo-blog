@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>CSS函数大全（三）：颜色、渐变和滤镜 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="这是我参与11月更文挑战的第26天，活动详情查看：2021最后一次更文挑战 本系列目标是做一个css函数完全指南，将尽可能罗列css中所有的函数及其用法，当需要使用或者理解某个css函数的时候，只要来这里寻找就可以了。 颜色rgb和rgba前三个参数分别是红、绿、蓝色值。 12345.el &#123;     color: rgb(255, 0, 0);     color: rgba(255,">
 <meta property="og:type" content="article">
@@ -27,49 +27,49 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="这是我参与11月更文挑战的第26天，活动详情查看：2021最后一次更文挑战 本系列目标是做一个css函数完全指南，将尽可能罗列css中所有的函数及其用法，当需要使用或者理解某个css函数的时候，只要来这里寻找就可以了。 颜色rgb和rgba前三个参数分别是红、绿、蓝色值。 12345.el &#123;     color: rgb(255, 0, 0);     color: rgba(255,">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/d2c1ca8234704e8cb918d7b53a008d00.png">
-<meta property="og:image" content="http://example.com/imgs/79d57ee723c0414fa58067db9964da81.png">
-<meta property="og:image" content="http://example.com/imgs/999db97b32c64a63b4411bda28308618.png">
-<meta property="og:image" content="http://example.com/imgs/0d87ab8a99ff4cfba6d30dfbe2a4cc6b.png">
-<meta property="og:image" content="http://example.com/imgs/77a53feae9054e88b68b47f8291f899d.png">
-<meta property="og:image" content="http://example.com/imgs/e0c516bdfadb4be5b800d09bfce3e6b8.png">
-<meta property="og:image" content="http://example.com/imgs/064dd050a8f644c0bcc6a3ff23565f97.png">
-<meta property="og:image" content="http://example.com/imgs/279f927c1695458eb47fc01391cf08c2.png">
-<meta property="og:image" content="http://example.com/imgs/54d69cada2784fccb0e1e17a443a57d2.png">
-<meta property="og:image" content="http://example.com/imgs/006adce2e90d46b6bf6680421b8597fe.png">
-<meta property="og:image" content="http://example.com/imgs/1b26737844194fc09f923cdd6b3b8a92.png">
-<meta property="og:image" content="http://example.com/imgs/0f677483d57d40f69267e8e4ef2d3b0e.png">
-<meta property="og:image" content="http://example.com/imgs/fab6f6cc9c23439fa4783422b7bd1784.png">
-<meta property="og:image" content="http://example.com/imgs/bfb8a4db30f74136811c79d6a2063b74.png">
-<meta property="og:image" content="http://example.com/imgs/8f0428ba4af94e59b6081a6b83759acd.png">
-<meta property="og:image" content="http://example.com/imgs/d689027c2c594f89b566a1e2c5465887.png">
-<meta property="og:image" content="http://example.com/imgs/f199300488514aa3847075b4b8541c02.png">
-<meta property="og:image" content="http://example.com/imgs/14bc0f5d968347b3adbeeba4dab57aed.png">
-<meta property="og:image" content="http://example.com/imgs/6966a88766614ea5a249363a6f129797.png">
-<meta property="og:image" content="http://example.com/imgs/a3745c91af4948b8828204411aba625f.png">
-<meta property="og:image" content="http://example.com/imgs/06bb1763a47148cc8c74ca46ec66fcbe.png">
-<meta property="og:image" content="http://example.com/imgs/09ff6519ba1340db8b9a61ea480f57b0.png">
-<meta property="og:image" content="http://example.com/imgs/7ed844989c4640a9be7cc2922107c3d3.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/d2c1ca8234704e8cb918d7b53a008d00.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/79d57ee723c0414fa58067db9964da81.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/999db97b32c64a63b4411bda28308618.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/0d87ab8a99ff4cfba6d30dfbe2a4cc6b.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/77a53feae9054e88b68b47f8291f899d.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/e0c516bdfadb4be5b800d09bfce3e6b8.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/064dd050a8f644c0bcc6a3ff23565f97.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/279f927c1695458eb47fc01391cf08c2.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/54d69cada2784fccb0e1e17a443a57d2.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/006adce2e90d46b6bf6680421b8597fe.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/1b26737844194fc09f923cdd6b3b8a92.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/0f677483d57d40f69267e8e4ef2d3b0e.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/fab6f6cc9c23439fa4783422b7bd1784.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/bfb8a4db30f74136811c79d6a2063b74.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/8f0428ba4af94e59b6081a6b83759acd.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/d689027c2c594f89b566a1e2c5465887.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/f199300488514aa3847075b4b8541c02.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/14bc0f5d968347b3adbeeba4dab57aed.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/6966a88766614ea5a249363a6f129797.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/a3745c91af4948b8828204411aba625f.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/06bb1763a47148cc8c74ca46ec66fcbe.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/09ff6519ba1340db8b9a61ea480f57b0.png">
+<meta property="og:image" content="http://example.com/2021/11/26/imgs/7ed844989c4640a9be7cc2922107c3d3.png">
 <meta property="article:published_time" content="2021-11-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-04-04T15:27:03.515Z">
+<meta property="article:modified_time" content="2024-04-13T12:20:29.580Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="前端">
 <meta property="article:tag" content="CSS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/d2c1ca8234704e8cb918d7b53a008d00.png">
+<meta name="twitter:image" content="http://example.com/2021/11/26/imgs/d2c1ca8234704e8cb918d7b53a008d00.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -80,7 +80,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -92,11 +92,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -113,11 +113,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -162,12 +162,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -181,7 +181,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -220,7 +220,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -230,7 +230,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -252,7 +252,7 @@
 <p>color-stop1, color-stop2, …： 用于指定渐变的起止颜色。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">#e66465</span>, <span class="number">#9198e5</span>);</span><br><span class="line"><span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">0.25turn</span>, <span class="number">#3f87a6</span>, <span class="number">#ebf8e1</span>, <span class="number">#f69d3c</span>);</span><br><span class="line"><span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to left, <span class="number">#333</span>, <span class="number">#333</span> <span class="number">50%</span>, <span class="number">#eee</span> <span class="number">75%</span>, <span class="number">#333</span> <span class="number">75%</span>);</span><br><span class="line"><span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">217deg</span>, <span class="built_in">rgba</span>(<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>,.<span class="number">8</span>), <span class="built_in">rgba</span>(<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>) <span class="number">70.71%</span>), <span class="built_in">linear-gradient</span>(<span class="number">127deg</span>, <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>,.<span class="number">8</span>), <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>) <span class="number">70.71%</span>), <span class="built_in">linear-gradient</span>(<span class="number">336deg</span>, <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>,.<span class="number">8</span>), <span class="built_in">rgba</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>,<span class="number">0</span>) <span class="number">70.71%</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/d2c1ca8234704e8cb918d7b53a008d00.png" alt="image.png"></p>
+<p><img src="./../imgs/d2c1ca8234704e8cb918d7b53a008d00.png" alt="image.png"></p>
 <p>一个color-stop由一个color和两个可选的长度或百分比组成，代表这个颜色开始和结束的位置，如</p>
 <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">orange <span class="number">20</span><span class="comment">% 40%</span></span><br></pre></td></tr></table></figure>
 
@@ -262,7 +262,7 @@
 <h4 id="radial-gradient-and-repeating-radial-gradient"><a href="#radial-gradient-and-repeating-radial-gradient" class="headerlink" title="radial-gradient() and repeating-radial-gradient()"></a><code>radial-gradient()</code> and <code>repeating-radial-gradient()</code></h4><p>创建径向渐变，它与线性渐变的不同点在于它是从中心点向外辐射。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">background</span>: <span class="built_in">radial-gradient</span>(<span class="number">#e66465</span>, <span class="number">#9198e5</span>);</span><br><span class="line"><span class="attribute">background</span>: <span class="built_in">radial-gradient</span>(circle at <span class="number">100%</span>, <span class="number">#333</span>, <span class="number">#333</span> <span class="number">50%</span>, <span class="number">#eee</span> <span class="number">75%</span>, <span class="number">#333</span> <span class="number">75%</span>);</span><br><span class="line"><span class="attribute">background</span>: <span class="built_in">radial-gradient</span>(ellipse at top, <span class="number">#e66465</span>, transparent), <span class="built_in">radial-gradient</span>(ellipse at bottom, <span class="number">#4d9f0c</span>, transparent);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/79d57ee723c0414fa58067db9964da81.png" alt="image.png"></p>
+<p><img src="./../imgs/79d57ee723c0414fa58067db9964da81.png" alt="image.png"></p>
 <p>参数为：</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shape size at <span class="attribute">position</span>, start-<span class="attribute">color</span>, ..., last-<span class="attribute">color</span></span><br></pre></td></tr></table></figure>
 
@@ -279,50 +279,50 @@
 <h4 id="conic-gradient-and-repeating-conical-gradient"><a href="#conic-gradient-and-repeating-conical-gradient" class="headerlink" title="conic-gradient() and repeating-conical-gradient"></a><code>conic-gradient()</code> and <code>repeating-conical-gradient</code></h4><p>圆锥渐变与径向渐变的不同之处在于颜色围绕一个圆分布</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">conic-gradient</span>(red, orange, yellow, green, teal, blue, purple, red)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/999db97b32c64a63b4411bda28308618.png" alt="image.png"></p>
+<p><img src="./../imgs/999db97b32c64a63b4411bda28308618.png" alt="image.png"></p>
 <h2 id="滤镜filter"><a href="#滤镜filter" class="headerlink" title="滤镜filter"></a>滤镜filter</h2><h2 id="brightness"><a href="#brightness" class="headerlink" title="brightness()"></a><code>brightness()</code></h2><p>使内容看起来更亮或更暗</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">brightness</span>(amount)</span><br></pre></td></tr></table></figure>
 
 <p>参数amount：[<code>&lt;number&gt;</code>]或[<code>&lt;percentage&gt;</code>]，低于1更暗，高于1更亮</p>
 <figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">brightness</span>(<span class="number">0%</span>)   <span class="comment">/* 全黑 */</span></span><br><span class="line"><span class="built_in">brightness</span>(<span class="number">0.4</span>)  <span class="comment">/* 40% 亮度 */</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/0d87ab8a99ff4cfba6d30dfbe2a4cc6b.png" alt="image.png"> <img src="/../imgs/77a53feae9054e88b68b47f8291f899d.png" alt="image.png"></p>
+<p><img src="./../imgs/0d87ab8a99ff4cfba6d30dfbe2a4cc6b.png" alt="image.png"> <img src="./../imgs/77a53feae9054e88b68b47f8291f899d.png" alt="image.png"></p>
 <h3 id="blur"><a href="#blur" class="headerlink" title="blur()"></a><code>blur()</code></h3><p>模糊图像</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">blur</span>(<span class="number">0</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">blur</span>(<span class="number">4px</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/e0c516bdfadb4be5b800d09bfce3e6b8.png" alt="image.png"> <img src="/../imgs/064dd050a8f644c0bcc6a3ff23565f97.png" alt="image.png"></p>
+<p><img src="./../imgs/e0c516bdfadb4be5b800d09bfce3e6b8.png" alt="image.png"> <img src="./../imgs/064dd050a8f644c0bcc6a3ff23565f97.png" alt="image.png"></p>
 <h3 id="contrast"><a href="#contrast" class="headerlink" title="contrast()"></a><code>contrast()</code></h3><p>增加或减少图像的对比度</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">contrast</span>(<span class="number">50%</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">contrast</span>(<span class="number">1.75</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/279f927c1695458eb47fc01391cf08c2.png" alt="image.png"> <img src="/../imgs/54d69cada2784fccb0e1e17a443a57d2.png" alt="image.png"></p>
+<p><img src="./../imgs/279f927c1695458eb47fc01391cf08c2.png" alt="image.png"> <img src="./../imgs/54d69cada2784fccb0e1e17a443a57d2.png" alt="image.png"></p>
 <h3 id="grayscale"><a href="#grayscale" class="headerlink" title="grayscale()"></a><code>grayscale()</code></h3><p>将图像转为灰度图</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">grayscale</span>(<span class="number">1</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">grayscale</span>(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/006adce2e90d46b6bf6680421b8597fe.png" alt="image.png"> <img src="/../imgs/1b26737844194fc09f923cdd6b3b8a92.png" alt="image.png"></p>
+<p><img src="./../imgs/006adce2e90d46b6bf6680421b8597fe.png" alt="image.png"> <img src="./../imgs/1b26737844194fc09f923cdd6b3b8a92.png" alt="image.png"></p>
 <h3 id="invert"><a href="#invert" class="headerlink" title="invert()"></a><code>invert()</code></h3><p>反转图像颜色</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">invert</span>(<span class="number">0.30</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">invert</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/0f677483d57d40f69267e8e4ef2d3b0e.png" alt="image.png"> <img src="/../imgs/fab6f6cc9c23439fa4783422b7bd1784.png" alt="image.png"></p>
+<p><img src="./../imgs/0f677483d57d40f69267e8e4ef2d3b0e.png" alt="image.png"> <img src="./../imgs/fab6f6cc9c23439fa4783422b7bd1784.png" alt="image.png"></p>
 <h3 id="opacity"><a href="#opacity" class="headerlink" title="opacity()"></a><code>opacity()</code></h3><p>改变图像透明度</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">opacity</span>(<span class="number">0.20</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/bfb8a4db30f74136811c79d6a2063b74.png" alt="image.png"></p>
+<p><img src="./../imgs/bfb8a4db30f74136811c79d6a2063b74.png" alt="image.png"></p>
 <h3 id="saturate"><a href="#saturate" class="headerlink" title="saturate()"></a><code>saturate()</code></h3><p>改变饱和度</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">saturate</span>(<span class="number">1</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">saturate</span>(<span class="number">4</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">saturate</span>(<span class="number">50%</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/8f0428ba4af94e59b6081a6b83759acd.png"> <img src="/../imgs/d689027c2c594f89b566a1e2c5465887.png"> <img src="/../imgs/f199300488514aa3847075b4b8541c02.png"></p>
+<p><img src="./../imgs/8f0428ba4af94e59b6081a6b83759acd.png"> <img src="./../imgs/d689027c2c594f89b566a1e2c5465887.png"> <img src="./../imgs/f199300488514aa3847075b4b8541c02.png"></p>
 <h3 id="sepia"><a href="#sepia" class="headerlink" title="sepia()"></a><code>sepia()</code></h3><p>棕褐色滤镜</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">sepia</span>(<span class="number">0.20</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">sepia</span>(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/14bc0f5d968347b3adbeeba4dab57aed.png" alt="image.png"> <img src="/../imgs/6966a88766614ea5a249363a6f129797.png" alt="image.png"></p>
+<p><img src="./../imgs/14bc0f5d968347b3adbeeba4dab57aed.png" alt="image.png"> <img src="./../imgs/6966a88766614ea5a249363a6f129797.png" alt="image.png"></p>
 <h3 id="drop-shadow"><a href="#drop-shadow" class="headerlink" title="drop-shadow()"></a><code>drop-shadow()</code></h3><p>在图像后方应用投影,和<code>box-shadow</code>的不同之处在于，这个函数创建的投影是符合图像本身形状的，而<code>box-shadow</code>创建的是矩形阴影</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">drop-shadow</span>(<span class="number">30px</span> <span class="number">10px</span> <span class="number">4px</span> <span class="number">#4444dd</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">drop-shadow</span>(<span class="number">0</span> -<span class="number">6mm</span> <span class="number">4mm</span> <span class="built_in">rgb</span>(<span class="number">160</span>, <span class="number">0</span>, <span class="number">210</span>));</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/a3745c91af4948b8828204411aba625f.png" alt="image.png"> <img src="/../imgs/06bb1763a47148cc8c74ca46ec66fcbe.png" alt="image.png"></p>
+<p><img src="./../imgs/a3745c91af4948b8828204411aba625f.png" alt="image.png"> <img src="./../imgs/06bb1763a47148cc8c74ca46ec66fcbe.png" alt="image.png"></p>
 <h3 id="hue-rotate"><a href="#hue-rotate" class="headerlink" title="hue-rotate()"></a><code>hue-rotate()</code></h3><p>增加或降低色调</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">filter</span>: <span class="built_in">hue-rotate</span>(<span class="number">90deg</span>);</span><br><span class="line"><span class="attribute">filter</span>: <span class="built_in">hue-rotate</span>(-<span class="number">0.25turn</span>);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/../imgs/09ff6519ba1340db8b9a61ea480f57b0.png" alt="image.png"> <img src="/../imgs/7ed844989c4640a9be7cc2922107c3d3.png" alt="image.png"></p>
+<p><img src="./../imgs/09ff6519ba1340db8b9a61ea480f57b0.png" alt="image.png"> <img src="./../imgs/7ed844989c4640a9be7cc2922107c3d3.png" alt="image.png"></p>
 
         
       </div>
@@ -337,7 +337,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2021/11/27/CSS%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E6%9D%82%E9%A1%B9%E5%92%8C%E6%9C%AA%E6%9D%A5/"
+      href="hexo-blog/2021/11/27/CSS%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9A%E6%9D%82%E9%A1%B9%E5%92%8C%E6%9C%AA%E6%9D%A5/"
       title="CSS函数大全（四）：杂项和未来"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -349,7 +349,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2021/11/25/CSS%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E8%BD%AC%E6%8D%A2%E3%80%81%E5%8A%A8%E7%94%BB%E5%92%8C%E5%BD%A2%E7%8A%B6%20path/"
+      href="hexo-blog/2021/11/25/CSS%E5%87%BD%E6%95%B0%E5%A4%A7%E5%85%A8%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E8%BD%AC%E6%8D%A2%E3%80%81%E5%8A%A8%E7%94%BB%E5%92%8C%E5%BD%A2%E7%8A%B6%20path/"
       title="CSS函数大全（二）：转换、动画和形状/path"
      >
 
@@ -407,6 +407,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

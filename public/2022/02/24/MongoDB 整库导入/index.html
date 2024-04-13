@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>MongoDB 整库导入 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="「这是我参与2022首次更文挑战的第27天，活动详情查看：2022首次更文挑战」 背景兄弟部门扔了个文件夹过来，说是mongo导出的部分数据，需要测试一下。 文件夹里大概长这样：  我表示现在的前端可真不好干。。。 启动MongoDB既然是测试，那么本地使用docker起一个MongoDB是最方便的，编写docker-compose.yml如下： 1234567891011121314151617">
 <meta property="og:type" content="article">
@@ -27,33 +27,33 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="「这是我参与2022首次更文挑战的第27天，活动详情查看：2022首次更文挑战」 背景兄弟部门扔了个文件夹过来，说是mongo导出的部分数据，需要测试一下。 文件夹里大概长这样：  我表示现在的前端可真不好干。。。 启动MongoDB既然是测试，那么本地使用docker起一个MongoDB是最方便的，编写docker-compose.yml如下： 1234567891011121314151617">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/503f78a59ccd4cb58576e9fc02767ecd.png">
-<meta property="og:image" content="http://example.com/imgs/b14906e8bf9d42adabf68728b85f47cc.png">
-<meta property="og:image" content="http://example.com/imgs/b1b144ee16394b449e0d9cb9952ebcce.png">
-<meta property="og:image" content="http://example.com/imgs/fea1fc3b1a6e456d95dc097e7636e292.png">
-<meta property="og:image" content="http://example.com/imgs/35379bb1ef624db4868454ba2df4a31a.png">
-<meta property="og:image" content="http://example.com/imgs/5c1163271f3d47b4a911d8b08e248644.png">
-<meta property="og:image" content="http://example.com/imgs/cddfa26a428743cc8389ba3ccf05f2c5.png">
-<meta property="og:image" content="http://example.com/imgs/124a2ee904c54b6fb2e7f064b8d05946.png">
+<meta property="og:image" content="http://example.com/2022/02/24/imgs/503f78a59ccd4cb58576e9fc02767ecd.png">
+<meta property="og:image" content="http://example.com/2022/02/24/imgs/b14906e8bf9d42adabf68728b85f47cc.png">
+<meta property="og:image" content="http://example.com/2022/02/24/imgs/b1b144ee16394b449e0d9cb9952ebcce.png">
+<meta property="og:image" content="http://example.com/2022/02/24/imgs/fea1fc3b1a6e456d95dc097e7636e292.png">
+<meta property="og:image" content="http://example.com/2022/02/24/imgs/35379bb1ef624db4868454ba2df4a31a.png">
+<meta property="og:image" content="http://example.com/2022/02/24/imgs/5c1163271f3d47b4a911d8b08e248644.png">
+<meta property="og:image" content="http://example.com/2022/02/24/imgs/cddfa26a428743cc8389ba3ccf05f2c5.png">
+<meta property="og:image" content="http://example.com/2022/02/24/imgs/124a2ee904c54b6fb2e7f064b8d05946.png">
 <meta property="article:published_time" content="2022-02-23T16:00:00.000Z">
 <meta property="article:modified_time" content="2024-04-04T15:27:03.585Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="MongoDB">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/503f78a59ccd4cb58576e9fc02767ecd.png">
+<meta name="twitter:image" content="http://example.com/2022/02/24/imgs/503f78a59ccd4cb58576e9fc02767ecd.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -64,7 +64,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -76,11 +76,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -97,11 +97,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -146,12 +146,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -165,7 +165,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -204,7 +204,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -214,7 +214,7 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
@@ -222,20 +222,20 @@
           <p>「这是我参与2022首次更文挑战的第27天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7052884569032392740" title="https://juejin.cn/post/7052884569032392740">2022首次更文挑战</a>」</p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>兄弟部门扔了个文件夹过来，说是mongo导出的部分数据，需要测试一下。</p>
 <p>文件夹里大概长这样：</p>
-<p><img src="/../imgs/503f78a59ccd4cb58576e9fc02767ecd.png" alt="image.png"></p>
+<p><img src="./../imgs/503f78a59ccd4cb58576e9fc02767ecd.png" alt="image.png"></p>
 <p>我表示现在的前端可真不好干。。。</p>
 <h2 id="启动MongoDB"><a href="#启动MongoDB" class="headerlink" title="启动MongoDB"></a>启动MongoDB</h2><p>既然是测试，那么本地使用docker起一个MongoDB是最方便的，编写docker-compose.yml如下：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">mongo:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mongo</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">27017</span><span class="string">:27017</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MONGO_INITDB_ROOT_USERNAME:</span> <span class="string">root</span></span><br><span class="line">      <span class="attr">MONGO_INITDB_ROOT_PASSWORD:</span> <span class="string">example</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">mongo-express:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mongo-express</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8081</span><span class="string">:8081</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">ME_CONFIG_MONGODB_ADMINUSERNAME:</span> <span class="string">root</span></span><br><span class="line">      <span class="attr">ME_CONFIG_MONGODB_ADMINPASSWORD:</span> <span class="string">example</span></span><br><span class="line">      <span class="attr">ME_CONFIG_MONGODB_URL:</span> <span class="string">mongodb://root:example@mongo:27017/</span></span><br></pre></td></tr></table></figure>
 
 <p>启动命令：<code>docker-compose up -d --no-recreate</code></p>
 <h3 id="查看MongoDB"><a href="#查看MongoDB" class="headerlink" title="查看MongoDB"></a>查看MongoDB</h3><p>可以用mongo-express，打开<code>http://localhost:8081/</code></p>
-<p><img src="/../imgs/b14906e8bf9d42adabf68728b85f47cc.png" alt="image.png"></p>
+<p><img src="./../imgs/b14906e8bf9d42adabf68728b85f47cc.png" alt="image.png"></p>
 <p>或者安装一个MongoDB Compass</p>
-<p><img src="/../imgs/b1b144ee16394b449e0d9cb9952ebcce.png" alt="image.png"></p>
+<p><img src="./../imgs/b1b144ee16394b449e0d9cb9952ebcce.png" alt="image.png"></p>
 <h2 id="将数据库文件传入docker-容器"><a href="#将数据库文件传入docker-容器" class="headerlink" title="将数据库文件传入docker 容器"></a>将数据库文件传入docker 容器</h2><p>首先查看docker container id，运行<code>docker container ls</code></p>
-<p><img src="/../imgs/fea1fc3b1a6e456d95dc097e7636e292.png" alt="image.png"> 可以使用docker cp命令，<code>docker cp from containerId:to</code>，将文件赋值到目标路径。</p>
+<p><img src="./../imgs/fea1fc3b1a6e456d95dc097e7636e292.png" alt="image.png"> 可以使用docker cp命令，<code>docker cp from containerId:to</code>，将文件赋值到目标路径。</p>
 <h3 id="进入docker-container"><a href="#进入docker-container" class="headerlink" title="进入docker container"></a>进入docker container</h3><p>控制台输入命令： <code>docker exec -it containerid bash</code>，进入docker container</p>
-<p><img src="/../imgs/35379bb1ef624db4868454ba2df4a31a.png" alt="image.png"></p>
+<p><img src="./../imgs/35379bb1ef624db4868454ba2df4a31a.png" alt="image.png"></p>
 <h3 id="检查文件是否已经全部传输完成"><a href="#检查文件是否已经全部传输完成" class="headerlink" title="检查文件是否已经全部传输完成"></a>检查文件是否已经全部传输完成</h3><p>进入文件所在目录，通过<code>ls</code>命令查看文件是否已经传过来；通过<code>ls -l | grep &quot;^-&quot; | wc -l</code>命令检查文件数量是否和源文件夹一直。</p>
 <h2 id="使用mongorestore导入数据"><a href="#使用mongorestore导入数据" class="headerlink" title="使用mongorestore导入数据"></a>使用mongorestore导入数据</h2><p><a href="https://docs.mongodb.com%2Fdatabase-tools%2Fmongorestore%2F" title="https://docs.mongodb.com/database-tools/mongorestore/">mongorestore</a>能够创建数据库，并将整个文件夹导入，命令为<code>mongorestore -d db_name 文件夹目录</code>。</p>
 <ul>
@@ -243,14 +243,14 @@
 </ul>
 <p>如果命令运行成功，会看到输出* document(s) restored successfully. 0 document(s) failed to restore.*</p>
 <p>通过Compass，可以看到我们导入的新数据库：</p>
-<p><img src="/../imgs/5c1163271f3d47b4a911d8b08e248644.png" alt="image.png"></p>
+<p><img src="./../imgs/5c1163271f3d47b4a911d8b08e248644.png" alt="image.png"></p>
 <h3 id="常见报错及解决办法"><a href="#常见报错及解决办法" class="headerlink" title="常见报错及解决办法"></a>常见报错及解决办法</h3><ul>
 <li><p>运行命令<code>mongorestore -d db_test ./example</code>,将example中的文件导入db_test库，报错_error reading database: (Unauthorized) command listCollections requires authentication_</p>
-<p><img src="/../imgs/cddfa26a428743cc8389ba3ccf05f2c5.png" alt="image.png"> 需要增加<code>--uri</code>参数:</p>
+<p><img src="./../imgs/cddfa26a428743cc8389ba3ccf05f2c5.png" alt="image.png"> 需要增加<code>--uri</code>参数:</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -d db_test ./example <span class="attr">--uri</span>=<span class="string">&quot;mongodb://username:password@host:port&quot;</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>运行命令<code>mongorestore -d db_test ./example --uri=&quot;mongodb://xxx:xxx@127.0.0.1:27017&quot;</code>，报错_unable to authenticate using mechanism “SCRAM-SHA-1”: (AuthenticationFailed) Authentication failed_</p>
-<p><img src="/../imgs/124a2ee904c54b6fb2e7f064b8d05946.png" alt="image.png"> 需要对<code>--uri</code>增加<code>?authSource=admin</code></p>
+<p><img src="./../imgs/124a2ee904c54b6fb2e7f064b8d05946.png" alt="image.png"> 需要对<code>--uri</code>增加<code>?authSource=admin</code></p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -d db_test ./example <span class="attr">--uri</span>=<span class="string">&quot;mongodb://***:***@host:port/?authSource=admin&quot;</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 
@@ -267,7 +267,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2022/02/27/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E6%A1%B6%E6%8E%92%E5%BA%8F/"
+      href="hexo-blog/2022/02/27/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E6%A1%B6%E6%8E%92%E5%BA%8F/"
       title="排序算法之桶排序"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -279,7 +279,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2022/02/22/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E6%B4%BB%E5%8A%A8%E5%9B%BE/"
+      href="hexo-blog/2022/02/22/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E6%B4%BB%E5%8A%A8%E5%9B%BE/"
       title="UML快速入门——活动图"
      >
 
@@ -337,6 +337,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>

@@ -5,8 +5,8 @@
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
 <link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
-<script src="/js/color.global.min.js" ></script>
-<script src="/js/load-settings.js" ></script>
+<script src="hexo-blog/js/color.global.min.js" ></script>
+<script src="hexo-blog/js/load-settings.js" ></script>
 <head>
   <meta charset="utf-8">
   
@@ -17,8 +17,8 @@
   <title>实操使用原子级样式快速精准还原设计稿 | bressanone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
-  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="hexo-blog/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
   <meta name="description" content="很多人觉得原子级样式还原设计稿很难精确，然而如果掌握了正确的布局思路，是可以做到优雅快速且精准的。 比如说我们要还原这个小卡片，内容很简单  第一步：确定整体元素布局123456789101112131415&lt;div&gt;   &lt;div&gt;     &lt;span&gt;商品名称&lt;&#x2F;span&gt;     &lt;span&gt;xxxxxxxxxxxxxxxxxxxx">
 <meta property="og:type" content="article">
@@ -27,32 +27,32 @@
 <meta property="og:site_name" content="bressanone">
 <meta property="og:description" content="很多人觉得原子级样式还原设计稿很难精确，然而如果掌握了正确的布局思路，是可以做到优雅快速且精准的。 比如说我们要还原这个小卡片，内容很简单  第一步：确定整体元素布局123456789101112131415&lt;div&gt;   &lt;div&gt;     &lt;span&gt;商品名称&lt;&#x2F;span&gt;     &lt;span&gt;xxxxxxxxxxxxxxxxxxxx">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/imgs/d02225b4919f4ea2adf6be3a0d35f97e.png">
-<meta property="og:image" content="http://example.com/imgs/8616c565ebff4ce8a4b478c7937e8698.png">
-<meta property="og:image" content="http://example.com/imgs/b6ea9aea43b94d7a931c4180550f1f14.png">
-<meta property="og:image" content="http://example.com/imgs/dece515d4cda456cb685723dc7715a50.png">
-<meta property="og:image" content="http://example.com/imgs/c723562b8e9c44e1bec04f299dc10034.png">
-<meta property="og:image" content="http://example.com/imgs/cd9fd718405249d7b843d4d30271f96a.png">
-<meta property="og:image" content="http://example.com/imgs/47858ec75dee4b88b03b6329ce438d72.png">
+<meta property="og:image" content="http://example.com/2021/09/18/imgs/d02225b4919f4ea2adf6be3a0d35f97e.png">
+<meta property="og:image" content="http://example.com/2021/09/18/imgs/8616c565ebff4ce8a4b478c7937e8698.png">
+<meta property="og:image" content="http://example.com/2021/09/18/imgs/b6ea9aea43b94d7a931c4180550f1f14.png">
+<meta property="og:image" content="http://example.com/2021/09/18/imgs/dece515d4cda456cb685723dc7715a50.png">
+<meta property="og:image" content="http://example.com/2021/09/18/imgs/c723562b8e9c44e1bec04f299dc10034.png">
+<meta property="og:image" content="http://example.com/2021/09/18/imgs/cd9fd718405249d7b843d4d30271f96a.png">
+<meta property="og:image" content="http://example.com/2021/09/18/imgs/47858ec75dee4b88b03b6329ce438d72.png">
 <meta property="article:published_time" content="2021-09-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-04-04T15:27:03.420Z">
+<meta property="article:modified_time" content="2024-04-13T12:20:29.585Z">
 <meta property="article:author" content="Zachary">
 <meta property="article:tag" content="前端">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/imgs/d02225b4919f4ea2adf6be3a0d35f97e.png">
+<meta name="twitter:image" content="http://example.com/2021/09/18/imgs/d02225b4919f4ea2adf6be3a0d35f97e.png">
   
   
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
-    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="hexo-blog/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="hexo-blog/images/favicon-dark-192.png" sizes="192x192">
   
   
-<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="hexo-blog/css/style.css">
 
 <meta name="generator" content="Hexo 7.1.1"></head>
 
@@ -63,7 +63,7 @@
     <div id="nav" class=""  >
       <navbar id="navbar">
   <nav id="title-nav">
-    <a href="/">
+    <a href="hexo-blog/">
       <div id="vivia-logo">
         <div class="dot"></div>
         <div class="dot"></div>
@@ -75,11 +75,11 @@
   </nav>
   <nav id="main-nav">
     
-      <a class="main-nav-link" href="/">主页</a>
+      <a class="main-nav-link" href="hexo-blog/">主页</a>
     
-      <a class="main-nav-link" href="/archives">归档</a>
+      <a class="main-nav-link" href="hexo-blog/archives">归档</a>
     
-      <a class="main-nav-link" href="/about">关于</a>
+      <a class="main-nav-link" href="hexo-blog/about">关于</a>
     
   </nav>
   <nav id="sub-nav">
@@ -96,11 +96,11 @@
 <div id="nav-dropdown" class="hidden">
   <div id="dropdown-link-list">
     
-      <a class="nav-dropdown-link" href="/">主页</a>
+      <a class="nav-dropdown-link" href="hexo-blog/">主页</a>
     
-      <a class="nav-dropdown-link" href="/archives">归档</a>
+      <a class="nav-dropdown-link" href="hexo-blog/archives">归档</a>
     
-      <a class="nav-dropdown-link" href="/about">关于</a>
+      <a class="nav-dropdown-link" href="hexo-blog/about">关于</a>
     
      
     </div>
@@ -145,12 +145,12 @@
     <div class="widget">
       <h3 class="widget-title">分类</h3>
       <div class="category-box">
-            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+            <a class="category-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
                 前端笔记
                 <div class="category-count">78</div>
             </a>
         
-            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+            <a class="category-link" href="hexo-blog/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
                 算法手册
                 <div class="category-count">7</div>
             </a>
@@ -164,7 +164,7 @@
   <div class="widget-wrap">
     <div class="widget">
       <h3 class="widget-title">标签</h3>
-      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="hexo-blog/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
     </div>
   </div>
 
@@ -203,7 +203,7 @@
           <div class="need-seperator meta-info">
             <div class="meta-cate-flex">
   
-  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+  <a class="meta-cate-link" href="hexo-blog/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
    
 </div>
   
@@ -213,24 +213,24 @@
           </div>
         </div>
         
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="hexo-blog/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
 
       </header>
       <div class="e-content article-entry" itemprop="articleBody">
         
           <p>很多人觉得原子级样式还原设计稿很难精确，然而如果掌握了正确的布局思路，是可以做到优雅快速且精准的。</p>
-<p>比如说我们要还原这个小卡片，内容很简单 <img src="/../imgs/d02225b4919f4ea2adf6be3a0d35f97e.png" alt="1631933191(1).png"></p>
+<p>比如说我们要还原这个小卡片，内容很简单 <img src="./../imgs/d02225b4919f4ea2adf6be3a0d35f97e.png" alt="1631933191(1).png"></p>
 <h2 id="第一步：确定整体元素布局"><a href="#第一步：确定整体元素布局" class="headerlink" title="第一步：确定整体元素布局"></a>第一步：确定整体元素布局</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span>商品名称<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span>xxxxxxxxxxxxxxxxxxxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span>商品编码<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span>xxxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">van-icon</span> <span class="attr">name</span>=<span class="string">&quot;arrow&quot;</span> <span class="attr">:color</span>=<span class="string">&quot;textColor.muted&quot;</span>/&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span>金额/税额<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">span</span>&gt;</span>xxxc/xxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>效果如下：</p>
-<p><img src="/../imgs/8616c565ebff4ce8a4b478c7937e8698.png" alt="1631933360(1).png"></p>
+<p><img src="./../imgs/8616c565ebff4ce8a4b478c7937e8698.png" alt="1631933360(1).png"></p>
 <h2 id="第二步：对外层div进行调整，控制整体样式"><a href="#第二步：对外层div进行调整，控制整体样式" class="headerlink" title="第二步：对外层div进行调整，控制整体样式"></a>第二步：对外层div进行调整，控制整体样式</h2><p>观察外层div，有背景、圆角、margin、padding需要进行设置,相关的样式分别是<code>bg-gray-100 rounded m-20 mt-0 p-30 pr-20</code></p>
-<p><img src="/../imgs/b6ea9aea43b94d7a931c4180550f1f14.png" alt="image.png"></p>
+<p><img src="./../imgs/b6ea9aea43b94d7a931c4180550f1f14.png" alt="image.png"></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;bg-gray-100 rounded m-20 mt-0 p-30 pr-20&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>商品名称<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>xxxxxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>商品编码<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>xxxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">van-icon</span> <span class="attr">name</span>=<span class="string">&quot;arrow&quot;</span> <span class="attr">:color</span>=<span class="string">&quot;textColor.muted&quot;</span>/&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>金额/税额<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>xxxc/xxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>这里对margin-top设置为0，也是一个布局小原则：同级上下间距使用margin-bottom，因为margin-top有合并到父元素上的风险。</p>
 <p>此时效果如下，整体布局已经完成</p>
-<p><img src="/../imgs/dece515d4cda456cb685723dc7715a50.png" alt="image.png"></p>
+<p><img src="./../imgs/dece515d4cda456cb685723dc7715a50.png" alt="image.png"></p>
 <h2 id="第三步：对内部进行调整，完成各局部布局"><a href="#第三步：对内部进行调整，完成各局部布局" class="headerlink" title="第三步：对内部进行调整，完成各局部布局"></a>第三步：对内部进行调整，完成各局部布局</h2><p>观察设计稿，</p>
 <ul>
 <li>先看行间，有margin-bottom隔开，</li>
@@ -253,7 +253,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/../imgs/c723562b8e9c44e1bec04f299dc10034.png" alt="image.png"></p>
+<p><img src="./../imgs/c723562b8e9c44e1bec04f299dc10034.png" alt="image.png"></p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;bg-gray-100 rounded m-20 mt-0 p-30 pr-20&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;flex items-center mb-20&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;field text-muted mr-30&quot;</span>&gt;</span>商品名称<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;value ellipsis&quot;</span>&gt;</span>xxxxxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;flex items-center mb-20&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;field text-muted mr-30&quot;</span>&gt;</span>商品编码<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;value ellipsis&quot;</span>&gt;</span>xxxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">van-icon</span> <span class="attr">name</span>=<span class="string">&quot;arrow&quot;</span> <span class="attr">:color</span>=<span class="string">&quot;textColor.muted&quot;</span>/&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;flex items-center&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;field text-muted mr-30&quot;</span>&gt;</span>金额/税额<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;value ellipsis&quot;</span>&gt;</span>xxxc/xxxx<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>css:</p>
@@ -262,12 +262,12 @@
 <p>由于field和value的宽度并不在我们的标准宽度内，因此只能额外设置样式。</p>
 <p><code>&lt;van-icon name=&quot;arrow&quot; :color=&quot;textColor.muted&quot;/&gt;</code>则是vue组件的inject注入全局样式配置，再对第三方组件进行设置：<code>inject: [&#39;textColor&#39;],</code></p>
 <p>此时效果如下，整体效果已经出来了</p>
-<p><img src="/../imgs/cd9fd718405249d7b843d4d30271f96a.png" alt="image.png"></p>
+<p><img src="./../imgs/cd9fd718405249d7b843d4d30271f96a.png" alt="image.png"></p>
 <h2 id="第四步：微调行高造成的误差"><a href="#第四步：微调行高造成的误差" class="headerlink" title="第四步：微调行高造成的误差"></a>第四步：微调行高造成的误差</h2><p>设计稿上行高为1，也就是28px（750设计稿），而我们默认14px文字的行高为19px，差了5px，因此需要微调一下</p>
 <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">- &lt;div class=&quot;bg-gray-100 rounded m-20 mt-0 p-30 pr-20&quot;&gt;</span></span><br><span class="line"><span class="addition">+ &lt;div class=&quot;bg-gray-100 rounded m-20 mt-0 py-24 pl-30 pr-20&quot;&gt;</span></span><br><span class="line">    &lt;div class=&quot;flex items-center mb-20&quot;&gt;</span><br><span class="line">      &lt;span class=&quot;field text-muted mr-30&quot;&gt;商品名称&lt;/span&gt;</span><br><span class="line">      &lt;span class=&quot;value ellipsis&quot;&gt;xxxxxxx&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;flex items-center mb-20&quot;&gt;</span><br><span class="line">      &lt;span class=&quot;field text-muted mr-30&quot;&gt;商品编码&lt;/span&gt;</span><br><span class="line">      &lt;span class=&quot;value ellipsis&quot;&gt;xxxxx&lt;/span&gt;</span><br><span class="line">      &lt;span&gt;&lt;van-icon name=&quot;arrow&quot; :color=&quot;textColor.muted&quot;/&gt;&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;flex items-center&quot;&gt;</span><br><span class="line">      &lt;span class=&quot;field text-muted mr-30&quot;&gt;金额/税额&lt;/span&gt;</span><br><span class="line">      &lt;span class=&quot;value ellipsis&quot;&gt;xxxc/xxxx&lt;/span&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
 <p>此时效果如下</p>
-<p><img src="/../imgs/47858ec75dee4b88b03b6329ce438d72.png" alt="image.png"></p>
+<p><img src="./../imgs/47858ec75dee4b88b03b6329ce438d72.png" alt="image.png"></p>
 <h2 id="最后检查实现效果"><a href="#最后检查实现效果" class="headerlink" title="最后检查实现效果"></a>最后检查实现效果</h2><p>设计稿card的高度为204px(2倍)，我们实现的是101px，因行高造成不到1%的误差，是完全能够接受的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用原子级样式的好处在于布局过程中可以对照设计稿进行盲写，一次性将绝大多数样式填充完毕，有经验的配合各种快捷方式甚至可以一次完成一个小组件的全部样式，整个过程行云流水。而传统的布局方式在实践中往往会写一部分看一部分，速度自然也就没那么快了。</p>
 <h2 id="附：布局原则"><a href="#附：布局原则" class="headerlink" title="附：布局原则"></a>附：布局原则</h2><ul>
@@ -290,7 +290,7 @@
 <nav id="article-nav">
   <a class="article-nav-btn left "
     
-      href="/2021/10/08/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91css%E4%B8%AD%E7%9A%84%E2%80%9Cgap%E2%80%9D/"
+      href="hexo-blog/2021/10/08/%E3%80%90%E7%BF%BB%E8%AF%91%E3%80%91css%E4%B8%AD%E7%9A%84%E2%80%9Cgap%E2%80%9D/"
       title="【翻译】css中的“gap”"
      >
     <i class="fa-solid fa-angle-left"></i>
@@ -302,7 +302,7 @@
   </a>
   <a class="article-nav-btn right "
     
-      href="/2021/08/19/tailwind%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E2%80%94%E2%80%94%E8%80%81%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB/"
+      href="hexo-blog/2021/08/19/tailwind%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E2%80%94%E2%80%94%E8%80%81%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB/"
       title="tailwind使用指南——老项目迁移"
      >
 
@@ -360,6 +360,6 @@
 </script>
 
   </div>
-  <script src="/js/light-dark-switch.js"></script>
+  <script src="hexo-blog/js/light-dark-switch.js"></script>
 </body>
 </html>
