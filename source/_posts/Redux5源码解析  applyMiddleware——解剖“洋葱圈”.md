@@ -1,8 +1,8 @@
 ---
  title: "Redux5源码解析: applyMiddleware——解剖“洋葱圈”"
- date: 
+ date: 2022-01-20
  tags: [前端]
- categories: 
+ categories: [前端笔记]
 ---
 
 「这是我参与2022首次更文挑战的第3天，活动详情查看：[2022首次更文挑战](https://juejin.cn/post/7052884569032392740 "https://juejin.cn/post/7052884569032392740")」

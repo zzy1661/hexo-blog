@@ -1,8 +1,8 @@
 ---
  title: "useContext和useReducer真的可以代替Redux吗"
- date: 
+ date: 2022-01-26
  tags: [React.js,前端]
- categories: 
+ categories: [前端笔记]
 ---
 
 「这是我参与2022首次更文挑战的第9天，活动详情查看：[2022首次更文挑战](https://juejin.cn/post/7052884569032392740 "https://juejin.cn/post/7052884569032392740")」

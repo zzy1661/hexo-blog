@@ -1,8 +1,8 @@
 ---
  title: "Mobx6核心源码解析（三）: ObservableObjectAdministration"
- date: 
+ date: 2021-12-03
  tags: [前端]
- categories: 
+ categories: [前端笔记]
 ---
 
 ![image.png](../imgs/2b9ca4a010e54d8ca142e68c9eb2f26b.png) 上一篇探究了`observable`方法内部的执行机制，讲到`adm.extend_( key, descriptor[key as any],true)`将target与obj对象关联了起来。本文将从这里继续，解析`adm`的class`ObservableObjectAdministration`。

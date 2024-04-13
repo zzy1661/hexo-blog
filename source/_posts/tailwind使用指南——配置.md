@@ -1,8 +1,8 @@
 ---
-title: "tailwind使用指南——配置"
-date: 
-tags: [CSS]
-categories: [前端笔记]
+ title: "tailwind使用指南——配置"
+ date: 2021-08-16
+ tags: [CSS]
+ categories: [前端笔记]
 ---
 
 配置篇

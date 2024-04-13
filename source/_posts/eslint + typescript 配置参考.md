@@ -1,8 +1,8 @@
 ---
-title: "eslint + typescript 配置参考"
-date: 2021-04-18
-tags: [TypeScript] 
-categories: [前端笔记]
+ title: "eslint + typescript 配置参考"
+ date: 2021-04-18
+ tags: [TypeScript]
+ categories: [前端笔记]
 ---
 
 ```bash

@@ -1,8 +1,8 @@
 ---
  title: "Mobx6核心源码解析（二）: observable"
- date: 
+ date: 2021-12-03
  tags: [前端]
- categories: 
+ categories: [前端笔记]
 ---
 
 上文我们推测Mobx的基本原理，并模拟实现了Mobx的两个核心api，本文将进入源码，看看observable是如何实现的。

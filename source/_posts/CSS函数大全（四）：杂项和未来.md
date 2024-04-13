@@ -1,6 +1,6 @@
 ---
  title: "CSS函数大全（四）：杂项和未来"
- date: 
+ date: 2021-11-27
  tags: [前端,CSS]
  categories: [前端笔记]
 ---

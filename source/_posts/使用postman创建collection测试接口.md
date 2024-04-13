@@ -1,6 +1,6 @@
 ---
  title: "使用postman创建collection测试接口"
- date: 
+ date: 2019-12-31
  tags: [Postman]
  categories: 
 ---
@@ -22,7 +22,7 @@ postman可以创建一个工作流按顺序测试多个接口，并可以将前�
         
     *   Test中可以获取到查询结果，这里我们取第一条记录的信息传递给后面的接口
         
-        ```applescript
+        ```
         var id = pm.response.json().body.JobList[0].JobID;
         var ref = pm.response.json().body.JobList[0].ReferrerType;
         pm.globals.set("id", id);

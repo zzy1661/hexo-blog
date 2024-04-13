@@ -11,7 +11,7 @@
 ----
 
 目录结构大致如下  
-![image.png](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb245b35b83e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp "image.png")  
+![image.png](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb245b35b83e~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png "image.png")  
 我们将烟花分为两个阶段，一个是未炸开持续上升时期，另一个是炸开后分散的时期。  
 其中Vector表示一个坐标，Particle表示一个烟花的亮点，Firewor表示烟花未炸开时持续上升的亮点。index.tsx就是组件了，绘制了canvas，并执行了动画。
 
@@ -279,4 +279,4 @@ class FireworkComponent extends React.Component<PropTypes> {
 export default FireworkComponent;
 ```
 
-大致效果![image.png](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb244c40c533~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.awebp "image.png")
+大致效果![image.png](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2020/1/16/16fadb244c40c533~tplv-t2oaga2asx-jj-mark:3024:0:0:0:q75.png "image.png")

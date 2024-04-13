@@ -1,8 +1,8 @@
 ---
  title: "前端docker快速入门——Dockerfile"
- date: 
+ date: 2022-03-05
  tags: [Docker]
- categories: 
+ categories: [前端笔记]
 ---
 
 前言
