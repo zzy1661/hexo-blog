@@ -1,15 +1,15 @@
 ---
  title: "asnyc/await的并行"
- date: 2019-12-31
+ date: 2019-01-24
  tags: [ECMAScript 6]
- categories: [前端笔记]
+ categories: 
 ---
 
 一直以为es7里面的async和await可以用来简化串行异步代码，而没有想到还能并行。  
 说到底，这俩货不过是promise的语法糖，await的作用只是串行解析promise。  
 通常我们这样写：
 
-```javascript
+```
 function asyncAwaitFn(str) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -32,7 +32,7 @@ parallel()
 
 但如果换一种写法：
 
-```javascript
+```
 function asyncAwaitFn(str) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {

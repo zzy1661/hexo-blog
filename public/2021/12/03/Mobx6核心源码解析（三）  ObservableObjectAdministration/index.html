@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>Mobx6核心源码解析（三）: ObservableObjectAdministration | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="上一篇探究了observable方法内部的执行机制，讲到adm.extend_( key, descriptor[key as any],true)将target与obj对象关联了起来。本文将从这里继续，解析adm的classObservableObjectAdministration。 1let target &#x3D; observable(obj)  ObservableObjectAdminis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mobx6核心源码解析（三）: ObservableObjectAdministration">
+<meta property="og:url" content="http://example.com/2021/12/03/Mobx6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89%20%20ObservableObjectAdministration/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="上一篇探究了observable方法内部的执行机制，讲到adm.extend_( key, descriptor[key as any],true)将target与obj对象关联了起来。本文将从这里继续，解析adm的classObservableObjectAdministration。 1let target &#x3D; observable(obj)  ObservableObjectAdminis">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/2b9ca4a010e54d8ca142e68c9eb2f26b.png">
+<meta property="article:published_time" content="2021-12-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.554Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/2b9ca4a010e54d8ca142e68c9eb2f26b.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-Mobx6核心源码解析（三）  ObservableObjectAdministration" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        Mobx6核心源码解析（三）: ObservableObjectAdministration
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-12-02T16:00:00.000Z" itemprop="datePublished">2021-12-03</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.4k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p><img src="/../imgs/2b9ca4a010e54d8ca142e68c9eb2f26b.png" alt="image.png"> 上一篇探究了<code>observable</code>方法内部的执行机制，讲到<code>adm.extend_( key, descriptor[key as any],true)</code>将target与obj对象关联了起来。本文将从这里继续，解析<code>adm</code>的class<code>ObservableObjectAdministration</code>。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let <span class="attr">target</span> = observable(obj)</span><br></pre></td></tr></table></figure>
+
+<h2 id="ObservableObjectAdministration"><a href="#ObservableObjectAdministration" class="headerlink" title="ObservableObjectAdministration"></a>ObservableObjectAdministration</h2><p><code>ObservableObjectAdministration</code>作用是管理target的属性的读取。它在Mobx的世界里处于leader地位，这一点从它的<code>Administration</code>的命名也可以看出来。</p>
+<ul>
+<li>_extend <code>ObservableObjectAdministration</code>实例的_extend,经过了相当_fuck_的过程后，调用了实例的<code>defineObservableProperty_</code>方法：</li>
+<li>defineObservableProperty_</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">defineObservableProperty_</span>(</span><br><span class="line">       <span class="attr">key</span>: <span class="title class_">PropertyKey</span>,</span><br><span class="line">       <span class="attr">value</span>: <span class="built_in">any</span>,</span><br><span class="line">       <span class="attr">enhancer</span>: <span class="title class_">IEnhancer</span>&lt;<span class="built_in">any</span>&gt;,</span><br><span class="line">       <span class="attr">proxyTrap</span>: <span class="built_in">boolean</span> = <span class="literal">false</span></span><br><span class="line">   ): <span class="built_in">boolean</span> | <span class="literal">null</span> &#123;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="title function_">startBatch</span>()</span><br><span class="line"></span><br><span class="line">           <span class="comment">// Delete</span></span><br><span class="line">           <span class="keyword">const</span> deleteOutcome = <span class="variable language_">this</span>.<span class="title function_">delete_</span>(key)</span><br><span class="line">           <span class="keyword">if</span> (!deleteOutcome) &#123;</span><br><span class="line">               <span class="comment">// Failure or intercepted</span></span><br><span class="line">               <span class="keyword">return</span> deleteOutcome</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// ADD interceptor</span></span><br><span class="line">           <span class="keyword">if</span> (<span class="title function_">hasInterceptors</span>(<span class="variable language_">this</span>)) &#123;</span><br><span class="line">               <span class="keyword">const</span> change = interceptChange&lt;<span class="title class_">IObjectWillChange</span>&gt;(<span class="variable language_">this</span>, &#123;</span><br><span class="line">                   <span class="attr">object</span>: <span class="variable language_">this</span>.<span class="property">proxy_</span> || <span class="variable language_">this</span>.<span class="property">target_</span>,</span><br><span class="line">                   <span class="attr">name</span>: key,</span><br><span class="line">                   <span class="attr">type</span>: <span class="variable constant_">ADD</span>,</span><br><span class="line">                   <span class="attr">newValue</span>: value</span><br><span class="line">               &#125;)</span><br><span class="line">               <span class="keyword">if</span> (!change) <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">               value = (change <span class="keyword">as</span> <span class="built_in">any</span>).<span class="property">newValue</span></span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">const</span> cachedDescriptor = <span class="title function_">getCachedObservablePropDescriptor</span>(key)</span><br><span class="line">           <span class="keyword">const</span> descriptor = &#123;</span><br><span class="line">               <span class="attr">configurable</span>: globalState.<span class="property">safeDescriptors</span> ? <span class="variable language_">this</span>.<span class="property">isPlainObject_</span> : <span class="literal">true</span>,</span><br><span class="line">               <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">               <span class="attr">get</span>: cachedDescriptor.<span class="property">get</span>,</span><br><span class="line">               <span class="attr">set</span>: cachedDescriptor.<span class="property">set</span></span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// Define</span></span><br><span class="line">           <span class="keyword">if</span> (proxyTrap) &#123;</span><br><span class="line">               <span class="keyword">if</span> (!<span class="title class_">Reflect</span>.<span class="title function_">defineProperty</span>(<span class="variable language_">this</span>.<span class="property">target_</span>, key, descriptor)) &#123;</span><br><span class="line">                   <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">               &#125;</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="title function_">defineProperty</span>(<span class="variable language_">this</span>.<span class="property">target_</span>, key, descriptor)</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">const</span> observable = <span class="keyword">new</span> <span class="title class_">ObservableValue</span>(</span><br><span class="line">               value,</span><br><span class="line">               enhancer,</span><br><span class="line">               __DEV__ ? <span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.name_&#125;</span>.<span class="subst">$&#123;key.toString()&#125;</span>`</span> : <span class="string">&quot;ObservableObject.key&quot;</span>,</span><br><span class="line">               <span class="literal">false</span></span><br><span class="line">           )</span><br><span class="line"></span><br><span class="line">           <span class="variable language_">this</span>.<span class="property">values_</span>.<span class="title function_">set</span>(key, observable)</span><br><span class="line"></span><br><span class="line">           <span class="comment">// Notify (value possibly changed by ObservableValue)</span></span><br><span class="line">           <span class="variable language_">this</span>.<span class="title function_">notifyPropertyAddition_</span>(key, observable.<span class="property">value_</span>)</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="title function_">endBatch</span>()</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里终于看到了<code>defineProperty(this.target_, key, descriptor)</code>的字眼，意味着target对象的key的descriptor在这里被设置完成了。但是这个descriptor是来自于<code>getCachedObservablePropDescriptor</code>的，并且和obj对象的descriptor一点关系都没有，getter和setter也都来自于实例</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>[$mobx].<span class="title function_">getObservablePropValue_</span>(key)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="title function_">set</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>[$mobx].<span class="title function_">setObservablePropValue_</span>(key, value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在介绍<code>getObservablePropValue_</code>和<code>setObservablePropValue_之前</code>，需要先介绍另一个嘉宾<code>values_</code></p>
+<ul>
+<li>values_ values_是一个Map，key对应的是obj的属性，value是<code>ObservableValue</code>实例，这个实例保存了obj对应key的descriptor.</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> values_ = <span class="keyword">new</span> <span class="title class_">Map</span>&lt;<span class="title class_">PropertyKey</span>, <span class="title class_">ObservableValue</span>&lt;<span class="built_in">any</span>&gt; | <span class="title class_">ComputedValue</span>&lt;<span class="built_in">any</span>&gt;&gt;(),</span><br><span class="line"><span class="title function_">defineObservableProperty_</span>(<span class="params"></span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">const</span> observable = <span class="keyword">new</span> <span class="title class_">ObservableValue</span>(value,enhancer, <span class="string">&quot;ObservableObject.key&quot;</span>,<span class="literal">false</span>)</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">values_</span>.<span class="title function_">set</span>(key, observable)</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>getObservablePropValue_ 这是target真正的getter，它是从<code>ObservableValue</code>实例中获取值。</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="title function_">getObservablePropValue_</span>(<span class="attr">key</span>: <span class="title class_">PropertyKey</span>): <span class="built_in">any</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">values_</span>.<span class="title function_">get</span>(key)!.<span class="title function_">get</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>setObservablePropValue_ 这是target真正的setter，简化后可以看到这个这里还是通过<code>ObservableValue</code>实例进行新值的设置</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">setObservablePropValue_</span>(<span class="attr">key</span>: <span class="title class_">PropertyKey</span>, newValue): <span class="built_in">boolean</span> | <span class="literal">null</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> observable = <span class="variable language_">this</span>.<span class="property">values_</span>.<span class="title function_">get</span>(key)</span><br><span class="line">    <span class="keyword">if</span> (observable <span class="keyword">instanceof</span> <span class="title class_">ComputedValue</span>) &#123;</span><br><span class="line">        observable.<span class="title function_">set</span>(newValue)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    newValue = (observable <span class="keyword">as</span> <span class="built_in">any</span>).<span class="title function_">prepareNewValue_</span>(newValue)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// notify spy &amp; observers</span></span><br><span class="line">    <span class="keyword">if</span> (newValue !== globalState.<span class="property">UNCHANGED</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> notify = <span class="title function_">hasListeners</span>(<span class="variable language_">this</span>)</span><br><span class="line">        ;(observable <span class="keyword">as</span> <span class="title class_">ObservableValue</span>&lt;<span class="built_in">any</span>&gt;).<span class="title function_">setNewValue_</span>(newValue)</span><br><span class="line">        <span class="keyword">if</span> (notify) <span class="title function_">notifyListeners</span>(<span class="variable language_">this</span>, change)</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p>这里我们又遇到了一个class:<code>ObservableValue</code>，似乎target的读与改都离不了它。虽然官网有关<code>ObservableValue</code>的文字很少，但它的父类是大名鼎鼎的<code>Atom</code>，下一篇将详细分析<code>ObservableValue</code>在Mobx世界中究竟扮演着什么样的角色，敬请期待~</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/12/06/Mobx6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E5%9B%9B%EF%BC%89%20%20ObservableValue/"
+      title="Mobx6核心源码解析（四）: ObservableValue"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        Mobx6核心源码解析（四）: ObservableValue
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/12/03/Mobx6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%20%20observable/"
+      title="Mobx6核心源码解析（二）: observable"
+     >
+
+    <p class="title-text">
+      
+        Mobx6核心源码解析（二）: observable
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

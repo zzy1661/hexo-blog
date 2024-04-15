@@ -1,8 +1,8 @@
 ---
  title: "React18中的新特性——Automatic batching"
- date: 
+ date: 2022-01-22
  tags: [前端,React.js]
- categories: 
+ categories: [前端笔记]
 ---
 
 「这是我参与2022首次更文挑战的第5天，活动详情查看：[2022首次更文挑战](https://juejin.cn/post/7052884569032392740 "https://juejin.cn/post/7052884569032392740")」

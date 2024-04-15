@@ -1,8 +1,8 @@
 ---
-title: "React hooks的闭包陷阱：function props"
-date: 2021-05-12
-tags: [React.js]
-categories: [前端笔记]
+ title: "React hooks的闭包陷阱：function props"
+ date: 2021-05-12
+ tags: [React.js]
+ categories: [前端笔记]
 ---
 
 引子

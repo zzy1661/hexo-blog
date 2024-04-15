@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>前端脚手架：从入门到进阶——CLI常用的npm包(三) | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="这是我参与11月更文挑战的第12天，活动详情查看：2021最后一次更文挑战 前言cli免不了需要手动运行一些命令，或者打印一些提示，或者做一些比较、字符处理等，社区里已经有了一些非常优秀的轮子，这篇文章便介绍这些小工具。 命令cli常常需要运行一些命令，虽然nodejs也提供了 child_process.spawn，但是有着跨平台的问题,下面推荐几个更好的工具 cross-spawncreate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端脚手架：从入门到进阶——CLI常用的npm包(三)">
+<meta property="og:url" content="http://example.com/2021/11/12/%E5%89%8D%E7%AB%AF%E8%84%9A%E6%89%8B%E6%9E%B6%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%BF%9B%E9%98%B6%E2%80%94%E2%80%94CLI%E5%B8%B8%E7%94%A8%E7%9A%84npm%E5%8C%85(%E4%B8%89)/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="这是我参与11月更文挑战的第12天，活动详情查看：2021最后一次更文挑战 前言cli免不了需要手动运行一些命令，或者打印一些提示，或者做一些比较、字符处理等，社区里已经有了一些非常优秀的轮子，这篇文章便介绍这些小工具。 命令cli常常需要运行一些命令，虽然nodejs也提供了 child_process.spawn，但是有着跨平台的问题,下面推荐几个更好的工具 cross-spawncreate">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/47adc712f1a34ef79eaf2b5eb691bcdc.png">
+<meta property="og:image" content="http://example.com/imgs/3709d5cc20cd4f3b925887c5a9c72d51.png">
+<meta property="article:published_time" content="2021-11-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.282Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="NPM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/47adc712f1a34ef79eaf2b5eb691bcdc.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-前端脚手架：从入门到进阶——CLI常用的npm包(三)" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        前端脚手架：从入门到进阶——CLI常用的npm包(三)
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-11-11T16:00:00.000Z" itemprop="datePublished">2021-11-12</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.2k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>这是我参与11月更文挑战的第12天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023643374569816095/" title="https://juejin.cn/post/7023643374569816095/">2021最后一次更文挑战</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>cli免不了需要手动运行一些命令，或者打印一些提示，或者做一些比较、字符处理等，社区里已经有了一些非常优秀的轮子，这篇文章便介绍这些小工具。</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>cli常常需要运行一些命令，虽然nodejs也提供了 <code>child_process.spawn</code>，但是<a href="http://nodejs.cn%2Fapi%2Fchild_process.html%23spawning-bat-and-cmd-files-on-windows" title="http://nodejs.cn/api/child_process.html#spawning-bat-and-cmd-files-on-windows">有着跨平台的问题</a>,下面推荐几个更好的工具</p>
+<h3 id="cross-spawn"><a href="#cross-spawn" class="headerlink" title="cross-spawn"></a><a href="https://github.com%2Fmoxystudio%2Fnode-cross-spawn" title="https://github.com/moxystudio/node-cross-spawn">cross-spawn</a></h3><p><code>create-react-app</code>和<code>umi</code>都用了<code>cross-spawn</code>,api语法和<code>child_process.spawn</code>一样 同步用法</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const <span class="attr">spawn</span> = require(<span class="string">&quot;cross-spawn&quot;</span>)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">const <span class="attr">result</span> = spawn.sync(<span class="string">&#x27;npm&#x27;</span>, [<span class="string">&#x27;list&#x27;</span>,  <span class="string">&#x27;-depth&#x27;</span>, <span class="string">&#x27;0&#x27;</span>])<span class="comment">;</span></span><br><span class="line">console.log(result.output.join(&#x27;&#x27;))</span><br></pre></td></tr></table></figure>
+
+<p>异步用法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> child = <span class="title function_">spawn</span>(<span class="string">&#x27;npm&#x27;</span>, [<span class="string">&#x27;list&#x27;</span>,  <span class="string">&#x27;-depth&#x27;</span>, <span class="string">&#x27;0&#x27;</span>]);</span><br><span class="line">child.<span class="property">stdout</span>.<span class="title function_">on</span>(<span class="string">&#x27;data&#x27;</span>, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`stdout: <span class="subst">$&#123;data&#125;</span>`</span>);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="execa"><a href="#execa" class="headerlink" title="execa"></a><a href="https://github.com%2Fsindresorhus%2Fexeca%23readme" title="https://github.com/sindresorhus/execa#readme">execa</a></h3><p><code>execa</code>和<code>cross-spawn</code>类似，它的特点是提供了<code>Promsie</code>支持，<code>@vue/cli</code>用的就是它。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> execa = <span class="built_in">require</span>(<span class="string">&#x27;execa&#x27;</span>);</span><br><span class="line">(<span class="keyword">async</span> ()=&gt;&#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;stdout&#125; = <span class="keyword">await</span> <span class="title function_">execa</span>(<span class="string">&#x27;find&#x27;</span>, [<span class="string">&quot;-name=*.js&quot;</span>]);</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(stdout);</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="shelljs"><a href="#shelljs" class="headerlink" title="shelljs"></a><a href="https://github.com%2Fshelljs%2Fshelljs" title="https://github.com/shelljs/shelljs">shelljs</a></h3><p>当需要运行一些linux命令,比如windows不支持的<code>find</code>命令，可以使用<code>shelljs</code></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var shell = <span class="built_in">require</span>(<span class="string">&#x27;shelljs&#x27;</span>);</span><br><span class="line">console.<span class="built_in">log</span>(shell.<span class="built_in">find</span>(<span class="string">&#x27;*.js&#x27;</span>).<span class="built_in">stdout</span>)</span><br></pre></td></tr></table></figure>
+
+<p>也可以直接用它执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell.exec(`<span class="built_in">cd</span> <span class="variable">$&#123;process.cwd()&#125;</span>/ &amp;&amp; yarn install`);</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><p>类型明晰的log输出能让使用者更容易上手</p>
+<h3 id="chalk"><a href="#chalk" class="headerlink" title="chalk"></a><a href="https://github.com%2Fchalk%2Fchalk%23readme" title="https://github.com/chalk/chalk#readme">chalk</a></h3><p><code>create-react-app</code>中大量使用了<code>chalk</code>给log增加颜色</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">       <span class="string">`    Only <span class="subst">$&#123;chalk.green(<span class="string">&#x27;&lt;project-directory&gt;&#x27;</span>)&#125;</span> is required.`</span></span><br><span class="line">     );</span><br><span class="line">     <span class="variable language_">console</span>.<span class="title function_">log</span>();</span><br><span class="line">     <span class="variable language_">console</span>.<span class="title function_">log</span>(</span><br><span class="line">       <span class="string">`    A custom <span class="subst">$&#123;chalk.cyan(<span class="string">&#x27;--scripts-version&#x27;</span>)&#125;</span> can be one of:`</span></span><br><span class="line">     );</span><br></pre></td></tr></table></figure>
+
+<p>类似的还有<a href="https://github.com%2FMarak%2Fcolors.js" title="https://github.com/Marak/colors.js">colors</a></p>
+<h3 id="signale"><a href="#signale" class="headerlink" title="signale"></a>signale</h3><p>如果觉得在<code>console.log</code>里拼不同颜色的字符串太麻烦了，还有一款开箱即用的log工具<code>signale</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const <span class="attr">signale</span> = require(<span class="string">&quot;signale&quot;</span>)<span class="comment">;</span></span><br><span class="line"> signale.success(</span><br><span class="line">            `webpack配置已弹出，可自定义webpack配置，继续开发~`</span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../imgs/47adc712f1a34ef79eaf2b5eb691bcdc.png" alt="default-loggers.png"></p>
+<h3 id="ora"><a href="#ora" class="headerlink" title="ora"></a><a href="https://github.com%2Fsindresorhus%2Fora%23readme" title="https://github.com/sindresorhus/ora#readme">ora</a></h3><p>一个展示loading的工具：</p>
+<p><img src="/../imgs/3709d5cc20cd4f3b925887c5a9c72d51.png" alt="screenshot-2.gif"></p>
+<p>v6.x版本后ora是<a href="https://gist.github.com%2Fsindresorhus%2Fa39789f98801d908bbc7ff3ecc99d99c" title="https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c">pure ESM</a>的，node版本高于12.2，并且以<code>import</code>引入</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import ora from &#x27;ora&#x27;</span><br><span class="line"></span><br><span class="line">const <span class="attr">spinner</span> = ora(<span class="string">&#x27;Loading unicorns&#x27;</span>).start()<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">	<span class="attr">spinner.color</span> = <span class="string">&#x27;yellow&#x27;</span><span class="comment">;</span></span><br><span class="line">	<span class="attr">spinner.text</span> = <span class="string">&#x27;Loading rainbows&#x27;</span><span class="comment">;</span></span><br><span class="line">	setTimeout(()=&gt;&#123;</span><br><span class="line">		spinner.succeed(&#x27;success&#x27;)</span><br><span class="line">	&#125;,1000)</span><br><span class="line">&#125;, 1000)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><h3 id="semver"><a href="#semver" class="headerlink" title="semver"></a><a href="https://github.com%2Fnpm%2Fnode-semver%23readme" title="https://github.com/npm/node-semver#readme">semver</a></h3><p>版本比较工具，比如用来检测cli版本或node版本</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> semver = <span class="built_in">require</span>(<span class="string">&#x27;semver&#x27;</span>)</span><br><span class="line"></span><br><span class="line">semver.<span class="title function_">valid</span>(<span class="string">&#x27;1.2.3&#x27;</span>) <span class="comment">// &#x27;1.2.3&#x27;</span></span><br><span class="line">semver.<span class="title function_">valid</span>(<span class="string">&#x27;a.b.c&#x27;</span>) <span class="comment">// null</span></span><br><span class="line">semver.<span class="title function_">clean</span>(<span class="string">&#x27;  =v1.2.3   &#x27;</span>) <span class="comment">// &#x27;1.2.3&#x27;</span></span><br><span class="line">semver.<span class="title function_">satisfies</span>(<span class="string">&#x27;1.2.3&#x27;</span>, <span class="string">&#x27;1.x || &gt;=2.5.0 || 5.0.0 - 7.2.3&#x27;</span>) <span class="comment">// true</span></span><br><span class="line">semver.<span class="title function_">gt</span>(<span class="string">&#x27;1.2.3&#x27;</span>, <span class="string">&#x27;9.8.7&#x27;</span>) <span class="comment">// false</span></span><br><span class="line">semver.<span class="title function_">lt</span>(<span class="string">&#x27;1.2.3&#x27;</span>, <span class="string">&#x27;9.8.7&#x27;</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="change-case"><a href="#change-case" class="headerlink" title="change-case"></a><a href="https://github.com%2Fblakeembrey%2Fchange-case" title="https://github.com/blakeembrey/change-case">change-case</a></h3><p>字符串转换工具，可以轻易地将字符转转换成各种命名格式，比如</p>
+<figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dotCase(<span class="string">&quot;test string&quot;</span>); </span><br><span class="line"><span class="regexp">//</span>=&gt; <span class="string">&quot;test.string&quot;</span></span><br><span class="line"></span><br><span class="line">camelCase(<span class="string">&quot;test string&quot;</span>);</span><br><span class="line"><span class="regexp">//</span>=&gt; <span class="string">&quot;testString&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="globby"><a href="#globby" class="headerlink" title="globby"></a><a href="https://github.com%2Fsindresorhus%2Fglobby%23readme" title="https://github.com/sindresorhus/globby#readme">globby</a></h3><p>通配符匹配工具</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;globby&#125; <span class="keyword">from</span> <span class="string">&#x27;globby&#x27;</span>;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">	const paths = <span class="keyword">await</span> globby(<span class="string">&#x27;images&#x27;</span>, &#123;</span><br><span class="line">		expandDirectories: &#123;</span><br><span class="line">			files: [<span class="string">&#x27;cat&#x27;</span>, <span class="string">&#x27;unicorn&#x27;</span>, <span class="string">&#x27;*.jpg&#x27;</span>],</span><br><span class="line">			extensions: [<span class="string">&#x27;png&#x27;</span>]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	console.log(paths);</span><br><span class="line">	//=&gt; [<span class="string">&#x27;cat.png&#x27;</span>, <span class="string">&#x27;unicorn.png&#x27;</span>, <span class="string">&#x27;cow.jpg&#x27;</span>, <span class="string">&#x27;rainbow.jpg&#x27;</span>]</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<h3 id="minimist"><a href="#minimist" class="headerlink" title="minimist"></a><a href="https://github.com%2Fsubstack%2Fminimist" title="https://github.com/substack/minimist">minimist</a></h3><p>解析命令参数和选项的便捷工具</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var <span class="attr">argv</span> = require(<span class="string">&#x27;minimist&#x27;</span>)(process.argv.slice(<span class="number">2</span>))<span class="comment">;</span></span><br><span class="line">console.log(argv)<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">$</span> <span class="string">node</span> <span class="string">example/parse.js</span> <span class="string">-x</span> <span class="number">3</span> <span class="string">-y</span> <span class="number">4</span> <span class="string">-n5</span> <span class="string">-abc</span> <span class="string">--beep=boop</span> <span class="string">foo</span> <span class="string">bar</span> <span class="string">baz</span></span><br><span class="line">&#123; <span class="attr">_:</span> [ <span class="string">&#x27;foo&#x27;</span>, <span class="string">&#x27;bar&#x27;</span>, <span class="string">&#x27;baz&#x27;</span> ],</span><br><span class="line">  <span class="attr">x:</span> <span class="number">3</span>,</span><br><span class="line">  <span class="attr">y:</span> <span class="number">4</span>,</span><br><span class="line">  <span class="attr">n:</span> <span class="number">5</span>,</span><br><span class="line">  <span class="attr">a:</span> <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">b:</span> <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">c:</span> <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">beep:</span> <span class="string">&#x27;boop&#x27;</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上就是cli开发过程中比较常用的几个小工具，后续将一步步介绍如何开发一个cli。</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/11/13/%E4%BD%BF%E7%94%A8AVA%E6%B5%8B%E8%AF%95%E4%BD%A0%E7%9A%84Typescript/"
+      title="使用AVA测试你的Typescript"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        使用AVA测试你的Typescript
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/11/11/%E5%89%8D%E7%AB%AF%E8%84%9A%E6%89%8B%E6%9E%B6%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%BF%9B%E9%98%B6%E2%80%94%E2%80%94CLI%E5%B8%B8%E7%94%A8%E7%9A%84npm%E5%8C%85(%E4%BA%8C)/"
+      title="前端脚手架：从入门到进阶——CLI常用的npm包(二)"
+     >
+
+    <p class="title-text">
+      
+        前端脚手架：从入门到进阶——CLI常用的npm包(二)
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

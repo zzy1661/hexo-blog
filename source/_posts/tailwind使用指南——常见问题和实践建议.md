@@ -1,8 +1,8 @@
 ---
  title: "tailwind使用指南——常见问题和实践建议"
- date: 
+ date: 2021-08-18
  tags: [CSS,前端]
- categories: 
+ categories: [前端笔记]
 ---
 
 vscode @apply 报红：unknownAtRules

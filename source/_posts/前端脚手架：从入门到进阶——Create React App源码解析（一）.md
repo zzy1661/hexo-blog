@@ -1,8 +1,8 @@
 ---
  title: "前端脚手架：从入门到进阶——Create React App源码解析（一）"
- date: 
+ date: 2021-11-04
  tags: [前端,React.js]
- categories: 
+ categories: [前端笔记]
 ---
 
 这是我参与11月更文挑战的第 4 天，活动详情查看：[2021最后一次更文挑战](https://juejin.cn/post/7023643374569816095/ "https://juejin.cn/post/7023643374569816095/")

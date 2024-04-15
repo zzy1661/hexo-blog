@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>在React中优雅地使用弹窗——useModal的优化 | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="这是我参与11月更文挑战的第19天，活动详情查看：2021最后一次更文挑战 接上文，之前介绍了useModal的简单封装思路，但是这种方法有一个副作用：弹窗的关闭的动效没了。如果说这可以勉强接受的话，那么再看下面这个效果： 加了一个confirmLoading的效果，弹窗先关闭，又开启。  代码如下： TestPage.tsx 123456789101112131415export default">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在React中优雅地使用弹窗——useModal的优化">
+<meta property="og:url" content="http://example.com/2021/11/19/%E5%9C%A8React%E4%B8%AD%E4%BC%98%E9%9B%85%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%BC%B9%E7%AA%97%E2%80%94%E2%80%94useModal%E7%9A%84%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="这是我参与11月更文挑战的第19天，活动详情查看：2021最后一次更文挑战 接上文，之前介绍了useModal的简单封装思路，但是这种方法有一个副作用：弹窗的关闭的动效没了。如果说这可以勉强接受的话，那么再看下面这个效果： 加了一个confirmLoading的效果，弹窗先关闭，又开启。  代码如下： TestPage.tsx 123456789101112131415export default">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/29b6b15893e049a78bcfd9dababd7be7.png">
+<meta property="og:image" content="http://example.com/imgs/1854cdecb8204130ae6ede9bf856cd64.png">
+<meta property="og:image" content="http://example.com/imgs/f75403f63adc4770be663b727db0dc72.png">
+<meta property="og:image" content="http://example.com/imgs/0b528985f9c84a71a7c80cbc171fc351.png">
+<meta property="article:published_time" content="2021-11-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.483Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/29b6b15893e049a78bcfd9dababd7be7.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-在React中优雅地使用弹窗——useModal的优化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        在React中优雅地使用弹窗——useModal的优化
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-11-18T16:00:00.000Z" itemprop="datePublished">2021-11-19</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            6.6k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>这是我参与11月更文挑战的第19天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023643374569816095" title="https://juejin.cn/post/7023643374569816095">2021最后一次更文挑战</a></p>
+<p>接上文，之前介绍了useModal的简单封装思路，但是这种方法有一个副作用：弹窗的关闭的动效没了。如果说这可以勉强接受的话，那么再看下面这个效果：</p>
+<p>加了一个confirmLoading的效果，弹窗先关闭，又开启。</p>
+<p><img src="/../imgs/29b6b15893e049a78bcfd9dababd7be7.png" alt="modal-loading.gif"> 代码如下： TestPage.tsx</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">TestPage</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123;open,<span class="title class_">FormModal</span>: <span class="title class_">UserModal</span>&#125; = <span class="title function_">useFormModal</span>(&#123;<span class="attr">title</span>:<span class="string">&#x27;新建用户&#x27;</span>&#125;,<span class="title class_">React</span>.<span class="title function_">forwardRef</span>(<span class="title class_">UserForm</span>))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;text-center&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Button</span> <span class="attr">type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;open&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          新增</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">UserModal</span> <span class="attr">depart</span>=<span class="string">&#123;1&#125;</span>   /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>useFormModal.tsx</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> useFormModal = <span class="keyword">function</span> &lt;T&gt;(<span class="attr">modalProps</span>: <span class="title class_">ModalProps</span>, <span class="title class_">Slot</span>: <span class="title class_">React</span>.<span class="property">ComponentType</span>&lt;T&gt;) &#123;</span><br><span class="line">  <span class="keyword">const</span> [visiable, setVisiable] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> [loading, setLoading] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">open</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setVisiable</span>(<span class="literal">true</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">close</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">setVisiable</span>(<span class="literal">false</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">FormModal</span> = (<span class="params">slotProps: T</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">onCancel</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      <span class="title function_">close</span>();</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> ref = <span class="title class_">React</span>.<span class="property">useRef</span>&lt;<span class="title class_">FormInstance</span>&gt;();</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">ok</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      ref.<span class="property">current</span>?.<span class="title function_">submit</span>();</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">Modal</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">onCancel</span>=<span class="string">&#123;onCancel&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">onOk</span>=<span class="string">&#123;ok&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">visible</span>=<span class="string">&#123;visiable&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">wrapClassName</span>=<span class="string">&quot;modal-wrap&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">okText</span>=<span class="string">&quot;提交&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">cancelButtonProps</span>=<span class="string">&#123;&#123;</span> <span class="attr">shape:</span> &#x27;<span class="attr">round</span>&#x27; &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">okButtonProps</span>=<span class="string">&#123;&#123;</span> <span class="attr">shape:</span> &#x27;<span class="attr">round</span>&#x27; &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">confirmLoading</span>=<span class="string">&#123;loading&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">width</span>=<span class="string">&#123;600&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &#123;<span class="attr">...modalProps</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">      &gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Slot</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">ref</span>=<span class="string">&#123;ref&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          &#123;<span class="attr">...slotProps</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">afterSubmit</span>=<span class="string">&#123;()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">            setLoading(false);</span></span><br><span class="line"><span class="language-xml">            close();</span></span><br><span class="line"><span class="language-xml">          &#125;&#125;</span></span><br><span class="line"><span class="language-xml">          beforeSubmit=&#123;() =&gt; setLoading(true)&#125;</span></span><br><span class="line"><span class="language-xml">        /&gt;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">Modal</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="title class_">FormModal</span>,</span><br><span class="line">    open,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> useFormModal;</span><br></pre></td></tr></table></figure>
+
+<p>UserForm.tsx</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">UserFormPropsType</span> &#123;</span><br><span class="line">  depart?: <span class="built_in">number</span>;</span><br><span class="line">  beforeSubmit?: <span class="function">(<span class="params">values: <span class="built_in">any</span></span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">  afterSubmit?: <span class="function">(<span class="params">values: <span class="built_in">any</span>, form: FormInstance&lt;<span class="built_in">any</span>&gt;</span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">UserForm</span> = (<span class="params">props: React.PropsWithChildren&lt;UserFormPropsType&gt;, ref?: React.ForwardedRef&lt;FormInstance&gt;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [form] = <span class="title class_">Form</span>.<span class="title function_">useForm</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">onSubmit</span> = <span class="keyword">async</span> (<span class="params">values: <span class="built_in">any</span></span>) =&gt; &#123;</span><br><span class="line">    props.<span class="property">beforeSubmit</span>?.(values);</span><br><span class="line">    <span class="comment">// 模拟请求</span></span><br><span class="line">    <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">r</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">setTimeout</span>(r, <span class="number">3000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">    props.<span class="property">afterSubmit</span>?.(values, form);</span><br><span class="line">    message.<span class="title function_">success</span>(<span class="string">&#x27;操作完成~&#x27;</span>)</span><br><span class="line">    form.<span class="title function_">resetFields</span>();</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;form&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Form</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">onFinish</span>=<span class="string">&#123;onSubmit&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">ref</span>=<span class="string">&#123;ref&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">form</span>=<span class="string">&#123;form&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">labelCol</span>=<span class="string">&#123;&#123;</span> <span class="attr">span:</span> <span class="attr">4</span> &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">wrapperCol</span>=<span class="string">&#123;&#123;</span> <span class="attr">span:</span> <span class="attr">16</span> &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">      &gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">label</span>=<span class="string">&quot;用户名&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">name</span>=<span class="string">&quot;uname&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span>  <span class="attr">username</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Input</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">label</span>=<span class="string">&quot;用户邮箱&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">name</span>=<span class="string">&quot;mail&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span> <span class="attr">mail</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Input</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Form.Item</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">label</span>=<span class="string">&quot;部门&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">name</span>=<span class="string">&quot;depart&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">rules</span>=<span class="string">&#123;[&#123;</span> <span class="attr">required:</span> <span class="attr">true</span>, <span class="attr">message:</span> &#x27;<span class="attr">Please</span> <span class="attr">input</span> <span class="attr">depart</span>!&#x27; &#125;]&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">initialValue</span>=<span class="string">&#123;props.depart&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">Select</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;1&#125;</span>&gt;</span>市场部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;2&#125;</span>&gt;</span>财务部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Select.Option</span> <span class="attr">value</span>=<span class="string">&#123;3&#125;</span>&gt;</span>研发部<span class="tag">&lt;/<span class="name">Select.Option</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;/<span class="name">Select</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Form.Item</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">Form</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这两个bug的原因都是一样的</p>
+<h2 id="原因及解决"><a href="#原因及解决" class="headerlink" title="原因及解决"></a>原因及解决</h2><p>问题代码在这里：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">const</span> useFormModal = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> [visiable, setVisiable] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">const</span> [loading, setLoading] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">      ...</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">FormModal</span> = (<span class="params">slotProps: T</span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span>  <span class="language-xml"><span class="tag">&lt;<span class="name">Modal</span>  </span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                    <span class="attr">visible</span>=<span class="string">&#123;visiable&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                    <span class="attr">confirmLoading</span>=<span class="string">&#123;loading&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">                &gt;</span>...<span class="tag">&lt;/<span class="name">Modal</span>&gt;</span></span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<p>不管是调用setVisiable还是setLoading，都会导致 <code>const FormModal= ...</code>被重新执行一次，渲染后的弹窗不再是之前的弹窗了。</p>
+<p>因此只要能够保持FormModal函数实例，就可以解决这个问题。但如果我们使用<code>useCallback</code>或者<code>useMemo</code>：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> const <span class="attr">FormModal</span> = () =&gt;&#123;&#125;</span><br><span class="line">return &#123;</span><br><span class="line">    FormModal: useCallback(FormModal,<span class="section">[]</span>),</span><br><span class="line">    open,</span><br><span class="line">  &#125;<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+
+<p>这么写会导致组件完全不更新，因此我们还需将</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const <span class="selector-attr">[visiable, setVisiable]</span> = <span class="built_in">useState</span>(false);</span><br><span class="line">const <span class="selector-attr">[loading, setLoading]</span> = <span class="built_in">useState</span>(false);</span><br></pre></td></tr></table></figure>
+
+<p>放到FormModal内。而对外如何开放打开弹窗的api呢？用ref</p>
+<h3 id="useRef、forwardRef和useImperativeHandle"><a href="#useRef、forwardRef和useImperativeHandle" class="headerlink" title="useRef、forwardRef和useImperativeHandle"></a>useRef、forwardRef和useImperativeHandle</h3><ul>
+<li><p>首先是用useRef创建一个ref指向FormModal <img src="/../imgs/1854cdecb8204130ae6ede9bf856cd64.png" alt="image.png"> 注意这里最好<strong>不要用createRef</strong>,后续文章再解释几个ref api的不同作用</p>
+</li>
+<li><p>这个ref还需要对外开放出去，使用useImperativeHandle给它增加open、close方法，供外部调用</p>
+</li>
+</ul>
+<p><img src="/../imgs/f75403f63adc4770be663b727db0dc72.png" alt="image.png"></p>
+<ul>
+<li>外部调用方式：</li>
+</ul>
+<p><img src="/../imgs/0b528985f9c84a71a7c80cbc171fc351.png" alt="image.png"></p>
+<p>open的参数可以作为表单组件的初始props，是可选的。</p>
+<p>代码比较简单，但是类型定义有些复杂，整体见代码参考：</p>
+<h3 id="代码参考"><a href="#代码参考" class="headerlink" title="代码参考"></a>代码参考</h3><p>useFormModal.tsx</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ModalRefType</span>&lt;T&gt; = &#123; <span class="attr">open</span>: <span class="function">(<span class="params">initProp?: Partial&lt;T&gt;</span>) =&gt;</span> <span class="built_in">void</span>; <span class="attr">close</span>: <span class="function">() =&gt;</span> <span class="built_in">void</span> &#125; | <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> useFormModal = <span class="keyword">function</span> &lt;T&gt;(<span class="attr">modalProps</span>: <span class="title class_">Partial</span>&lt;<span class="title class_">ModalProps</span>&gt;, <span class="title class_">Slot</span>: <span class="title class_">React</span>.<span class="property">ComponentType</span>&lt;T&gt;) &#123;</span><br><span class="line">  <span class="keyword">const</span> modalRef = useRef&lt;<span class="title class_">ModalRefType</span>&lt;T&gt;&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="title class_">FormModal</span> = forwardRef&lt;<span class="title class_">ModalRefType</span>&lt;T&gt;, T&gt;(<span class="function">(<span class="params">slotProps, mRef</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> [visiable, setVisiable] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">const</span> [loading, setLoading] = <span class="title function_">useState</span>(<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">const</span> [slotInitProp, setSlotInitProp] = useState&lt;<span class="title class_">Partial</span>&lt;T&gt;&gt;();</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">open</span> = (<span class="params">initProp?: Partial&lt;T&gt;</span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (initProp) &#123;</span><br><span class="line">        <span class="title function_">setSlotInitProp</span>(initProp);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="title function_">setVisiable</span>(<span class="literal">true</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">close</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      <span class="title function_">setVisiable</span>(<span class="literal">false</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="title function_">useImperativeHandle</span>(mRef, <span class="function">() =&gt;</span> (&#123; open, close &#125;));</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">onCancel</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      <span class="title function_">close</span>();</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> formRef = <span class="title class_">React</span>.<span class="property">useRef</span>&lt;<span class="title class_">FormInstance</span>&gt;();</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">ok</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      formRef.<span class="property">current</span>?.<span class="title function_">submit</span>();</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">Modal</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">onCancel</span>=<span class="string">&#123;onCancel&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">onOk</span>=<span class="string">&#123;ok&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">visible</span>=<span class="string">&#123;visiable&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">wrapClassName</span>=<span class="string">&quot;modal-wrap&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">okText</span>=<span class="string">&quot;提交&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">cancelButtonProps</span>=<span class="string">&#123;&#123;</span> <span class="attr">shape:</span> &#x27;<span class="attr">round</span>&#x27; &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">okButtonProps</span>=<span class="string">&#123;&#123;</span> <span class="attr">shape:</span> &#x27;<span class="attr">round</span>&#x27; &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">confirmLoading</span>=<span class="string">&#123;loading&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">width</span>=<span class="string">&#123;600&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        &#123;<span class="attr">...modalProps</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">      &gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Slot</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">ref</span>=<span class="string">&#123;formRef&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          &#123;<span class="attr">...slotProps</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          &#123;<span class="attr">...slotInitProp</span>&#125;</span></span></span><br><span class="line"><span class="tag"><span class="language-xml">          <span class="attr">afterSubmit</span>=<span class="string">&#123;()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">            setLoading(false);</span></span><br><span class="line"><span class="language-xml">            close();</span></span><br><span class="line"><span class="language-xml">          &#125;&#125;</span></span><br><span class="line"><span class="language-xml">          beforeSubmit=&#123;() =&gt; setLoading(true)&#125;</span></span><br><span class="line"><span class="language-xml">        /&gt;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">Modal</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="title class_">FormModal</span>: <span class="title function_">useCallback</span>(<span class="function">(<span class="params">props: PropsWithoutRef&lt;T&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">FormModal</span> <span class="attr">ref</span>=<span class="string">&#123;modalRef&#125;</span> &#123;<span class="attr">...props</span>&#125; /&gt;</span></span>;</span><br><span class="line">      <span class="comment">// eslint-disable-next-line react-hooks/exhaustive-deps</span></span><br><span class="line">    &#125;, []),</span><br><span class="line">    modalRef,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>TestPage.tsx</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">TestPage</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; modalRef, <span class="title class_">FormModal</span>: <span class="title class_">UserModal</span> &#125; = <span class="title function_">useFormModal</span>(</span><br><span class="line">    &#123; <span class="attr">title</span>: <span class="string">&#x27;新建用户&#x27;</span> &#125;,</span><br><span class="line">    <span class="title class_">React</span>.<span class="title function_">forwardRef</span>(<span class="title class_">UserForm</span>),</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&quot;text-center&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Button</span> <span class="attr">type</span>=<span class="string">&quot;primary&quot;</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span>=&gt;</span>modalRef.current?.open(&#123;depart:1&#125;)&#125;&gt;</span></span><br><span class="line"><span class="language-xml">          新增</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">Button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">UserModal</span>  /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/11/20/React%20library%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94Redux%20Toolkit/"
+      title="React library快速入门——Redux Toolkit"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        React library快速入门——Redux Toolkit
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/11/18/%E5%9C%A8React%E4%B8%AD%E4%BC%98%E9%9B%85%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%BC%B9%E7%AA%97%E2%80%94%E2%80%94useModal/"
+      title="在React中优雅地使用弹窗——useModal"
+     >
+
+    <p class="title-text">
+      
+        在React中优雅地使用弹窗——useModal
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

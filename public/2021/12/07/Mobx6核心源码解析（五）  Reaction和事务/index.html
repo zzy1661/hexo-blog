@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>Mobx6核心源码解析（五）: Reaction和事务 | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="前言前面的文章解析了“观察”部分的源码，既下面代码中的第一行。本文将介绍“反应”部分的代码，既下面代码中的第二行。 12const target &#x3D; observable(obj)autorun(() &#x3D;&gt; &#123; console.log(&#x27;target.value&#x3D;&#x27;, target.value) &#125;)  autorun在介绍Reaction之前先介绍一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mobx6核心源码解析（五）: Reaction和事务">
+<meta property="og:url" content="http://example.com/2021/12/07/Mobx6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%BA%94%EF%BC%89%20%20Reaction%E5%92%8C%E4%BA%8B%E5%8A%A1/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="前言前面的文章解析了“观察”部分的源码，既下面代码中的第一行。本文将介绍“反应”部分的代码，既下面代码中的第二行。 12const target &#x3D; observable(obj)autorun(() &#x3D;&gt; &#123; console.log(&#x27;target.value&#x3D;&#x27;, target.value) &#125;)  autorun在介绍Reaction之前先介绍一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/d886abe69e114dddb8a1c6235046d729.png">
+<meta property="article:published_time" content="2021-12-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.570Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/d886abe69e114dddb8a1c6235046d729.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-Mobx6核心源码解析（五）  Reaction和事务" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        Mobx6核心源码解析（五）: Reaction和事务
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-12-06T16:00:00.000Z" itemprop="datePublished">2021-12-07</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            5.8k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面的文章解析了“观察”部分的源码，既下面代码中的第一行。本文将介绍“反应”部分的代码，既下面代码中的第二行。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const target = <span class="built_in">observable</span>(obj)</span><br><span class="line"><span class="built_in">autorun</span>(() =&gt; &#123; console<span class="selector-class">.log</span>(&#x27;target.value=&#x27;, target.value) &#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="autorun"><a href="#autorun" class="headerlink" title="autorun"></a>autorun</h2><p>在介绍<code>Reaction</code>之前先介绍一下<code>autorun</code>:</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">autorun</span>(<span class="params"></span></span><br><span class="line"><span class="params">    view: (r: IReactionPublic) =&gt; <span class="built_in">any</span>,</span></span><br><span class="line"><span class="params">    opts: IAutorunOptions = EMPTY_OBJECT</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">IReactionDisposer</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// normal autorun</span></span><br><span class="line">    reaction = <span class="keyword">new</span> <span class="title class_">Reaction</span>(</span><br><span class="line">        name,</span><br><span class="line">        <span class="keyword">function</span> (<span class="params"><span class="variable language_">this</span>: Reaction</span>) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="title function_">track</span>(reactionRunner)</span><br><span class="line">        &#125;,</span><br><span class="line">        opts.<span class="property">onError</span>,</span><br><span class="line">        opts.<span class="property">requiresObservable</span></span><br><span class="line">    )</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">reactionRunner</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="title function_">view</span>(reaction)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    reaction.<span class="title function_">schedule_</span>()</span><br><span class="line">    <span class="keyword">return</span> reaction.<span class="title function_">getDisposer_</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>autorun</code>中最重要的事情就是创建了一个<code>Reaction</code>实例，并执行了这个实例的<code>schedule_</code>方法，驱动反应运行的，正式这个方法。</p>
+<h2 id="Reaction"><a href="#Reaction" class="headerlink" title="Reaction"></a>Reaction</h2><p>Reaction是一种特殊的derivation，derivation都有一个状态，代表它的依赖是否更新：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">export enum IDerivationState_ &#123;</span><br><span class="line">    // 没有依赖</span><br><span class="line">    <span class="attr">NOT_TRACKING_</span> = -<span class="number">1</span>,</span><br><span class="line">    // 没有更新</span><br><span class="line">    <span class="attr">UP_TO_DATE_</span> = <span class="number">0</span>,</span><br><span class="line">    // 可能更新（依赖的某个深度属性变更，但依赖本身引用未可能未更新，此时可以按需处理）</span><br><span class="line">    <span class="attr">POSSIBLY_STALE_</span> = <span class="number">1</span>,</span><br><span class="line">    // 更新</span><br><span class="line">    <span class="attr">STALE_</span> = <span class="number">2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Reaction内部机制如下：</p>
+<ul>
+<li><ol>
+<li>reaction创建后，应该以<code>runReaction</code>或者通过调度（见<code>autorun</code>）启动</li>
+</ol>
+</li>
+<li><ol start="2">
+<li><code>onInvalidate</code>应以某种方式调用<code>this.track(someFunction)</code></li>
+</ol>
+</li>
+<li><ol start="3">
+<li><code>someFunction</code>访问的所有可观察对象都将会被这个reaction观察到</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>一旦发生依赖改版，Reaction将会被再次调度（在变更或事务结束后）</li>
+</ol>
+</li>
+<li><ol start="5">
+<li><code>onInvalidate</code>调用后会返回第一步 我们还是来看它的源码：</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export <span class="keyword">class</span> <span class="title class_">Reaction</span> <span class="title">implements</span> <span class="title">IDerivation</span>, <span class="type">IReactionPublic</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> <span class="title function_">constructor</span>(<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> name_: <span class="built_in">string</span> = __DEV__ ? <span class="string">&quot;Reaction@&quot;</span> + getNextId() : <span class="string">&quot;Reaction&quot;</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> onInvalidate_: () =&gt; <span class="built_in">void</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">private</span> errorHandler_?: (error: <span class="built_in">any</span>, derivation: IDerivation) =&gt; <span class="built_in">void</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> requiresObservable_ = <span class="literal">false</span></span></span><br><span class="line"><span class="params"></span>) &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的<code>onInvalidate_</code>参数,是一个调用了它的<code>track</code>方法的函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> (<span class="params"><span class="variable language_">this</span>: Reaction</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">track</span>(reactionRunner)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p><code>reactionRunner</code>就是上文中的<code>someFunction</code>，<code>view</code>是传入<code>autorun</code>的函数。</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> function <span class="built_in">reactionRunner</span>() &#123;</span><br><span class="line">    <span class="built_in">view</span>(reaction)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="schedule"><a href="#schedule" class="headerlink" title="schedule_"></a>schedule_</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">schedule_() &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.isScheduled_) &#123;</span><br><span class="line">        <span class="keyword">this</span>.isScheduled_ = <span class="literal">true</span></span><br><span class="line">        globalState.pendingReactions.push(<span class="keyword">this</span>)</span><br><span class="line">        runReactions()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>刚创建时， <code>this.isScheduled_</code>为<code>false</code>,这个<code>reaction</code>会被放入<code>globalState.pendingReactions</code>数组中，并开始运行：<code>runReactions</code>会从<code>globalState.pendingReactions</code>取出所有的<code>reaction</code>，并依次执行它的<code>runReaction_</code>方法。</p>
+<h3 id="runReaction"><a href="#runReaction" class="headerlink" title="runReaction_"></a>runReaction_</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">runReaction_</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="variable language_">this</span>.<span class="property">isDisposed_</span>) &#123;</span><br><span class="line">        <span class="title function_">startBatch</span>()</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">isScheduled_</span> = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">const</span> prev = globalState.<span class="property">trackingContext</span></span><br><span class="line">        globalState.<span class="property">trackingContext</span> = <span class="variable language_">this</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">shouldCompute</span>(<span class="variable language_">this</span>)) &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">isTrackPending_</span> = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="variable language_">this</span>.<span class="title function_">onInvalidate_</span>()</span><br><span class="line">            &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">                <span class="variable language_">this</span>.<span class="title function_">reportExceptionInDerivation_</span>(e)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        globalState.<span class="property">trackingContext</span> = prev</span><br><span class="line">        <span class="title function_">endBatch</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>reaction</code>被创建时，都是<code>IDerivationState_.NOT_TRACKING_</code>的，<strong>因此会执行<code>this.onInvalidate_()</code>,也就是调用了这个函数</strong>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> (<span class="params"><span class="variable language_">this</span>: Reaction</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">track</span>(reactionRunner)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="track"><a href="#track" class="headerlink" title="track"></a>track</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"> <span class="title function_">track</span>(<span class="params">fn: () =&gt; <span class="built_in">void</span></span>) &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="title function_">startBatch</span>()</span><br><span class="line">    <span class="keyword">let</span> startTime</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">isRunning_</span> = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">const</span> prevReaction = globalState.<span class="property">trackingContext</span> <span class="comment">// reactions could create reactions...</span></span><br><span class="line">    globalState.<span class="property">trackingContext</span> = <span class="variable language_">this</span></span><br><span class="line">    <span class="keyword">const</span> result = <span class="title function_">trackDerivedFunction</span>(<span class="variable language_">this</span>, fn, <span class="literal">undefined</span>)</span><br><span class="line">    globalState.<span class="property">trackingContext</span> = prevReaction</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">isRunning_</span> = <span class="literal">false</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">isTrackPending_</span> = <span class="literal">false</span></span><br><span class="line">   </span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_">isCaughtException</span>(result)) <span class="variable language_">this</span>.<span class="title function_">reportExceptionInDerivation_</span>(result.<span class="property">cause</span>)</span><br><span class="line">   </span><br><span class="line">    <span class="title function_">endBatch</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有一个关键调用：<code>trackDerivedFunction</code></p>
+<ul>
+<li>trackDerivedFunction 这个函数接收了这个reaction和<code>someFunction</code>:</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">export function trackDerivedFunction&lt;T&gt;(derivation: IDerivation, f: () =&gt; T, context: any) &#123;</span><br><span class="line">    const <span class="attr">prevAllowStateReads</span> = allowStateReadsStart(<span class="literal">true</span>)</span><br><span class="line">    changeDependenciesStateTo0(derivation)</span><br><span class="line">    <span class="attr">derivation.newObserving_</span> = new Array(derivation.observing_.length + <span class="number">100</span>)</span><br><span class="line">    <span class="attr">derivation.unboundDepsCount_</span> = <span class="number">0</span></span><br><span class="line">    <span class="attr">derivation.runId_</span> = ++globalState.runId</span><br><span class="line">    const <span class="attr">prevTracking</span> = globalState.trackingDerivation</span><br><span class="line">    <span class="attr">globalState.trackingDerivation</span> = derivation</span><br><span class="line">    globalState.inBatch++</span><br><span class="line">    let result</span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">result</span> = f.call(context)</span><br><span class="line">    globalState.inBatch--</span><br><span class="line">    <span class="attr">globalState.trackingDerivation</span> = prevTracking</span><br><span class="line">    bindDependencies(derivation)</span><br><span class="line"></span><br><span class="line">    warnAboutDerivationWithoutDependencies(derivation)</span><br><span class="line">    allowStateReadsEnd(prevAllowStateReads)</span><br><span class="line">    return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里看到<code>f.call(context)</code>,意味着我们传入<code>autorun</code>的函数被执行了。</p>
+<p>另外，这里的<code>globalState.trackingDerivation = derivation</code><a target="_blank" rel="noopener" href="https://juejin.cn/post/7038459812601921550" title="https://juejin.cn/post/7038459812601921550">呼应了<code>reportObserved</code>函数中的<code>const derivation = globalState.trackingDerivation</code></a>。</p>
+<p>同样，这里也有一个关键调用<code>bindDependencies</code>：</p>
+<ul>
+<li>bindDependencies</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function bindDependencies(derivation: IDerivation) &#123;</span><br><span class="line">    ...</span><br><span class="line">    const <span class="attr">prevObserving</span> = derivation.observing_</span><br><span class="line">    const <span class="attr">observing</span> = (derivation.observing_ = derivation.newObserving_!)</span><br><span class="line">    let <span class="attr">lowestNewObservingDerivationState</span> = IDerivationState_.UP_TO_DATE_</span><br><span class="line">    ...</span><br><span class="line">    <span class="attr">observing.length</span> = i0</span><br><span class="line">    while (i0--) &#123;</span><br><span class="line">        const <span class="attr">dep</span> = observing[i0]</span><br><span class="line">        if (<span class="attr">dep.diffValue_</span> === <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="attr">dep.diffValue_</span> = <span class="number">0</span></span><br><span class="line">            addObserver(dep, derivation)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从<code>derivation.newObserving_</code>取出observable,并通过<code>addObserver</code>，将这个reaction加到observable的<code>observers_</code>属性中。<a target="_blank" rel="noopener" href="https://juejin.cn/post/7038459812601921550" title="https://juejin.cn/post/7038459812601921550">这一点也与前文中<code>propagateChanged</code>函数的逻辑对应</a></p>
+<p><strong>到这里，上一篇文章中遗留的两个问题都得到了回答。</strong></p>
+<h3 id="onBecomeStale"><a href="#onBecomeStale" class="headerlink" title="onBecomeStale_"></a>onBecomeStale_</h3><p>在<code>propagateChanged</code>中会执行每个reaction的<code>onBecomeStale_</code>方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">onBecomeStale_</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">schedule_</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>它会调动前文中的<code>schedule_</code>,于是<code>runReaction_</code>、<code>onInvalidate_</code>、<code>track</code>，又开启新一轮调用。</p>
+<h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>Mobx中还有一个重要的特性：<strong>事务</strong>。</p>
+<h3 id="startBatch与endBatch"><a href="#startBatch与endBatch" class="headerlink" title="startBatch与endBatch"></a>startBatch与endBatch</h3><p>Mobx维护了一个全局变量<code>globalState.inBatch</code>,<code>startBatch</code>时加1，<code>endBatch</code>时减1,当为0,当为1时（–globalState.inBatch &#x3D;&#x3D;&#x3D; 0），会调用<code>runReactions</code>。</p>
+<p>每一次变更开始都会调用<code>startBatch</code>,结束时调用<code>endBatch</code>。过程中可能多次调用<code>runReactions</code>,但每个reaction只会调用一次<code>runReaction_</code>。</p>
+<p><img src="/../imgs/d886abe69e114dddb8a1c6235046d729.png" alt="image.png"></p>
+<p>但是对于两个独立的setter所触发的反应，并不会合并到同一个事务里。这也是为什么Mobx建议所有的变更都放在<code>action</code>中。我们看<code>runInAction</code>的源码:</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> runInAction&lt;T&gt;(<span class="attr">fn</span>: <span class="function">() =&gt;</span> T): T &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">executeAction</span>(fn.<span class="property">name</span> || <span class="variable constant_">DEFAULT_ACTION_NAME</span>, <span class="literal">false</span>, fn, <span class="variable language_">this</span>, <span class="literal">undefined</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">executeAction</span>(<span class="params"></span></span><br><span class="line"><span class="params">    actionName: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    canRunAsDerivation: <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">    fn: <span class="built_in">Function</span>,</span></span><br><span class="line"><span class="params">    scope?: <span class="built_in">any</span>,</span></span><br><span class="line"><span class="params">    args?: IArguments</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> runInfo = <span class="title function_">_startAction</span>(actionName, canRunAsDerivation, scope, args)</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> fn.<span class="title function_">apply</span>(scope, args)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        runInfo.<span class="property">error_</span> = err</span><br><span class="line">        <span class="keyword">throw</span> err</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="title function_">_endAction</span>(runInfo)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>_startAction</code>和<code>_endAction</code>分别调用了一次<code>startBatch()</code>和 <code>endBatch()</code>,这使得多次变更触发的<code>runReactions</code>始终因为<code>globalState.inBatch&gt;0</code>挂起，直到最后一次<code>endBatch()</code>将<code>globalState.inBatch</code>置为0后再让各reaction执行<code>runReaction_()</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文分析了Reaction的源码和执行过程，以及Mobx事务的原理。结合前面几篇，Mobx底层运行逻辑已经全部讲完。当然Mobx的源码还有很多未尽之处，但万变不离其宗。由于Mobx源码相当晦涩，系列可能很多地方表述不清，但只看<a target="_blank" rel="noopener" href="https://juejin.cn/post/7036354289215733791" title="https://juejin.cn/post/7036354289215733791">本系列的第一篇</a>，亦能见微知著。</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/12/19/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E5%AE%98%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97(%E4%B8%8A)/"
+      title="前端面试官进阶指南(上)"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        前端面试官进阶指南(上)
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/12/06/Mobx6%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E5%9B%9B%EF%BC%89%20%20ObservableValue/"
+      title="Mobx6核心源码解析（四）: ObservableValue"
+     >
+
+    <p class="title-text">
+      
+        Mobx6核心源码解析（四）: ObservableValue
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

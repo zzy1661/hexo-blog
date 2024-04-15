@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>TypeORM之增删改查 | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="「这是我参与2022首次更文挑战的第20天，活动详情查看：2022首次更文挑战」 Active Record 与 Data MapperTypeORM中有两个模式： Active Record 和 Data Mapper，这两个模式的区别在于查询的方式。 Active RecordActive Record可以通过模型访问数据库： 1234567891011const user &#x3D; new Use">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeORM之增删改查">
+<meta property="og:url" content="http://example.com/2022/02/15/TypeORM%E4%B9%8B%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="「这是我参与2022首次更文挑战的第20天，活动详情查看：2022首次更文挑战」 Active Record 与 Data MapperTypeORM中有两个模式： Active Record 和 Data Mapper，这两个模式的区别在于查询的方式。 Active RecordActive Record可以通过模型访问数据库： 1234567891011const user &#x3D; new Use">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.778Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="Node.js">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-TypeORM之增删改查" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        TypeORM之增删改查
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2022-02-14T16:00:00.000Z" itemprop="datePublished">2022-02-15</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            3.8k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>「这是我参与2022首次更文挑战的第20天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7052884569032392740" title="https://juejin.cn/post/7052884569032392740">2022首次更文挑战</a>」</p>
+<h2 id="Active-Record-与-Data-Mapper"><a href="#Active-Record-与-Data-Mapper" class="headerlink" title="Active Record 与 Data Mapper"></a>Active Record 与 Data Mapper</h2><p>TypeORM中有两个模式： Active Record 和 Data Mapper，这两个模式的区别在于查询的方式。</p>
+<h3 id="Active-Record"><a href="#Active-Record" class="headerlink" title="Active Record"></a>Active Record</h3><p>Active Record可以通过模型访问数据库：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">user.<span class="property">firstName</span> = <span class="string">&quot;Timber&quot;</span>;</span><br><span class="line"><span class="comment">// 保存</span></span><br><span class="line"><span class="keyword">await</span> user.<span class="title function_">save</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除</span></span><br><span class="line"><span class="keyword">await</span> user.<span class="title function_">remove</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询</span></span><br><span class="line"><span class="keyword">const</span> users = <span class="keyword">await</span> <span class="title class_">User</span>.<span class="title function_">find</span>(&#123; <span class="attr">skip</span>: <span class="number">2</span>, <span class="attr">take</span>: <span class="number">5</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> timber = <span class="keyword">await</span> <span class="title class_">User</span>.<span class="title function_">findOne</span>(&#123; <span class="attr">firstName</span>: <span class="string">&quot;Timber&quot;</span>, <span class="attr">lastName</span>: <span class="string">&quot;Saw&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>要使用Active Record，entity 必须要继承BaseEntity</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BaseEntity</span>, <span class="title class_">Entity</span>, <span class="title class_">PrimaryGeneratedColumn</span>, <span class="title class_">Column</span> &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">User</span> <span class="keyword">extends</span> <span class="title class_ inherited__">BaseEntity</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>BaseEntity具有Repository中大部分的方法，无论是实例还是实体类，都可以方便地进行增删改查。如果需要增加自定义的增删改查方法，可以在实体类中增加一个静态方法，使用QueryBuilder：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">User</span> <span class="keyword">extends</span> <span class="title class_ inherited__">BaseEntity</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">static</span> <span class="title function_">findByName</span>(<span class="params">firstName: <span class="built_in">string</span>, lastName: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">createQueryBuilder</span>(<span class="string">&quot;user&quot;</span>)</span><br><span class="line">      .<span class="title function_">where</span>(<span class="string">&quot;user.firstName = :firstName&quot;</span>, &#123; firstName &#125;)</span><br><span class="line">      .<span class="title function_">andWhere</span>(<span class="string">&quot;user.lastName = :lastName&quot;</span>, &#123; lastName &#125;)</span><br><span class="line">      .<span class="title function_">getMany</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> timber = <span class="keyword">await</span> <span class="title class_">User</span>.<span class="title function_">findByName</span>(<span class="string">&quot;Timber&quot;</span>, <span class="string">&quot;Saw&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Data-Mapper"><a href="#Data-Mapper" class="headerlink" title="Data Mapper"></a>Data Mapper</h3><p>Data Mapper模式下需要通过Repository进行增删改查，entity类不需要继承BaseEntity</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取Repository</span></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.<span class="title function_">getRepository</span>(<span class="title class_">User</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 保存</span></span><br><span class="line"><span class="keyword">const</span> user = <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line">user.<span class="property">firstName</span> = <span class="string">&quot;Timber&quot;</span>;</span><br><span class="line"><span class="keyword">await</span> userRepository.<span class="title function_">save</span>(user);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 删除</span></span><br><span class="line"><span class="keyword">await</span> userRepository.<span class="title function_">remove</span>(user);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询</span></span><br><span class="line"><span class="keyword">const</span> users = <span class="keyword">await</span> userRepository.<span class="title function_">find</span>(&#123; <span class="attr">skip</span>: <span class="number">2</span>, <span class="attr">take</span>: <span class="number">5</span> &#125;);</span><br><span class="line"><span class="keyword">const</span> timber = <span class="keyword">await</span> userRepository.<span class="title function_">findOne</span>(&#123; <span class="attr">firstName</span>: <span class="string">&quot;Timber&quot;</span>, <span class="attr">lastName</span>: <span class="string">&quot;Saw&quot;</span> &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果需要扩展Repository,可以自定义一个类继承Repository：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">EntityRepository</span>, <span class="title class_">Repository</span> &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">User</span> &#125; <span class="keyword">from</span> <span class="string">&quot;../entity/User&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@EntityRepository</span>()</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">UserRepository</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Repository</span>&lt;<span class="title class_">User</span>&gt; &#123;</span><br><span class="line">  <span class="title function_">findByName</span>(<span class="params">firstName: <span class="built_in">string</span>, lastName: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">createQueryBuilder</span>(<span class="string">&quot;user&quot;</span>)</span><br><span class="line">      .<span class="title function_">where</span>(<span class="string">&quot;user.firstName = :firstName&quot;</span>, &#123; firstName &#125;)</span><br><span class="line">      .<span class="title function_">andWhere</span>(<span class="string">&quot;user.lastName = :lastName&quot;</span>, &#123; lastName &#125;)</span><br><span class="line">      .<span class="title function_">getMany</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> userRepository = connection.<span class="title function_">getCustomRepository</span>(<span class="title class_">UserRepository</span>);</span><br><span class="line"><span class="keyword">const</span> timber = <span class="keyword">await</span> userRepository.<span class="title function_">findByName</span>(<span class="string">&quot;Timber&quot;</span>, <span class="string">&quot;Saw&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用QueryBuilder增删改查"><a href="#使用QueryBuilder增删改查" class="headerlink" title="使用QueryBuilder增删改查"></a>使用QueryBuilder增删改查</h2><p>QueryBuilder可以帮助我们以更便捷的方式构建SQL语句：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> firstUser = <span class="keyword">await</span> connection</span><br><span class="line">  .<span class="title function_">getRepository</span>(<span class="title class_">User</span>)</span><br><span class="line">  .<span class="title function_">createQueryBuilder</span>(<span class="string">&quot;user&quot;</span>)</span><br><span class="line">  .<span class="title function_">where</span>(<span class="string">&quot;user.id = :id&quot;</span>, &#123; <span class="attr">id</span>: <span class="number">1</span> &#125;)</span><br><span class="line">  .<span class="title function_">getOne</span>();</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码可以返回一条user记录，相当于</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    user.id <span class="keyword">as</span> userId,</span><br><span class="line">    user.firstName <span class="keyword">as</span> userFirstName,</span><br><span class="line">    user.lastName <span class="keyword">as</span> userLastName</span><br><span class="line"><span class="keyword">FROM</span> users user</span><br><span class="line"><span class="keyword">WHERE</span> user.id = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建QueryBuilder"><a href="#创建QueryBuilder" class="headerlink" title="创建QueryBuilder"></a>创建QueryBuilder</h3><p>可以使用connection、entity manager和repository创建QueryBuilder：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; getConnection,getManager,getRepository &#125; <span class="keyword">from</span> <span class="string">&quot;typeorm&quot;</span>;</span><br><span class="line"><span class="title function_">getConnection</span>().<span class="title function_">createQueryBuilder</span>()...</span><br><span class="line"><span class="title function_">getManager</span>().<span class="title function_">createQueryBuilder</span>(<span class="title class_">User</span>, <span class="string">&quot;user&quot;</span>)...</span><br><span class="line"><span class="title function_">getRepository</span>(<span class="title class_">User</span>).<span class="title function_">createQueryBuilder</span>(<span class="string">&quot;user&quot;</span>)...</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用QueryBuilder"><a href="#使用QueryBuilder" class="headerlink" title="使用QueryBuilder"></a>使用QueryBuilder</h3><p>QueryBuilder实例具有增删改查方法，分别对应insert&#x2F;delete&#x2F;update&#x2F;select</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">createQueryBuilder</span>().<span class="title function_">insert</span>().<span class="title function_">into</span>(<span class="title class_">User</span>).<span class="title function_">values</span>([...])</span><br><span class="line"><span class="title function_">createQueryBuilder</span>().<span class="title function_">delete</span>().<span class="title function_">from</span>(<span class="title class_">User</span>).<span class="title function_">where</span>(...)</span><br><span class="line"><span class="title function_">createQueryBuilder</span>().<span class="title function_">update</span>(<span class="title class_">User</span>).<span class="title function_">set</span>(...)</span><br><span class="line"><span class="title function_">createQueryBuilder</span>().<span class="title function_">select</span>(<span class="string">&quot;user&quot;</span>).<span class="title function_">from</span>(<span class="title class_">User</span>, <span class="string">&quot;user&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="QueryBuilder的常用api"><a href="#QueryBuilder的常用api" class="headerlink" title="QueryBuilder的常用api"></a>QueryBuilder的常用api</h4><ul>
+<li>别名 创建QueryBuilder可以传入一个参数：<code>createQueryBuilder(&quot;user&quot;)</code>，这个参数表示对表设置别名user，之后where语句中可以使用该别名：<code>.where(&quot;user.name = :name&quot;, &#123; name: &quot;Timber&quot; &#125;);</code></li>
+<li>表达式和参数 QueryBuilder支持多种表达式，如where，having，group by，order by，limit，offset:</li>
+</ul>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">createQueryBuilder</span>(<span class="string">&quot;user&quot;</span>).<span class="title function_">where</span>(<span class="string">&quot;user.name = :name&quot;</span>, &#123; <span class="attr">name</span>: <span class="string">&quot;Timber&quot;</span> &#125;);</span><br><span class="line"><span class="title function_">createQueryBuilder</span>(<span class="string">&quot;user&quot;</span>).<span class="title function_">offset</span>(<span class="number">10</span>);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>上面<code>.where(&quot;user.name = :name&quot;, &#123; name: &quot;Timber&quot; &#125;)</code>等价于</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.<span class="built_in">where</span>(<span class="string">&quot;user.name = :name&quot;</span>)</span><br><span class="line">.setParameter(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;Timber&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用这种方式传参可以避免SQL注入。</p>
+<ul>
+<li>联合查询 QueryBuilder支持联合查询，比如<code>createQueryBuilder(&quot;user&quot;).leftJoinAndSelect()</code></li>
+</ul>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2022/02/16/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E4%B9%8B%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F/"
+      title="排序算法之计数排序"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        排序算法之计数排序
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2022/02/14/TypeORM%20%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/"
+      title="TypeORM 快速入门"
+     >
+
+    <p class="title-text">
+      
+        TypeORM 快速入门
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

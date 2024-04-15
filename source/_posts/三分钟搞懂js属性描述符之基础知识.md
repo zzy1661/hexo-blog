@@ -1,8 +1,8 @@
 ---
  title: "三分钟搞懂js属性描述符之基础知识"
- date: 
+ date: 2019-12-31
  tags: [ECMAScript 6]
- categories: 
+ categories: [前端笔记]
 ---
 
 前言：这年头所有用过vue的人都知道get，set，Object.defineProperty，可听到属性描述符却有点懵。另外实际使用的场景有哪些，又有哪些坑可能很多人并不清楚，因此打算分两篇文章，一篇讲基础知识，另一篇讲实际应用中的坑。

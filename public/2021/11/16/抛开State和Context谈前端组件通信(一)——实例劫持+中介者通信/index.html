@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>抛开State和Context谈前端组件通信(一)——实例劫持+中介者通信 | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="这是我参与11月更文挑战的第16天，活动详情查看：2021最后一次更文挑战 前言说起前端组件通信，大家都能想到好几个办法：父子props相传、提升公共state、使用Context，然而这些常规方法，往往依赖于框架本身的api，或者受限于组件之间的关系。那么抛开框架，两个独立的组件，我们应该如何让他们相互通信呢？ 我们不妨设想一个场景：页面上有两个标签页打开着：TabA和TabB, Tab A页面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="抛开State和Context谈前端组件通信(一)——实例劫持+中介者通信">
+<meta property="og:url" content="http://example.com/2021/11/16/%E6%8A%9B%E5%BC%80State%E5%92%8CContext%E8%B0%88%E5%89%8D%E7%AB%AF%E7%BB%84%E4%BB%B6%E9%80%9A%E4%BF%A1(%E4%B8%80)%E2%80%94%E2%80%94%E5%AE%9E%E4%BE%8B%E5%8A%AB%E6%8C%81+%E4%B8%AD%E4%BB%8B%E8%80%85%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="这是我参与11月更文挑战的第16天，活动详情查看：2021最后一次更文挑战 前言说起前端组件通信，大家都能想到好几个办法：父子props相传、提升公共state、使用Context，然而这些常规方法，往往依赖于框架本身的api，或者受限于组件之间的关系。那么抛开框架，两个独立的组件，我们应该如何让他们相互通信呢？ 我们不妨设想一个场景：页面上有两个标签页打开着：TabA和TabB, Tab A页面">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-11-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.270Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-抛开State和Context谈前端组件通信(一)——实例劫持+中介者通信" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        抛开State和Context谈前端组件通信(一)——实例劫持+中介者通信
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2021-11-15T16:00:00.000Z" itemprop="datePublished">2021-11-16</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            6.4k 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>这是我参与11月更文挑战的第16天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7023643374569816095" title="https://juejin.cn/post/7023643374569816095">2021最后一次更文挑战</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>说起前端组件通信，大家都能想到好几个办法：父子props相传、提升公共state、使用Context，然而这些常规方法，往往依赖于框架本身的api，或者受限于组件之间的关系。那么抛开框架，两个独立的组件，我们应该如何让他们相互通信呢？</p>
+<p>我们不妨设想一个场景：页面上有两个标签页打开着：TabA和TabB, Tab A页面有一个按钮，点击后请求一个接口，然后关闭当前Tab，Tab B请求一个接口并弹出一个对话框组件,能够控制Tab 关闭的的组件是Tab Container C。</p>
+<h2 id="关系分析"><a href="#关系分析" class="headerlink" title="关系分析"></a>关系分析</h2><p>这里有三个对象：</p>
+<p><code>class component TabA</code>,</p>
+<p><code>class component TabB</code>,</p>
+<p><code>class component TabContainerC</code>，</p>
+<p>还有三个关键方法：</p>
+<p><code>TabA</code>的<code>function leave()&#123;&#125;</code> ,</p>
+<p><code>TabContainerC</code>的<code>closeTab</code> 和</p>
+<p><code>TabB</code>的<code>openDialog</code>。</p>
+<p>param: ‘A’</p>
+<p>tabA.leave()</p>
+<p>tabC.closeTab(param)</p>
+<p>tabB.openDialog()</p>
+<p>三个函数的管理和调用权应该在它所在的组件实例上，如果强行提升公共状态和方法，代码会既复杂又不容易维护。</p>
+<p>如果三个组件能相互调用，那么代码就会非常简单。</p>
+<h2 id="劫持组件实例"><a href="#劫持组件实例" class="headerlink" title="劫持组件实例"></a>劫持组件实例</h2><p>利用TS的装饰器，我们可以很容易地劫持到组件实例</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ins = &#123;&#125;;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">colleague</span>(<span class="params">colleagueName: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span>&lt;T <span class="keyword">extends</span> &#123;<span class="keyword">new</span> (...<span class="attr">args</span>: <span class="built_in">any</span>[]): &#123;&#125;&#125;&gt;(<span class="attr">target</span>: T) &#123;</span><br><span class="line">        <span class="comment">// 劫持构造函数，获得this</span></span><br><span class="line">        <span class="keyword">let</span> <span class="attr">colleague</span>: <span class="title class_">Colleague</span>&lt;<span class="built_in">any</span>&gt; = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">class</span> <span class="title class_">extends</span> target &#123;</span><br><span class="line">            <span class="title function_">constructor</span>(<span class="params">...arg: <span class="built_in">any</span>[]</span>) &#123;</span><br><span class="line">                <span class="variable language_">super</span>(...arg);</span><br><span class="line">                <span class="comment">// 获取this并放入集合中</span></span><br><span class="line">                ins[target.<span class="property">displayName</span>] = <span class="variable language_">this</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="title function_">componentWillUnmount</span>(<span class="params"></span>) &#123;</span><br><span class="line">                <span class="comment">// 伪代码，卸载时清除被劫持的实例</span></span><br><span class="line">                <span class="keyword">delete</span> ins[target.<span class="property">displayName</span>]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用装饰器</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@colleague</span>()</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TabContainerC</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">PropsTypes</span>&gt; &#123;</span><br><span class="line">    <span class="title function_">close</span>(<span class="params">param:<span class="built_in">string</span></span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>TabA调用TabContainerC</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TabA</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">PropsTypes</span>&gt; &#123;</span><br><span class="line">    <span class="title function_">leave</span>(<span class="params"></span>)&#123;</span><br><span class="line">        ins[<span class="string">&#x27;TabContainerC&#x27;</span>]?.<span class="title function_">close</span>(<span class="string">&#x27;A&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h2><p>上面的写法看似能解决问题，但有好几个缺陷，最大的问题就是<strong>无序调用</strong>。</p>
+<p>A</p>
+<p>B</p>
+<p>C</p>
+<p>D</p>
+<p>E</p>
+<p>如果<code>TabContainerC</code>的某个方法因为某些额外参数的问题，并不想对外暴露，怎么做屏蔽？</p>
+<p>如果项目组件有1000个，如何控制它们之间的调用，比如在调用时打个小小的<code>console.log</code></p>
+<p>这时候便可以考虑中介者设计模式</p>
+<p>A</p>
+<p>X</p>
+<p>B</p>
+<p>C</p>
+<p>D</p>
+<p>E</p>
+<p>X为中介者，负责给其他成员进行沟通，那么X就可以对所有成员的交流进行管控：比如日志、容错、过滤等</p>
+<h2 id="概念设计和Api设计"><a href="#概念设计和Api设计" class="headerlink" title="概念设计和Api设计"></a>概念设计和Api设计</h2><h3 id="两种角色"><a href="#两种角色" class="headerlink" title="两种角色"></a>两种角色</h3><ul>
+<li>Mediator ：中介者<ul>
+<li>用于管理成员间的消息传递。Colleague 注册后，Mediator 能够获得这个成员的信息，当需要调用某个 Colleague 的方法时，可以通知 Mediator 去找到对应的 Colleague</li>
+</ul>
+</li>
+<li>Colleague ：成员<ul>
+<li>组件实例的描述，包括组件的实例，组件公开的方法。以成员名作为唯一标志，成员名默认是这个组件的名称，也支持自定义</li>
+</ul>
+</li>
+</ul>
+<h3 id="三个API"><a href="#三个API" class="headerlink" title="三个API"></a>三个API</h3><ul>
+<li><code>@colleague(colleagueName)</code> : 注册为成员,参数 colleagueName 是<strong>必选</strong>的成员名</li>
+<li><code>@colleagueAction(actionName)</code>: 声明公开的方法，actionName 是方法标志</li>
+<li><code>@notifyMediator(colleagueName, actionName,params?)</code>： 通知中介，让名为 colleagueName 的成员执行 actionName 这一公开的方法,并可以传递params参数</li>
+</ul>
+<p>使用方法：</p>
+<figure class="highlight tsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@colleague</span>(<span class="string">&#x27;TabContainerC&#x27;</span>)</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TabContainerC</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">PropsTypes</span>&gt; &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="meta">@colleagueAction</span>(<span class="string">&#x27;closeTab&#x27;</span>)</span><br><span class="line">    <span class="title function_">close</span>(<span class="params">params:<span class="built_in">string</span></span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@colleague</span>(<span class="string">&#x27;TabA&#x27;</span>)</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TabA</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span>&lt;<span class="title class_">PropsTypes</span>&gt; &#123;</span><br><span class="line">    <span class="meta">@notifyMediator</span>(<span class="string">&#x27;TabContainerC&#x27;</span>, <span class="string">&#x27;closeTab&#x27;</span>,<span class="string">&#x27;A&#x27;</span>)</span><br><span class="line">    <span class="title function_">leave</span>(<span class="params">newAccount: AccountManageModel.Account</span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="若干细节"><a href="#若干细节" class="headerlink" title="若干细节"></a>若干细节</h3><ul>
+<li><code>reflect-metadata</code>：方法装饰器在类装饰器前执行，导致处理公开方法时，还没有相应的成员生成，需要使用 reflect-metadata 对其标识，再在重写构造函数时遍历获取</li>
+<li>打包后class名会变，因此注册成员是,参数 colleagueName 是<strong>必选</strong>的成员名</li>
+<li>当返回promise时，支持异步调用其他实例</li>
+</ul>
+<h2 id="代码参考"><a href="#代码参考" class="headerlink" title="代码参考"></a>代码参考</h2><h3 id="目录结构如下："><a href="#目录结构如下：" class="headerlink" title="目录结构如下："></a>目录结构如下：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">├───Colleague.ts</span><br><span class="line">├───index.ts    </span><br><span class="line">├───Mediator.ts </span><br><span class="line">└───readme.md   </span><br></pre></td></tr></table></figure>
+
+<h3 id="Colleague-ts"><a href="#Colleague-ts" class="headerlink" title="Colleague.ts:"></a>Colleague.ts:</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 成员类</span></span><br><span class="line"><span class="comment"> * 含有成员名称和源实例</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">Colleague</span>&lt;T&gt; &#123;</span><br><span class="line">    actions = <span class="keyword">new</span> <span class="title class_">Map</span>&lt;<span class="built_in">string</span>, <span class="function">(<span class="params">payload?: <span class="built_in">any</span></span>) =&gt;</span> <span class="built_in">void</span>&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">private</span> instance: T</span>) &#123;&#125;</span><br><span class="line">    <span class="title function_">setInstance</span>(<span class="params">instance: T</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">instance</span> = instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">getInstance</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">instance</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">setAction</span>(<span class="params">actionName: <span class="built_in">string</span>, fn: (payload?: <span class="built_in">any</span>[]) =&gt; <span class="built_in">void</span></span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">actions</span>.<span class="title function_">set</span>(actionName, fn);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行特定的方法</span></span><br><span class="line">    <span class="title function_">performAction</span>(<span class="params">actionName: <span class="built_in">string</span>, payload?: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> action = <span class="variable language_">this</span>.<span class="property">actions</span>.<span class="title function_">get</span>(actionName);</span><br><span class="line">        <span class="keyword">if</span> (!action) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">warn</span>(<span class="string">&#x27;there is no action names &#x27;</span> + actionName + <span class="string">&#x27; in colleague&#x27;</span> + <span class="variable language_">this</span>.<span class="property">name</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> action.<span class="title function_">apply</span>(<span class="variable language_">this</span>.<span class="property">instance</span>, payload);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mediator-ts："><a href="#Mediator-ts：" class="headerlink" title="Mediator.ts："></a>Mediator.ts：</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Colleague</span> <span class="keyword">from</span> <span class="string">&#x27;./Colleague&#x27;</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 中介者类</span></span><br><span class="line"><span class="comment"> * 用于收集成员</span></span><br><span class="line"><span class="comment"> * 转发成员间消息</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> <span class="title class_">Mediator</span> &#123;</span><br><span class="line">    <span class="comment">// 中介处登记的成员</span></span><br><span class="line">    colleagues = <span class="keyword">new</span> <span class="title class_">Map</span>&lt;<span class="built_in">string</span>, <span class="title class_">Colleague</span>&lt;<span class="built_in">any</span>&gt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 登记成员</span></span><br><span class="line">    <span class="title function_">registColleague</span>(<span class="attr">colleague</span>: <span class="title class_">Colleague</span>&lt;<span class="built_in">any</span>&gt;): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">colleagues</span>.<span class="title function_">set</span>(colleague.<span class="property">name</span>, colleague);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 清退成员</span></span><br><span class="line">    <span class="title function_">unRegistColleague</span>(<span class="attr">colleague</span>: <span class="title class_">Colleague</span>&lt;<span class="built_in">any</span>&gt;): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">colleagues</span>.<span class="title function_">delete</span>(colleague.<span class="property">name</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 通知</span></span><br><span class="line">    <span class="title function_">notify</span>(<span class="attr">colleagueName</span>: <span class="built_in">string</span>, <span class="attr">actionName</span>: <span class="built_in">string</span>, payload?: <span class="built_in">any</span>[]): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> colleague = <span class="variable language_">this</span>.<span class="property">colleagues</span>.<span class="title function_">get</span>(colleagueName);</span><br><span class="line">        <span class="keyword">if</span> (!colleague) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">warn</span>(<span class="string">&#x27;there is no colleague names &#x27;</span> + colleagueName);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            colleague.<span class="title function_">performAction</span>(actionName, payload);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="index-ts"><a href="#index-ts" class="headerlink" title="index.ts:"></a>index.ts:</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">Mediator</span> <span class="keyword">from</span> <span class="string">&#x27;./Mediator&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Colleague</span> <span class="keyword">from</span> <span class="string">&#x27;./Colleague&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;reflect-metadata&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">mediatorFactory</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> mediator = <span class="keyword">new</span> <span class="title class_">Mediator</span>();</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(mediator);</span><br><span class="line">    <span class="comment">// 创建闭包</span></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="comment">// 类装饰器</span></span><br><span class="line">        <span class="attr">colleague</span>: <span class="keyword">function</span> (<span class="params">colleagueName: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">function</span> &lt;T <span class="keyword">extends</span> &#123;<span class="keyword">new</span> (...<span class="attr">args</span>: <span class="built_in">any</span>[]): &#123;&#125;&#125;&gt;(<span class="attr">target</span>: T) &#123;</span><br><span class="line">                    <span class="comment">// 劫持构造函数只为获得this</span></span><br><span class="line">                    <span class="keyword">let</span> <span class="attr">colleague</span>: <span class="title class_">Colleague</span>&lt;<span class="built_in">any</span>&gt; = <span class="literal">null</span>;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">class</span> <span class="title class_">extends</span> target &#123;</span><br><span class="line">                            <span class="keyword">static</span> displayName = (target <span class="keyword">as</span> <span class="built_in">any</span>).<span class="property">displayName</span> + <span class="string">&#x27;$Colleague&#x27;</span>;</span><br><span class="line">                            <span class="title function_">constructor</span>(<span class="params">...arg: <span class="built_in">any</span>[]</span>) &#123;</span><br><span class="line">                                    <span class="variable language_">super</span>(...arg);</span><br><span class="line">                                    colleague = <span class="keyword">new</span> <span class="title class_">Colleague</span>(colleagueName, <span class="variable language_">this</span>);</span><br><span class="line">                                    <span class="comment">// 从元数据中获取保存的公开的方法</span></span><br><span class="line">                                    <span class="title class_">Reflect</span>.<span class="title function_">ownKeys</span>(target.<span class="property"><span class="keyword">prototype</span></span>).<span class="title function_">forEach</span>(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">                                            <span class="keyword">if</span> (<span class="keyword">typeof</span> key === <span class="string">&#x27;number&#x27;</span>) &#123;</span><br><span class="line">                                                    key = key.<span class="title function_">toString</span>();</span><br><span class="line">                                            &#125;</span><br><span class="line">                                            <span class="keyword">const</span> actionMethod = <span class="title class_">Reflect</span>.<span class="title function_">getMetadata</span>(<span class="string">&#x27;action&#x27;</span>, target.<span class="property"><span class="keyword">prototype</span></span>, key);</span><br><span class="line">                                            <span class="keyword">if</span> (actionMethod) &#123;</span><br><span class="line">                                                    colleague.<span class="title function_">setAction</span>(actionMethod.<span class="property">name</span>, actionMethod.<span class="property">value</span>);</span><br><span class="line">                                            &#125;</span><br><span class="line">                                    &#125;);</span><br><span class="line">                                    mediator.<span class="title function_">registColleague</span>(colleague);</span><br><span class="line">                            &#125;</span><br><span class="line">                            <span class="title function_">componentWillUnmount</span>(<span class="params"></span>) &#123;</span><br><span class="line">                                    mediator.<span class="title function_">unRegistColleague</span>(colleague);</span><br><span class="line">                                    <span class="keyword">let</span> willUnMount = target.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">componentWillUnmount</span>;</span><br><span class="line">                                    willUnMount &amp;&amp; willUnMount.<span class="title function_">call</span>(<span class="variable language_">this</span>);</span><br><span class="line">                            &#125;</span><br><span class="line">                    &#125;;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 方法装饰器，开放的方法</span></span><br><span class="line">        <span class="attr">colleagueAction</span>: <span class="keyword">function</span> (<span class="params">actionName: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">target: <span class="built_in">any</span>, propertyKey: <span class="built_in">string</span>, descriptor: PropertyDescriptor</span>) &#123;</span><br><span class="line">                <span class="comment">// 将开放的方法放入中介,此时还未执行类装饰器，需要先保存起来</span></span><br><span class="line">                <span class="title class_">Reflect</span>.<span class="title function_">defineMetadata</span>(<span class="string">&#x27;action&#x27;</span>, &#123;<span class="attr">name</span>: actionName, <span class="attr">value</span>: descriptor.<span class="property">value</span>&#125;, target, propertyKey);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 方法装饰器</span></span><br><span class="line">        <span class="attr">notifyMediator</span>: <span class="keyword">function</span> (<span class="params">colleagueName: <span class="built_in">string</span>, actionName: <span class="built_in">string</span>, ...payload: <span class="built_in">any</span>[]</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">target: <span class="built_in">any</span>, propertyKey: <span class="built_in">string</span>, descriptor: PropertyDescriptor</span>) &#123;</span><br><span class="line">                <span class="comment">// 劫持方法，通知中介</span></span><br><span class="line">                <span class="keyword">return</span> &#123;</span><br><span class="line">                    <span class="attr">writable</span>: <span class="literal">true</span>,</span><br><span class="line">                    <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">                    <span class="attr">configurable</span>: <span class="literal">true</span>,</span><br><span class="line">                    <span class="attr">value</span>: <span class="keyword">function</span> (<span class="params">...args: <span class="built_in">any</span>[]</span>) &#123;</span><br><span class="line">                        <span class="comment">// tslint:disable-next-line:no-invalid-this</span></span><br><span class="line">                        <span class="keyword">let</span> result = descriptor.<span class="property">value</span>.<span class="title function_">apply</span>(<span class="variable language_">this</span>, args);</span><br><span class="line">                        <span class="keyword">if</span> (result <span class="keyword">instanceof</span> <span class="title class_">Promise</span>) &#123;</span><br><span class="line">                            result.<span class="title function_">then</span>(<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                                mediator.<span class="title function_">notify</span>(colleagueName, actionName, payload);</span><br><span class="line">                            &#125;);</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            mediator.<span class="title function_">notify</span>(colleagueName, actionName, payload);</span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="keyword">return</span> result;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> &#123;colleague, colleagueAction, notifyMediator&#125; = <span class="title function_">mediatorFactory</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>实例劫持的方式虽然api简单，思路清晰，但是在无ui组件实例的情况下（比如hooks）显然是无法使用的，下一遍便介绍另一个方法: <strong>HOT EVENT</strong>。</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2021/11/17/%E5%9C%A8React%E4%B8%AD%E4%BC%98%E9%9B%85%E5%9C%B0%E4%BD%BF%E7%94%A8%E5%BC%B9%E7%AA%97%E2%80%94%E2%80%94withModal/"
+      title="在React中优雅地使用弹窗——withModal"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        在React中优雅地使用弹窗——withModal
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2021/11/15/%E5%89%8D%E7%AB%AF%E8%84%9A%E6%89%8B%E6%9E%B6%EF%BC%9A%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E8%BF%9B%E9%98%B6%E2%80%94%E2%80%94Create%20React%20App%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E5%9B%9B%EF%BC%89/"
+      title="前端脚手架：从入门到进阶——Create React App源码解析（四）"
+     >
+
+    <p class="title-text">
+      
+        前端脚手架：从入门到进阶——Create React App源码解析（四）
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>

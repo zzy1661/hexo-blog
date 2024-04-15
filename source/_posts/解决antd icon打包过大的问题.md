@@ -1,13 +1,13 @@
 ---
  title: "解决antd icon打包过大的问题"
- date: 
- tags: 
+ date: 2019-12-31
+ tags: [Ant Design]
  categories: 
 ---
 
 1.webpack配置alias
 
-```
+```vim
 resolve: {
     alias: {
         ...
@@ -19,7 +19,7 @@ resolve: {
 
 2.在src目录下编写icons.ts,内容是使用到的icon
 
-```
+```coffeescript
 export {default as UserOutline} from '@ant-design/icons/lib/outline/UserOutline';
 export {default as CloseCircleFill} from '@ant-design/icons/lib/fill/CloseCircleFill';
 export {default as InfoCircleFill} from '@ant-design/icons/lib/fill/InfoCircleFill';

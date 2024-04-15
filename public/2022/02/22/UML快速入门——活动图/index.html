@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+
+<html theme="dark" showBanner="true" hasBanner="false" > 
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet">
+<link href="https://cdn.staticfile.org/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet">
+<script src="/js/color.global.min.js" ></script>
+<script src="/js/load-settings.js" ></script>
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+
+  
+  <title>UML快速入门——活动图 | bressanone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="preload" href="/css/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="/css/fonts/Roboto-Bold.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <meta name="description" content="「这是我参与2022首次更文挑战的第26天，活动详情查看：2022首次更文挑战」 活动图活动图是描述过程逻辑、业务流程和工作流的技术。在许多地方，它们扮演的角色类似于流程图，但和流程图表示法之间的首要区别是它们支持并行行为。 下面是一个活动图的示例：  活动图的主要要素 初始节点 初始节点用表示，表示活动的开始。 分叉和合流 分叉和合并都以表示，分叉有一个输入流和若干个输出的流，合流又称结合，它则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UML快速入门——活动图">
+<meta property="og:url" content="http://example.com/2022/02/22/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E6%B4%BB%E5%8A%A8%E5%9B%BE/index.html">
+<meta property="og:site_name" content="bressanone">
+<meta property="og:description" content="「这是我参与2022首次更文挑战的第26天，活动详情查看：2022首次更文挑战」 活动图活动图是描述过程逻辑、业务流程和工作流的技术。在许多地方，它们扮演的角色类似于流程图，但和流程图表示法之间的首要区别是它们支持并行行为。 下面是一个活动图的示例：  活动图的主要要素 初始节点 初始节点用表示，表示活动的开始。 分叉和合流 分叉和合并都以表示，分叉有一个输入流和若干个输出的流，合流又称结合，它则">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/imgs/4a38234af23e42f1bd98c2c2397c3dc1.png">
+<meta property="og:image" content="http://example.com/imgs/69bd0195c4084280966f95ae944744c2.png">
+<meta property="og:image" content="http://example.com/imgs/f5ebeffe23104624bd7cea053bad1fa2.png">
+<meta property="og:image" content="http://example.com/imgs/4a95dd017a6a4efa8f4abb4382afda1c.png">
+<meta property="og:image" content="http://example.com/imgs/52350b7339754e268c6d51be4abbbd53.png">
+<meta property="og:image" content="http://example.com/imgs/270ab36fdc864158b7d47e8f5ebc4759.png">
+<meta property="og:image" content="http://example.com/imgs/cedbde566e724fbc9aeb58746042da1b.png">
+<meta property="og:image" content="http://example.com/imgs/37ecaffba91e468f88930691a18d37e1.png">
+<meta property="og:image" content="http://example.com/imgs/07c0a274944f470ba6d20b5df8a62c3f.png">
+<meta property="og:image" content="http://example.com/imgs/f7ba852d33624024aa23082379214dbd.png">
+<meta property="og:image" content="http://example.com/imgs/661fa47033d847afb2b799732ff39033.png">
+<meta property="og:image" content="http://example.com/imgs/a88f793d5035421bae5bf09dc91d0444.png">
+<meta property="article:published_time" content="2022-02-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-04T15:27:03.805Z">
+<meta property="article:author" content="Zachary">
+<meta property="article:tag" content="架构">
+<meta property="article:tag" content="UML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/imgs/4a38234af23e42f1bd98c2c2397c3dc1.png">
+  
+  
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: light)" href="/images/favicon-light-192.png" sizes="192x192">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-32.png" sizes="32x32">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-128.png" sizes="128x128">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-180.png" sizes="180x180">
+    <link rel="icon" media="(prefers-color-scheme: dark)" href="/images/favicon-dark-192.png" sizes="192x192">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  
+   
+  <div id="main-grid" class="  ">
+    <div id="nav" class=""  >
+      <navbar id="navbar">
+  <nav id="title-nav">
+    <a href="/">
+      <div id="vivia-logo">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div>bressanone </div>
+    </a>
+  </nav>
+  <nav id="main-nav">
+    
+      <a class="main-nav-link" href="/">主页</a>
+    
+      <a class="main-nav-link" href="/archives">归档</a>
+    
+      <a class="main-nav-link" href="/about">关于</a>
+    
+  </nav>
+  <nav id="sub-nav">
+    <a id="theme-btn" class="nav-icon">
+      <span class="light-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M438.5-829.913v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-829.913Zm0 747.826v-48q0-17.452 11.963-29.476 11.964-12.024 29.326-12.024 17.363 0 29.537 12.024t12.174 29.476v48q0 17.452-11.963 29.476-11.964 12.024-29.326 12.024-17.363 0-29.537-12.024T438.5-82.087ZM877.913-438.5h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537t29.476-12.174h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T877.913-438.5Zm-747.826 0h-48q-17.452 0-29.476-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T82.087-521.5h48q17.452 0 29.476 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T130.087-438.5Zm660.174-290.87-34.239 32q-12.913 12.674-29.565 12.174-16.653-.5-29.327-13.174-12.674-12.673-12.554-28.826.12-16.152 12.794-28.826l33-35q12.913-12.674 30.454-12.674t30.163 12.847q12.709 12.846 12.328 30.826-.38 17.98-13.054 30.653ZM262.63-203.978l-32 34q-12.913 12.674-30.454 12.674t-30.163-12.847q-12.709-12.846-12.328-30.826.38-17.98 13.054-30.653l33.239-31q12.913-12.674 29.565-12.174 16.653.5 29.327 13.174 12.674 12.673 12.554 28.826-.12 16.152-12.794 28.826Zm466.74 33.239-32-33.239q-12.674-12.913-12.174-29.565.5-16.653 13.174-29.327 12.673-12.674 28.826-13.054 16.152-.38 28.826 12.294l35 33q12.674 12.913 12.674 30.454t-12.847 30.163q-12.846 12.709-30.826 12.328-17.98-.38-30.653-13.054ZM203.978-697.37l-34-33q-12.674-12.913-13.174-29.945-.5-17.033 12.174-29.707t31.326-13.293q18.653-.62 31.326 13.054l32 34.239q11.674 12.913 11.174 29.565-.5 16.653-13.174 29.327-12.673 12.674-28.826 12.554-16.152-.12-28.826-12.794ZM480-240q-100 0-170-70t-70-170q0-100 70-170t170-70q100 0 170 70t70 170q0 100-70 170t-170 70Zm-.247-82q65.703 0 111.475-46.272Q637-414.544 637-480.247t-45.525-111.228Q545.95-637 480.247-637t-111.475 45.525Q323-545.95 323-480.247t45.525 111.975Q414.05-322 479.753-322ZM481-481Z"/></svg></span>
+      <span class="dark-mode-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M480.239-116.413q-152.63 0-258.228-105.478Q116.413-327.37 116.413-480q0-130.935 77.739-227.435t206.304-125.043q43.022-9.631 63.87 10.869t3.478 62.805q-8.891 22.043-14.315 44.463-5.424 22.42-5.424 46.689 0 91.694 64.326 155.879 64.325 64.186 156.218 64.186 24.369 0 46.978-4.946 22.609-4.945 44.413-14.076 42.826-17.369 62.967 1.142 20.142 18.511 10.511 61.054Q807.174-280 712.63-198.206q-94.543 81.793-232.391 81.793Zm0-95q79.783 0 143.337-40.217 63.554-40.218 95.793-108.283-15.608 4.044-31.097 5.326-15.49 1.283-31.859.805-123.706-4.066-210.777-90.539-87.071-86.473-91.614-212.092-.24-16.369.923-31.978 1.164-15.609 5.446-30.978-67.826 32.478-108.282 96.152Q211.652-559.543 211.652-480q0 111.929 78.329 190.258 78.329 78.329 190.258 78.329ZM466.13-465.891Z"/></svg></span>
+    </a>
+    
+    <div id="nav-menu-btn" class="nav-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="M177.37-252.282q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Zm0-186.218q-17.453 0-29.477-11.963-12.024-11.964-12.024-29.326 0-17.363 12.024-29.537T177.37-521.5h605.26q17.453 0 29.477 11.963 12.024 11.964 12.024 29.326 0 17.363-12.024 29.537T782.63-438.5H177.37Zm0-186.217q-17.453 0-29.477-11.964-12.024-11.963-12.024-29.326t12.024-29.537q12.024-12.174 29.477-12.174h605.26q17.453 0 29.477 11.964 12.024 11.963 12.024 29.326t-12.024 29.537q-12.024 12.174-29.477 12.174H177.37Z"/></svg>
+    </div>
+  </nav>
+</navbar>
+<div id="nav-dropdown" class="hidden">
+  <div id="dropdown-link-list">
+    
+      <a class="nav-dropdown-link" href="/">主页</a>
+    
+      <a class="nav-dropdown-link" href="/archives">归档</a>
+    
+      <a class="nav-dropdown-link" href="/about">关于</a>
+    
+     
+    </div>
+</div>
+<script>
+  let dropdownBtn = document.getElementById("nav-menu-btn");
+  let dropdownEle = document.getElementById("nav-dropdown");
+  dropdownBtn.onclick = function() {
+    dropdownEle.classList.toggle("hidden");
+  }
+</script>
+    </div>
+    <div id="sidebar-wrapper">
+      <sidebar id="sidebar">
+  
+    <div class="widget-wrap">
+  <div class="info-card">
+    <div class="avatar">
+      
+      <div class="img-dim"></div>
+    </div>
+    <div class="info">
+      <div class="username">Zachary </div>
+      <div class="dot"></div>
+      <div class="subtitle"> </div>
+      <div class="link-list">
+        
+          <a class="link-btn" target="_blank" rel="noopener" href="https://github.com/zzy1661" title="GitHub"><i class="fa-brands fa-github"></i></a>
+         
+      </div>  
+    </div>
+  </div>
+</div>
+
+  
+  <div class="sticky">
+    
+      
+
+
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">分类</h3>
+      <div class="category-box">
+            <a class="category-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">
+                前端笔记
+                <div class="category-count">78</div>
+            </a>
+        
+            <a class="category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%89%8B%E5%86%8C/">
+                算法手册
+                <div class="category-count">7</div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget-wrap">
+    <div class="widget">
+      <h3 class="widget-title">标签</h3>
+      <ul class="widget-tag-list" itemprop="keywords"><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Ant-Design/" rel="tag">Ant Design</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Canvas/" rel="tag">Canvas</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Docker/" rel="tag">Docker</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/ECMAScript-6/" rel="tag">ECMAScript 6</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Less/" rel="tag">Less</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MobX/" rel="tag">MobX</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NPM/" rel="tag">NPM</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/NestJS/" rel="tag">NestJS</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Node-js/" rel="tag">Node.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Postman/" rel="tag">Postman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/React-js/" rel="tag">React.js</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Redux/" rel="tag">Redux</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Webpack/" rel="tag">Webpack</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/Yeoman/" rel="tag">Yeoman</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag">正则表达式</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%88%AC%E8%99%AB/" rel="tag">爬虫</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="widget-tag-list-item"><a class="widget-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+    
+  </div>
+</sidebar>
+    </div>
+    <div id="content-body">
+       
+
+
+<article id="post-UML快速入门——活动图" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  
+    
+   
+  <div class="article-inner">
+    <div class="article-main">
+      <header class="article-header">
+        
+<div class="main-title-bar">
+  <div class="main-title-dot"></div>
+  
+    
+      <h1 class="p-name article-title" itemprop="headline name">
+        UML快速入门——活动图
+      </h1>
+    
+  
+</div>
+
+        <div class='meta-info-bar'>
+          <div class="meta-info">
+  <time class="dt-published" datetime="2022-02-21T16:00:00.000Z" itemprop="datePublished">2022-02-22</time>
+</div>
+          <div class="need-seperator meta-info">
+            <div class="meta-cate-flex">
+  
+  <a class="meta-cate-link" href="/categories/%E5%89%8D%E7%AB%AF%E7%AC%94%E8%AE%B0/">前端笔记</a>
+   
+</div>
+  
+          </div>
+          <div class="wordcount need-seperator meta-info">
+            776 词 
+          </div>
+        </div>
+        
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UML/" rel="tag">UML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%B6%E6%9E%84/" rel="tag">架构</a></li></ul>
+
+      </header>
+      <div class="e-content article-entry" itemprop="articleBody">
+        
+          <p>「这是我参与2022首次更文挑战的第26天，活动详情查看：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7052884569032392740" title="https://juejin.cn/post/7052884569032392740">2022首次更文挑战</a>」</p>
+<h2 id="活动图"><a href="#活动图" class="headerlink" title="活动图"></a>活动图</h2><p>活动图是描述过程逻辑、业务流程和工作流的技术。在许多地方，它们扮演的角色类似于流程图，但和流程图表示法之间的首要区别是它们支持并行行为。</p>
+<p>下面是一个活动图的示例：</p>
+<p><img src="/../imgs/4a38234af23e42f1bd98c2c2397c3dc1.png" alt="image.png"></p>
+<h3 id="活动图的主要要素"><a href="#活动图的主要要素" class="headerlink" title="活动图的主要要素"></a>活动图的主要要素</h3><ul>
+<li>初始节点 初始节点用<img src="/../imgs/69bd0195c4084280966f95ae944744c2.png" alt="image.png">表示，表示活动的开始。</li>
+<li>分叉和合流 分叉和合并都以<img src="/../imgs/f5ebeffe23104624bd7cea053bad1fa2.png" alt="image.png">表示，分叉有一个输入流和若干个输出的流，合流又称结合，它则有若干个输入流和一个输出流。</li>
+</ul>
+<p>分叉并不是逻辑判断造成的分支，分叉的两个流在顺序上是无关的，或者是并行的。比如上图中，填写订单（fill order）和寄送发票（send invoice）是两个无关顺序的事件，可以先处理任意一件后再处理另一件。</p>
+<p>如果有分叉而没有合流，说明这个活动只要任意分叉到达重点就结束。</p>
+<p>合流旁边可以标注条件（结合规格）：</p>
+<p><img src="/../imgs/4a95dd017a6a4efa8f4abb4382afda1c.png" alt="image.png"></p>
+<p>这是一个饮料贩卖机，只有选择了投币并选择了饮料，且投币超过饮料的价格时才会继续往下（这里投币和选择没有先后关系）</p>
+<ul>
+<li><p>分支和合并 判断也成为分支，有一个输入流和若干个互斥的输出流。 <img src="/../imgs/52350b7339754e268c6d51be4abbbd53.png" alt="image.png">而合并有若干个输入流和一个输出流，它代表判断造成的条件分支的结束。</p>
+</li>
+<li><p>动作 <img src="/../imgs/270ab36fdc864158b7d47e8f5ebc4759.png" alt="image.png">表示动作，动作可以实现为类的方法，或者拆解为子活动。</p>
+</li>
+</ul>
+<p>当我们需要拆解一个动作的时候，可以在动作内增加一个耙子符号。<img src="/../imgs/cedbde566e724fbc9aeb58746042da1b.png" alt="image.png"></p>
+<p>子活动需要标注出活动名称，即该动作的名称：</p>
+<p><img src="/../imgs/37ecaffba91e468f88930691a18d37e1.png" alt="image.png"></p>
+<h3 id="流的结束"><a href="#流的结束" class="headerlink" title="流的结束"></a>流的结束</h3><p>流的结束用<img src="/../imgs/07c0a274944f470ba6d20b5df8a62c3f.png" alt="image.png">表示，它只是结束特定的流，流结束后活动的其他部分依然可以继续。 <img src="/../imgs/f7ba852d33624024aa23082379214dbd.png" alt="image.png"></p>
+<h3 id="分区和泳道"><a href="#分区和泳道" class="headerlink" title="分区和泳道"></a>分区和泳道</h3><p>上面的活动图可以看出发生了什么，或者说做了什么，但是看不出这些活动由谁负责。如果需要由哪些类负责这些动作，可以使用分区。</p>
+<p><img src="/../imgs/661fa47033d847afb2b799732ff39033.png" alt="image.png"></p>
+<p>上图是一维分区，也成为泳道，UML 2.x中可以使用二维分区。</p>
+<h3 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h3><p>前面的例子中动作的开始往往由上游动作触发，或者由活动触发。但动作也可能由信号触发。 <img src="/../imgs/a88f793d5035421bae5bf09dc91d0444.png" alt="image.png"> 上面这个例子中就没有合流，两条信号流在竞赛，第一个到达终点的将结束活动并终止其他流。</p>
+
+        
+      </div>
+
+         
+    </div>
+    
+     
+  </div>
+  
+    
+<nav id="article-nav">
+  <a class="article-nav-btn left "
+    
+      href="/2022/02/24/MongoDB%20%E6%95%B4%E5%BA%93%E5%AF%BC%E5%85%A5/"
+      title="MongoDB 整库导入"
+     >
+    <i class="fa-solid fa-angle-left"></i>
+    <p class="title-text">
+      
+        MongoDB 整库导入
+        
+    </p>
+  </a>
+  <a class="article-nav-btn right "
+    
+      href="/2022/02/21/UML%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%E2%80%94%E2%80%94%E9%A1%BA%E5%BA%8F%E5%9B%BE%E5%92%8C%E9%80%9A%E4%BF%A1%E5%9B%BE/"
+      title="UML快速入门——顺序图和通信图"
+     >
+
+    <p class="title-text">
+      
+        UML快速入门——顺序图和通信图
+        
+    </p>
+    <i class="fa-solid fa-angle-right"></i>
+  </a>
+</nav>
+
+
+  
+</article>
+
+
+
+
+
+    </div>
+    <div id="footer-wrapper">
+      <footer id="footer">
+  
+  <div id="footer-info" class="inner">
+    
+    &copy; 2024 Zachary<br>
+    Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & Theme <a target="_blank" rel="noopener" href="https://github.com/saicaca/hexo-theme-vivia">Vivia</a>
+  </div>
+</footer>
+
+    </div>
+    <div class="back-to-top-wrapper">
+    <button id="back-to-top-btn" class="back-to-top-btn hide" onclick="topFunction()">
+        <i class="fa-solid fa-angle-up"></i>
+    </button>
+</div>
+
+<script>
+    function topFunction() {
+        window.scroll({ top: 0, behavior: 'smooth' });
+    }
+    let btn = document.getElementById('back-to-top-btn');
+    function scrollFunction() {
+        if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+            btn.classList.remove('hide')
+        } else {
+            btn.classList.add('hide')
+        }
+    }
+    window.onscroll = function() {
+        scrollFunction();
+    }
+</script>
+
+  </div>
+  <script src="/js/light-dark-switch.js"></script>
+</body>
+</html>
