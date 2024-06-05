@@ -1769,10 +1769,10 @@ hexo-cli@^4.3.0:
     resolve "^1.20.0"
     tildify "^2.0.0"
 
-hexo-component-inferno@^3.0.0:
-  version "3.0.0"
-  resolved "https://mirrors.cloud.tencent.com/npm/hexo-component-inferno/-/hexo-component-inferno-3.0.0.tgz#29c6977d3f0beae96c8fad938bc2cadf280246dd"
-  integrity sha512-c0H2XLN5yQgo9zuqpmSiVS18GSwHr24ZDN1zHeq6Vq0OAzpRD4fj0kYe5JIE0tmAvlDmsMNzDHAmPpwaUwGKhA==
+hexo-component-inferno@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/hexo-component-inferno/-/hexo-component-inferno-3.1.0.tgz#d8a60c737f980f1ad57bcb134bef89cae6a7ef2d"
+  integrity sha512-aezgc4G23VjRCVYuh4eW+makFNwVdQxrnx8J5ObmaJ6FkR9V7GJpwqtAeQVT1v0lN4R0p2gVOZvktUsjfp7KOw==
   dependencies:
     ajv "^8.12.0"
     hexo "^7.1.1"
