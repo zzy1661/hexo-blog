@@ -17,7 +17,7 @@ var subject = new Rx.Subject();
 subject.subscribe(observer)
 
 ```
-作为观察者
+作为可观察对象
 ```
 var subject = new Rx.Subject();
 subject.subscribe({
